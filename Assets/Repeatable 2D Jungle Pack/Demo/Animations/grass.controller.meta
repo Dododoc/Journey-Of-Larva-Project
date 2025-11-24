@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f32f43d3b58fdc44c891dd15185a4636
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 205850
+  packageName: Repeatable 2D Jungle Pack
+  packageVersion: 1.0
+  assetPath: Assets/Repeatable 2D Jungle Pack/Demo/Animations/grass.controller
+  uploadId: 461929

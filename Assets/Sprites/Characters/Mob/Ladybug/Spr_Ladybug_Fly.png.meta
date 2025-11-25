@@ -1,0 +1,319 @@
+fileFormatVersion: 2
+guid: 4996ab7a6f91b4f2a9d5d9fce58da4c4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1284110202669668564
+    second: Spr_Ladybug_Fly_0
+  - first:
+      213: 5332180885966847538
+    second: Spr_Ladybug_Fly_1
+  - first:
+      213: -4411603473432501408
+    second: Spr_Ladybug_Fly_2
+  - first:
+      213: 9107287267916129527
+    second: Spr_Ladybug_Fly_3
+  - first:
+      213: 5219808679728505892
+    second: Spr_Ladybug_Fly_4
+  - first:
+      213: -6126444714457622842
+    second: Spr_Ladybug_Fly_5
+  - first:
+      213: -7370432141584966035
+    second: Spr_Ladybug_Fly_6
+  - first:
+      213: -277345644571641152
+    second: Spr_Ladybug_Fly_7
+  - first:
+      213: -5807005702629307455
+    second: Spr_Ladybug_Fly_8
+  - first:
+      213: 3308427379121842162
+    second: Spr_Ladybug_Fly_9
+  - first:
+      213: -5650136087152537733
+    second: Spr_Ladybug_Fly_10
+  - first:
+      213: -4686324163954000772
+    second: Spr_Ladybug_Fly_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Spr_Ladybug_Fly_0
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 939
+        width: 304
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d894920d6312d110800000000000000
+      internalID: 1284110202669668564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Ladybug_Fly_1
+      rect:
+        serializedVersion: 2
+        x: 779
+        y: 933
+        width: 355
+        height: 249
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23e7e22c346bff940800000000000000
+      internalID: 5332180885966847538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Ladybug_Fly_4
+      rect:
+        serializedVersion: 2
+        x: 1211
+        y: 923
+        width: 364
+        height: 284
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 424e7b6a65c707840800000000000000
+      internalID: 5219808679728505892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Ladybug_Fly_7
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 925
+        width: 363
+        height: 276
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ca3e4f0b9ba62cf0800000000000000
+      internalID: -277345644571641152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Ladybug_Fly_8
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 610
+        width: 373
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cbcc1e841f596fa0800000000000000
+      internalID: -5807005702629307455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Ladybug_Fly_9
+      rect:
+        serializedVersion: 2
+        x: 987
+        y: 596
+        width: 380
+        height: 251
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f7ebb92c25e9ed20800000000000000
+      internalID: 3308427379121842162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Ladybug_Fly_11
+      rect:
+        serializedVersion: 2
+        x: 1673
+        y: 596
+        width: 362
+        height: 232
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7c31398005d6feb0800000000000000
+      internalID: -4686324163954000772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2e8db518f9fd44e3a88bddec62173d7c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Spr_Ladybug_Fly_0: 1284110202669668564
+      Spr_Ladybug_Fly_1: 5332180885966847538
+      Spr_Ladybug_Fly_10: -5650136087152537733
+      Spr_Ladybug_Fly_11: -4686324163954000772
+      Spr_Ladybug_Fly_2: -4411603473432501408
+      Spr_Ladybug_Fly_3: 9107287267916129527
+      Spr_Ladybug_Fly_4: 5219808679728505892
+      Spr_Ladybug_Fly_5: -6126444714457622842
+      Spr_Ladybug_Fly_6: -7370432141584966035
+      Spr_Ladybug_Fly_7: -277345644571641152
+      Spr_Ladybug_Fly_8: -5807005702629307455
+      Spr_Ladybug_Fly_9: 3308427379121842162
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

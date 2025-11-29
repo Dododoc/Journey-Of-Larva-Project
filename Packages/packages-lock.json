@@ -260,16 +260,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-      "version": "1.5.1",
-      "depth": 1,
-=======
-=======
->>>>>>> Stashed changes
       "version": "1.6.0",
-      "depth": 0,
->>>>>>> Stashed changes
+      "depth": 1,
       "source": "builtin",
       "dependencies": {
         "com.unity.ext.nunit": "2.0.3",

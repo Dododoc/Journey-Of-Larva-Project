@@ -249,7 +249,7 @@
       }
     },
     "com.unity.splines": {
-      "version": "2.8.1",
+      "version": "2.8.2",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -260,8 +260,13 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
+<<<<<<< Updated upstream
       "version": "1.5.1",
       "depth": 1,
+=======
+      "version": "1.6.0",
+      "depth": 0,
+>>>>>>> Stashed changes
       "source": "builtin",
       "dependencies": {
         "com.unity.ext.nunit": "2.0.3",

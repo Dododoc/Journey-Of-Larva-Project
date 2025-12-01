@@ -12296,7 +12296,7 @@ Transform:
   m_GameObject: {fileID: 606277463}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.9369793, y: 3.11967, z: 0}
+  m_LocalPosition: {x: 14.54, y: 2.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21975,9 +21975,10 @@ GameObject:
   - component: {fileID: 1113897664}
   - component: {fileID: 1113897663}
   - component: {fileID: 1113897666}
+  - component: {fileID: 1113897667}
   m_Layer: 0
   m_Name: Ladybug
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21991,7 +21992,7 @@ Transform:
   m_GameObject: {fileID: 1113897661}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.13698, y: 4.3196697, z: 0}
+  m_LocalPosition: {x: -17.14, y: 0.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22119,6 +22120,52 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!61 &1113897667
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1113897661}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.0403445, y: 2.23}
+    newSize: {x: 3.0403445, y: 2.23}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.0403445, y: 2.23}
+  m_EdgeRadius: 0
 --- !u!1 &1119588519
 GameObject:
   m_ObjectHideFlags: 0
@@ -25769,11 +25816,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1006581802670623411, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
       propertyPath: m_Size.x
-      value: 6.130695
+      value: 4.68
       objectReference: {fileID: 0}
     - target: {fileID: 1006581802670623411, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
       propertyPath: m_Size.y
-      value: 2.8500001
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 1006581802670623411, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
       propertyPath: m_SortingLayer
@@ -25892,6 +25939,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 10
   jumpForce: 15
+  dashSpeed: 15
+  dashDuration: 0.4
+  dashCooldown: 1
   boxSize: {x: 4, y: 0.51}
   castDistance: 0.1
   groundLayer:
@@ -32574,7 +32624,7 @@ GameObject:
   - component: {fileID: 1340441340}
   m_Layer: 0
   m_Name: Mantis
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40578,7 +40628,7 @@ Transform:
   m_GameObject: {fileID: 1916617570}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.89698, y: 5.99967, z: 0}
+  m_LocalPosition: {x: -17.02, y: 0.36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

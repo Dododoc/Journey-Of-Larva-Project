@@ -143,5 +143,23 @@ public class PlayerStats : MonoBehaviour
         // 진화 창 닫기 요청
         FindObjectOfType<UIManager>().CloseEvolutionPopup();
     }
+    
+    // 데미지 입는 함수
+    public void TakeDamage(float damage)
+    {
+        currentHp -= damage;
+        Debug.Log($"플레이어 피격! 남은 체력: {currentHp}");
+
+        if (currentHp < 0) currentHp = 0;
+
+        // UI 갱신 (HUD가 있다면)
+        UpdateUI(); 
+
+        if (currentHp <= 0)
+        {
+            Debug.Log("플레이어 사망... 게임 오버");
+            // 여기에 게임 오버 처리 로직 추가
+        }
+    }
 
 }

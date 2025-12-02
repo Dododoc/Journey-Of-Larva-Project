@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 9104978390521464749}
   - component: {fileID: 7817664784865366410}
   - component: {fileID: 8428160254218063514}
+  - component: {fileID: 4600972623636143870}
   m_Layer: 7
   m_Name: Larva
   m_TagString: Player
@@ -236,6 +237,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 10
   jumpForce: 15
+  dashSpeed: 15
+  dashDuration: 0.2
+  dashCooldown: 1
   boxSize: {x: 4, y: 0.51}
   castDistance: 0.1
   groundLayer:
@@ -248,7 +252,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7069903468197304612}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a837fc5ddffc4b5e8a43700f73c29fc, type: 3}
   m_Name: 
@@ -258,3 +262,26 @@ MonoBehaviour:
   frontHealthBar: {fileID: 0}
   backHealthBar: {fileID: 0}
   chipSpeed: 2
+--- !u!114 &4600972623636143870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7069903468197304612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e79fa02971c6f146aa821e989437eac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  playerHUD: {fileID: 0}
+  currentLevel: 1
+  currentExp: 0
+  expToNextLevel: 0
+  baseAttack: 10
+  baseDefense: 5
+  maxHp: 100
+  currentHp: 0
+  bonusAttack: 0
+  bonusDefense: 0
+  bonusMaxHp: 0

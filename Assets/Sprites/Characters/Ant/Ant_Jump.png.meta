@@ -1,28 +1,25 @@
 fileFormatVersion: 2
-guid: d9f4244085b774c588e49c86a92f2c0f
+guid: 486d552baf82c40198642a05312a401c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2287669273402988447
-    second: Spr_Ant_Idle_0
+      213: -5657812942170821850
+    second: Ant_Jump_0
   - first:
-      213: -5321607918524147536
-    second: Spr_Ant_Idle_1
+      213: 7513597749097647182
+    second: Ant_Jump_1
   - first:
-      213: 848920602059959028
-    second: Spr_Ant_Idle_2
+      213: 993807229865262099
+    second: Ant_Jump_2
   - first:
-      213: 527399749541197959
-    second: Spr_Ant_Idle_3
+      213: -8507874680101839396
+    second: Ant_Jump_3
   - first:
-      213: 1660576577371325439
-    second: Spr_Ant_Idle_4
+      213: 2574309023845594789
+    second: Ant_Jump_4
   - first:
-      213: 7311118466364264325
-    second: Spr_Ant_Idle_5
-  - first:
-      213: -233961396149889485
-    second: Spr_Ant_Idle_6
+      213: 1832094883894078463
+    second: Ant_Jump_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -69,7 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 70
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -118,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spr_Ant_Idle_0
+      name: Ant_Jump_0
       rect:
         serializedVersion: 2
-        x: 191
+        x: 444
         y: 856
-        width: 382
-        height: 293
+        width: 287
+        height: 218
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -133,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1682d3b9ae09040e0800000000000000
-      internalID: -2287669273402988447
+      spriteID: 62bec400b196b71b0800000000000000
+      internalID: -5657812942170821850
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_1
+      name: Ant_Jump_1
       rect:
         serializedVersion: 2
-        x: 640
-        y: 857
-        width: 384
-        height: 294
+        x: 922
+        y: 860
+        width: 298
+        height: 287
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0b8567e0bc9d526b0800000000000000
-      internalID: -5321607918524147536
+      spriteID: e4cc3241859a54860800000000000000
+      internalID: 7513597749097647182
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_2
+      name: Ant_Jump_2
       rect:
         serializedVersion: 2
-        x: 1072
-        y: 856
-        width: 384
-        height: 295
+        x: 1379
+        y: 925
+        width: 301
+        height: 240
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -177,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4fa6b403ac8f7cb00800000000000000
-      internalID: 848920602059959028
+      spriteID: 31c755ff866bacd00800000000000000
+      internalID: 993807229865262099
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_3
+      name: Ant_Jump_3
       rect:
         serializedVersion: 2
-        x: 1521
-        y: 855
-        width: 384
-        height: 294
+        x: 460
+        y: 568
+        width: 306
+        height: 234
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -199,20 +196,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 78878062743b15700800000000000000
-      internalID: 527399749541197959
+      spriteID: cdd5dfa1e05fde980800000000000000
+      internalID: -8507874680101839396
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_4
+      name: Ant_Jump_4
       rect:
         serializedVersion: 2
-        x: 256
-        y: 534
-        width: 385
-        height: 290
+        x: 923
+        y: 521
+        width: 315
+        height: 214
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,20 +218,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ff34d88599d8b0710800000000000000
-      internalID: 1660576577371325439
+      spriteID: 5a6366cfa68c9b320800000000000000
+      internalID: 2574309023845594789
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_5
+      name: Ant_Jump_5
       rect:
         serializedVersion: 2
-        x: 868
-        y: 532
-        width: 375
-        height: 288
+        x: 1374
+        y: 515
+        width: 297
+        height: 226
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -243,30 +240,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 58fc07a528f467560800000000000000
-      internalID: 7311118466364264325
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spr_Ant_Idle_6
-      rect:
-        serializedVersion: 2
-        x: 1433
-        y: 527
-        width: 385
-        height: 294
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 336d45b895dc0ccf0800000000000000
-      internalID: -233961396149889485
+      spriteID: ffb215d0798ec6910800000000000000
+      internalID: 1832094883894078463
       vertices: []
       indices: 
       edges: []
@@ -275,7 +250,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 11f070edae77648439a3aca37d070086
+    spriteID: 4e114ee159fba4812bfe4ee34a7bff6d
     internalID: 0
     vertices: []
     indices: 
@@ -287,13 +262,12 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Spr_Ant_Idle_0: -2287669273402988447
-      Spr_Ant_Idle_1: -5321607918524147536
-      Spr_Ant_Idle_2: 848920602059959028
-      Spr_Ant_Idle_3: 527399749541197959
-      Spr_Ant_Idle_4: 1660576577371325439
-      Spr_Ant_Idle_5: 7311118466364264325
-      Spr_Ant_Idle_6: -233961396149889485
+      Ant_Jump_0: -5657812942170821850
+      Ant_Jump_1: 7513597749097647182
+      Ant_Jump_2: 993807229865262099
+      Ant_Jump_3: -8507874680101839396
+      Ant_Jump_4: 2574309023845594789
+      Ant_Jump_5: 1832094883894078463
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

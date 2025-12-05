@@ -1,28 +1,25 @@
 fileFormatVersion: 2
-guid: d9f4244085b774c588e49c86a92f2c0f
+guid: b36caf1c906c54d4e9527e9c6870784d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2287669273402988447
-    second: Spr_Ant_Idle_0
+      213: -6217545173113187943
+    second: Ant_Attack_0
   - first:
-      213: -5321607918524147536
-    second: Spr_Ant_Idle_1
+      213: -6285494116594951842
+    second: Ant_Attack_1
   - first:
-      213: 848920602059959028
-    second: Spr_Ant_Idle_2
+      213: -2905481140701543847
+    second: Ant_Attack_2
   - first:
-      213: 527399749541197959
-    second: Spr_Ant_Idle_3
+      213: 6595342011316713705
+    second: Ant_Attack_3
   - first:
-      213: 1660576577371325439
-    second: Spr_Ant_Idle_4
+      213: -2589129308762668197
+    second: Ant_Attack_4
   - first:
-      213: 7311118466364264325
-    second: Spr_Ant_Idle_5
-  - first:
-      213: -233961396149889485
-    second: Spr_Ant_Idle_6
+      213: 7188754929963237390
+    second: Ant_Attack_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -69,7 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 70
+  spritePixelsToUnits: 53
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -118,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spr_Ant_Idle_0
+      name: Ant_Attack_0
       rect:
         serializedVersion: 2
-        x: 191
-        y: 856
-        width: 382
-        height: 293
+        x: 465
+        y: 849
+        width: 287
+        height: 218
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -133,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1682d3b9ae09040e0800000000000000
-      internalID: -2287669273402988447
+      spriteID: 991d4a56b97d6b9a0800000000000000
+      internalID: -6217545173113187943
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_1
+      name: Ant_Attack_1
       rect:
         serializedVersion: 2
-        x: 640
-        y: 857
-        width: 384
-        height: 294
+        x: 945
+        y: 848
+        width: 312
+        height: 226
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0b8567e0bc9d526b0800000000000000
-      internalID: -5321607918524147536
+      spriteID: e59dc86276075c8a0800000000000000
+      internalID: -6285494116594951842
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_2
+      name: Ant_Attack_2
       rect:
         serializedVersion: 2
-        x: 1072
-        y: 856
-        width: 384
-        height: 295
+        x: 1390
+        y: 846
+        width: 314
+        height: 225
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -177,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4fa6b403ac8f7cb00800000000000000
-      internalID: 848920602059959028
+      spriteID: 95243e2eb48ada7d0800000000000000
+      internalID: -2905481140701543847
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_3
+      name: Ant_Attack_3
       rect:
         serializedVersion: 2
-        x: 1521
-        y: 855
-        width: 384
-        height: 294
+        x: 479
+        y: 512
+        width: 293
+        height: 253
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -199,20 +196,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 78878062743b15700800000000000000
-      internalID: 527399749541197959
+      spriteID: 9e83ebc9d9c578b50800000000000000
+      internalID: 6595342011316713705
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_4
+      name: Ant_Attack_4
       rect:
         serializedVersion: 2
-        x: 256
-        y: 534
-        width: 385
-        height: 290
+        x: 953
+        y: 511
+        width: 308
+        height: 235
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,20 +218,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ff34d88599d8b0710800000000000000
-      internalID: 1660576577371325439
+      spriteID: b5306a98c90911cd0800000000000000
+      internalID: -2589129308762668197
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_5
+      name: Ant_Attack_5
       rect:
         serializedVersion: 2
-        x: 868
-        y: 532
-        width: 375
-        height: 288
+        x: 1400
+        y: 504
+        width: 305
+        height: 233
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -243,30 +240,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 58fc07a528f467560800000000000000
-      internalID: 7311118466364264325
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spr_Ant_Idle_6
-      rect:
-        serializedVersion: 2
-        x: 1433
-        y: 527
-        width: 385
-        height: 294
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 336d45b895dc0ccf0800000000000000
-      internalID: -233961396149889485
+      spriteID: e000cc9658693c360800000000000000
+      internalID: 7188754929963237390
       vertices: []
       indices: 
       edges: []
@@ -275,7 +250,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 11f070edae77648439a3aca37d070086
+    spriteID: c29d50bcf0b6043a293ba2bf4be13c2a
     internalID: 0
     vertices: []
     indices: 
@@ -287,13 +262,12 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Spr_Ant_Idle_0: -2287669273402988447
-      Spr_Ant_Idle_1: -5321607918524147536
-      Spr_Ant_Idle_2: 848920602059959028
-      Spr_Ant_Idle_3: 527399749541197959
-      Spr_Ant_Idle_4: 1660576577371325439
-      Spr_Ant_Idle_5: 7311118466364264325
-      Spr_Ant_Idle_6: -233961396149889485
+      Ant_Attack_0: -6217545173113187943
+      Ant_Attack_1: -6285494116594951842
+      Ant_Attack_2: -2905481140701543847
+      Ant_Attack_3: 6595342011316713705
+      Ant_Attack_4: -2589129308762668197
+      Ant_Attack_5: 7188754929963237390
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,28 +1,25 @@
 fileFormatVersion: 2
-guid: d9f4244085b774c588e49c86a92f2c0f
+guid: 5a0cbf11e3d034c0ab6b6a30d48e781e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2287669273402988447
-    second: Spr_Ant_Idle_0
+      213: -9204271966384831891
+    second: Ant_Walk_0
   - first:
-      213: -5321607918524147536
-    second: Spr_Ant_Idle_1
+      213: -4965019723749961103
+    second: Ant_Walk_1
   - first:
-      213: 848920602059959028
-    second: Spr_Ant_Idle_2
+      213: 2062286908682262507
+    second: Ant_Walk_2
   - first:
-      213: 527399749541197959
-    second: Spr_Ant_Idle_3
+      213: -8262519452085730305
+    second: Ant_Walk_3
   - first:
-      213: 1660576577371325439
-    second: Spr_Ant_Idle_4
+      213: 7568677296885870087
+    second: Ant_Walk_4
   - first:
-      213: 7311118466364264325
-    second: Spr_Ant_Idle_5
-  - first:
-      213: -233961396149889485
-    second: Spr_Ant_Idle_6
+      213: 5328915199423629097
+    second: Ant_Walk_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -69,7 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 70
+  spritePixelsToUnits: 53
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -118,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spr_Ant_Idle_0
+      name: Ant_Walk_0
       rect:
         serializedVersion: 2
-        x: 191
-        y: 856
-        width: 382
-        height: 293
+        x: 396
+        y: 912
+        width: 287
+        height: 218
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -133,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1682d3b9ae09040e0800000000000000
-      internalID: -2287669273402988447
+      spriteID: d62cb83b96bd34080800000000000000
+      internalID: -9204271966384831891
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_1
+      name: Ant_Walk_1
       rect:
         serializedVersion: 2
-        x: 640
-        y: 857
-        width: 384
-        height: 294
+        x: 900
+        y: 913
+        width: 286
+        height: 220
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0b8567e0bc9d526b0800000000000000
-      internalID: -5321607918524147536
+      spriteID: 1725317fdd4b81bb0800000000000000
+      internalID: -4965019723749961103
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_2
+      name: Ant_Walk_2
       rect:
         serializedVersion: 2
-        x: 1072
-        y: 856
-        width: 384
-        height: 295
+        x: 1394
+        y: 911
+        width: 294
+        height: 216
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -177,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4fa6b403ac8f7cb00800000000000000
-      internalID: 848920602059959028
+      spriteID: be7d1f85407be9c10800000000000000
+      internalID: 2062286908682262507
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_3
+      name: Ant_Walk_3
       rect:
         serializedVersion: 2
-        x: 1521
-        y: 855
-        width: 384
-        height: 294
+        x: 445
+        y: 670
+        width: 288
+        height: 219
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -199,20 +196,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 78878062743b15700800000000000000
-      internalID: 527399749541197959
+      spriteID: ff3cca4c552a55d80800000000000000
+      internalID: -8262519452085730305
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_4
+      name: Ant_Walk_4
       rect:
         serializedVersion: 2
-        x: 256
-        y: 534
-        width: 385
-        height: 290
+        x: 903
+        y: 673
+        width: 292
+        height: 207
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,20 +218,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ff34d88599d8b0710800000000000000
-      internalID: 1660576577371325439
+      spriteID: 70e2274a6e7590960800000000000000
+      internalID: 7568677296885870087
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_5
+      name: Ant_Walk_5
       rect:
         serializedVersion: 2
-        x: 868
-        y: 532
-        width: 375
-        height: 288
+        x: 1328
+        y: 665
+        width: 289
+        height: 220
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -243,30 +240,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 58fc07a528f467560800000000000000
-      internalID: 7311118466364264325
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spr_Ant_Idle_6
-      rect:
-        serializedVersion: 2
-        x: 1433
-        y: 527
-        width: 385
-        height: 294
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 336d45b895dc0ccf0800000000000000
-      internalID: -233961396149889485
+      spriteID: 92743dbd32c14f940800000000000000
+      internalID: 5328915199423629097
       vertices: []
       indices: 
       edges: []
@@ -275,7 +250,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 11f070edae77648439a3aca37d070086
+    spriteID: fb5ea380f4ecb4fb7af797b95734aede
     internalID: 0
     vertices: []
     indices: 
@@ -287,13 +262,12 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Spr_Ant_Idle_0: -2287669273402988447
-      Spr_Ant_Idle_1: -5321607918524147536
-      Spr_Ant_Idle_2: 848920602059959028
-      Spr_Ant_Idle_3: 527399749541197959
-      Spr_Ant_Idle_4: 1660576577371325439
-      Spr_Ant_Idle_5: 7311118466364264325
-      Spr_Ant_Idle_6: -233961396149889485
+      Ant_Walk_0: -9204271966384831891
+      Ant_Walk_1: -4965019723749961103
+      Ant_Walk_2: 2062286908682262507
+      Ant_Walk_3: -8262519452085730305
+      Ant_Walk_4: 7568677296885870087
+      Ant_Walk_5: 5328915199423629097
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

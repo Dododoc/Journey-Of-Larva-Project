@@ -1,28 +1,25 @@
 fileFormatVersion: 2
-guid: d9f4244085b774c588e49c86a92f2c0f
+guid: 04a1d4cb59de242559b7d74a0eb6d5a7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2287669273402988447
-    second: Spr_Ant_Idle_0
+      213: 6513015211762097297
+    second: Player_Ant_0
   - first:
-      213: -5321607918524147536
-    second: Spr_Ant_Idle_1
+      213: -6618621557567276717
+    second: Player_Ant_1
   - first:
-      213: 848920602059959028
-    second: Spr_Ant_Idle_2
+      213: 6352390051374058433
+    second: Player_Ant_2
   - first:
-      213: 527399749541197959
-    second: Spr_Ant_Idle_3
+      213: -306685809615306900
+    second: Player_Ant_3
   - first:
-      213: 1660576577371325439
-    second: Spr_Ant_Idle_4
+      213: 4887187840096447766
+    second: Player_Ant_4
   - first:
-      213: 7311118466364264325
-    second: Spr_Ant_Idle_5
-  - first:
-      213: -233961396149889485
-    second: Spr_Ant_Idle_6
+      213: 4786626881588651093
+    second: Player_Ant_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -118,7 +115,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spr_Ant_Idle_0
+      name: Player_Ant_0
       rect:
         serializedVersion: 2
         x: 191
@@ -133,14 +130,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1682d3b9ae09040e0800000000000000
-      internalID: -2287669273402988447
+      spriteID: 19c9bc1e3d0e26a50800000000000000
+      internalID: 6513015211762097297
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_1
+      name: Player_Ant_1
       rect:
         serializedVersion: 2
         x: 640
@@ -155,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0b8567e0bc9d526b0800000000000000
-      internalID: -5321607918524147536
+      spriteID: 359b576a2cee524a0800000000000000
+      internalID: -6618621557567276717
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_2
+      name: Player_Ant_2
       rect:
         serializedVersion: 2
         x: 1072
@@ -177,14 +174,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4fa6b403ac8f7cb00800000000000000
-      internalID: 848920602059959028
+      spriteID: 1cb40e66819382850800000000000000
+      internalID: 6352390051374058433
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_3
+      name: Player_Ant_3
       rect:
         serializedVersion: 2
         x: 1521
@@ -199,14 +196,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 78878062743b15700800000000000000
-      internalID: 527399749541197959
+      spriteID: c6ff93c81ee6ebbf0800000000000000
+      internalID: -306685809615306900
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_4
+      name: Player_Ant_4
       rect:
         serializedVersion: 2
         x: 256
@@ -221,14 +218,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ff34d88599d8b0710800000000000000
-      internalID: 1660576577371325439
+      spriteID: 61dae877277c2d340800000000000000
+      internalID: 4887187840096447766
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_5
+      name: Player_Ant_5
       rect:
         serializedVersion: 2
         x: 868
@@ -243,14 +240,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 58fc07a528f467560800000000000000
-      internalID: 7311118466364264325
+      spriteID: 5546d65c9c38d6240800000000000000
+      internalID: 4786626881588651093
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Ant_Idle_6
+      name: Player_Ant_6
       rect:
         serializedVersion: 2
         x: 1433
@@ -263,10 +260,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 336d45b895dc0ccf0800000000000000
-      internalID: -233961396149889485
+      spriteID: 76e875d9ca5a64986b191cf1291794e6
+      internalID: 393017195
       vertices: []
       indices: 
       edges: []
@@ -275,7 +272,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 11f070edae77648439a3aca37d070086
+    spriteID: 7585d3f33d7ce4d1196b98592b0f4ac2
     internalID: 0
     vertices: []
     indices: 
@@ -287,13 +284,13 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Spr_Ant_Idle_0: -2287669273402988447
-      Spr_Ant_Idle_1: -5321607918524147536
-      Spr_Ant_Idle_2: 848920602059959028
-      Spr_Ant_Idle_3: 527399749541197959
-      Spr_Ant_Idle_4: 1660576577371325439
-      Spr_Ant_Idle_5: 7311118466364264325
-      Spr_Ant_Idle_6: -233961396149889485
+      Player_Ant_0: 6513015211762097297
+      Player_Ant_1: -6618621557567276717
+      Player_Ant_2: 6352390051374058433
+      Player_Ant_3: -306685809615306900
+      Player_Ant_4: 4887187840096447766
+      Player_Ant_5: 4786626881588651093
+      Player_Ant_6: 393017195
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

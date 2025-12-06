@@ -1,0 +1,320 @@
+fileFormatVersion: 2
+guid: 8750420d6aa694e429efd8927d6a8679
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -501118425029830631
+    second: Scorpion_Attack_0
+  - first:
+      213: -7479355837400671949
+    second: Scorpion_Attack_1
+  - first:
+      213: 3391582800792001376
+    second: Scorpion_Attack_2
+  - first:
+      213: 5366908082559303690
+    second: Scorpion_Attack_3
+  - first:
+      213: 1898682364841902747
+    second: Scorpion_Attack_4
+  - first:
+      213: 4297460455952743278
+    second: Scorpion_Attack_5
+  - first:
+      213: -3079744001248848841
+    second: Scorpion_Attack_6
+  - first:
+      213: -7458431906385044205
+    second: Scorpion_Attack_7
+  - first:
+      213: 3318927954319464819
+    second: Scorpion_Attack_8
+  - first:
+      213: -8166733396480280732
+    second: Scorpion_Attack_9
+  - first:
+      213: -1377383372489488697
+    second: Scorpion_Attack_10
+  - first:
+      213: -1908351809643367374
+    second: Scorpion_Attack_11
+  - first:
+      213: -1722029277663774089
+    second: Scorpion_Attack_12
+  - first:
+      213: 246461294443296751
+    second: Scorpion_Attack_13
+  - first:
+      213: 3731234348957763762
+    second: Scorpion_Attack_14
+  - first:
+      213: 6388797834728009471
+    second: Scorpion_Attack_15
+  - first:
+      213: 6113726032542896296
+    second: Scorpion_Attack_16
+  - first:
+      213: -987749630697474583
+    second: Scorpion_Attack_17
+  - first:
+      213: -9212160943281962399
+    second: Scorpion_Attack_18
+  - first:
+      213: 7956037283764414033
+    second: Scorpion_Attack_19
+  - first:
+      213: 4511785882590368286
+    second: Scorpion_Attack_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Scorpion_Attack_0
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 968
+        width: 673
+        height: 672
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91891bd827bab09f0800000000000000
+      internalID: -501118425029830631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scorpion_Attack_1
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 980
+        width: 692
+        height: 658
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3391df24e7df33890800000000000000
+      internalID: -7479355837400671949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scorpion_Attack_2
+      rect:
+        serializedVersion: 2
+        x: 1532
+        y: 963
+        width: 767
+        height: 669
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06b18838692511f20800000000000000
+      internalID: 3391582800792001376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scorpion_Attack_3
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 196
+        width: 703
+        height: 637
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a00ce1b47761b7a40800000000000000
+      internalID: 5366908082559303690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scorpion_Attack_4
+      rect:
+        serializedVersion: 2
+        x: 853
+        y: 199
+        width: 731
+        height: 626
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9243b91d89795a10800000000000000
+      internalID: 1898682364841902747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scorpion_Attack_5
+      rect:
+        serializedVersion: 2
+        x: 1601
+        y: 162
+        width: 704
+        height: 686
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6bf9590485a3ab30800000000000000
+      internalID: 4297460455952743278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: a0de5285f9c71e943aba17c89080fbf2
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":2.0},"gridSpriteSize":{"x":800.0,"y":896.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Scorpion_Attack_0: -501118425029830631
+      Scorpion_Attack_1: -7479355837400671949
+      Scorpion_Attack_2: 3391582800792001376
+      Scorpion_Attack_3: 5366908082559303690
+      Scorpion_Attack_4: 1898682364841902747
+      Scorpion_Attack_5: 4297460455952743278
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

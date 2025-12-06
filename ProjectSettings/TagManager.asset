@@ -17,8 +17,8 @@ TagManager:
   - Ground
   - Player
   - Enemy
-  - 
-  - 
+  - Wall
+  - Ceiling
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Backback
+    uniqueID: 2827992527
     locked: 0
   - name: Background
     uniqueID: 3585416207

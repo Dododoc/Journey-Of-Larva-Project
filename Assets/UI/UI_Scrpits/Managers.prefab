@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78c5ab0614202f4c85e11d3af547a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  statusQuestPanel: {fileID: 0}
-  evolutionPopupPanel: {fileID: 0}
-  evolutionChoicePanel: {fileID: 0}
+  charFaceImage: {fileID: 0}
+  evolutionPanel: {fileID: 0}
+  evolutionFaces:
+  - {fileID: -896485310630103726, guid: 74bd908e2515303439cbb1ca594f7562, type: 3}
+  - {fileID: 8874230132645447920, guid: 31ebc1f80c4fdc0479151e9f12bb8162, type: 3}
+  gameOverPanel: {fileID: 0}

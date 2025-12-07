@@ -1,107 +1,71 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; 
-using System.Collections; 
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("UI Panels (연결 필수!)")]
-    public GameObject questWindow;      // Q키로 여는 퀘스트 창
-    public GameObject evolutionPopup;   // "진화 가능! R키를 누르세요" 알림 띠
-    public GameObject evolutionChoice;  // 진화 루트 선택 창 (버튼 3개)
+    // [삭제됨] HP, XP, Level 관련 변수는 이제 PlayerHUD로 이사 갔습니다.
     
-    [Header("Notice System")]
-    public GameObject noticePanel;      // 중앙 하단 알림 메시지 패널
-    public TextMeshProUGUI noticeText;  // 알림 메시지 텍스트
+    [Header("HUD Elements (Face Only)")]
+    public Image charFaceImage; // ★ 얼굴은 UIManager가 관리 (진화랑 연결돼서)
 
-    // 내부 상태 변수
-    private bool isQuestAllClear = false; // 퀘스트를 다 깼는지 확인하는 변수
+    [Header("Evolution UI")]
+    public GameObject evolutionPanel;
+    public Sprite[] evolutionFaces; 
 
-    void Start()
+    [Header("Game Over UI")]
+    public GameObject gameOverPanel;
+
+    public static UIManager instance;
+
+    void Awake()
     {
-        // ★ 1. 게임 시작 시 모든 팝업창 강제로 끄기
-        if (questWindow != null) questWindow.SetActive(false);
-        if (evolutionPopup != null) evolutionPopup.SetActive(false);
-        if (evolutionChoice != null) evolutionChoice.SetActive(false);
-        if (noticePanel != null) noticePanel.SetActive(false);
+        instance = this;
     }
 
-    void Update()
+    // 얼굴 바꾸기 (이건 UIManager가 계속 함)
+    public void UpdateEvolutionUI(int evolutionIndex)
     {
-        // ★ 2. Q키: 퀘스트 창 열고 닫기 (토글)
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (evolutionFaces != null && evolutionIndex >= 0 && evolutionIndex < evolutionFaces.Length)
         {
-            if (questWindow != null)
-            {
-                bool isActive = questWindow.activeSelf; // 현재 켜져있는지 확인
-                questWindow.SetActive(!isActive);       // 반대로 변경 (켜져있으면 끄고, 꺼져있으면 켬)
-            }
-        }
-
-        // ★ 3. R키: 진화 창 열기 로직
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            // 조건 A: 퀘스트를 다 깼고, 화면에 "R키 누르세요" 알림이 떠 있을 때
-            if (isQuestAllClear) 
-            {
-                OpenEvolutionChoiceWindow();
-            }
-            // 조건 B: 아직 퀘스트를 안 깼는데 눌렀을 때
-            else
-            {
-                ShowNotice("아직 진화할 수 없습니다! 퀘스트를 완료하세요.");
-            }
-        }
-
-        // (테스트용) T키를 누르면 강제로 퀘스트 완료 처리 (나중에 삭제)
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            QuestAllCompleted(); 
+            charFaceImage.sprite = evolutionFaces[evolutionIndex];
         }
     }
 
-    // --- 외부에서 호출하는 함수들 ---
-
-    // 퀘스트가 모두 완료되었을 때 호출 (QuestManager 등에서 부름)
-    public void QuestAllCompleted()
-    {
-        isQuestAllClear = true; // 상태 변경
-        
-        if (evolutionPopup != null)
-            evolutionPopup.SetActive(true); // "진화 가능! R키를 누르세요" 팝업 띄움
-        
-        ShowNotice("모든 퀘스트 완료! R키를 눌러 진화하세요.");
-    }
-
-    // R키 눌렀을 때: 진화 선택창 열기
-    void OpenEvolutionChoiceWindow()
-    {
-        if (evolutionPopup != null) evolutionPopup.SetActive(false); // R키 알림 끄고
-        if (questWindow != null) questWindow.SetActive(false);       // 퀘스트 창도 끄고 (깔끔하게)
-        if (evolutionChoice != null) evolutionChoice.SetActive(true); // 선택창 열기
-    }
-
-    // 진화 선택 완료 후 호출 (PlayerStats에서 진화 끝난 뒤 부름)
+    // 진화 창 닫기
     public void CloseEvolutionPopup()
     {
-        if (evolutionChoice != null) evolutionChoice.SetActive(false); // 선택창 닫기
-        isQuestAllClear = false; // 진화했으니 상태 초기화 (중복 진화 방지)
-        ShowNotice("진화 성공!");
+        if (evolutionPanel != null) evolutionPanel.SetActive(false);
+        Time.timeScale = 1f; 
     }
 
-    // --- 알림 메시지 시스템 ---
-    public void ShowNotice(string msg)
+    // 게임 오버 창 띄우기
+    public void ShowGameOver()
     {
-        if (noticePanel == null || noticeText == null) return;
-        noticeText.text = msg;
-        noticePanel.SetActive(true);
-        StopAllCoroutines();
-        StartCoroutine(HideNoticeRoutine());
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+            Time.timeScale = 0f; 
+        }
     }
 
-    IEnumerator HideNoticeRoutine()
+    // 부활 버튼
+    public void OnRespawnClick()
     {
-        yield return new WaitForSeconds(2.0f);
-        noticePanel.SetActive(false);
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+            Time.timeScale = 1f; 
+        }
+
+        PlayerStats player = FindObjectOfType<PlayerStats>();
+        if (player != null) player.Respawn();
+    }
+
+    // 타이틀 버튼
+    public void OnTitleClick()
+    {
+        Time.timeScale = 1f; 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

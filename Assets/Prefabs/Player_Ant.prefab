@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 9218557278516262225}
   - component: {fileID: 6901964944147935251}
   - component: {fileID: 7272432082692982915}
-  - component: {fileID: 2623178668792265198}
   - component: {fileID: 6747504010959678914}
   - component: {fileID: 8216396185328236203}
+  - component: {fileID: 3911953317845764012}
   m_Layer: 7
   m_Name: Player_Ant
   m_TagString: Player
@@ -34,7 +34,8 @@ Transform:
   m_LocalPosition: {x: 302.16, y: 6.57, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 676693712535734591}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9218557278516262225
@@ -89,7 +90,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.1714287, y: 3.4285715}
+  m_Size: {x: 6.5116277, y: 4.395349}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -120,7 +121,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &7272432082692982915
 BoxCollider2D:
@@ -156,44 +157,18 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 1.8585258}
+  m_Offset: {x: 0, y: 1.738532}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
     oldSize: {x: 5.4857144, y: 4.2}
-    newSize: {x: 4.1714287, y: 3.4285715}
+    newSize: {x: 6.5116277, y: 4.395349}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.1714287, y: 3.8729486}
+  m_Size: {x: 4.1714287, y: 3.2937434}
   m_EdgeRadius: 0
---- !u!114 &2623178668792265198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2883033676194067544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5fd31674d4d1264da063598669279f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 5
-  jumpForce: 15
-  dashSpeed: 15
-  dashDuration: 0.4
-  dashCooldown: 1
-  knockbackPower: 10
-  recoilPower: 5
-  hitInvincibilityDuration: 1.5
-  attackInvincibilityDuration: 0.2
-  boxSize: {x: 3.26, y: 0.51}
-  castDistance: 0.16
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &6747504010959678914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,3 +214,70 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3911953317845764012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2883033676194067544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a7ebddfdaef6499fa3325e216cd4217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AntController
+  moveSpeed: 6
+  jumpForce: 13
+  attackDamage: 15
+  attackRange: 1.39
+  attackDelay: 0.1
+  attackCooldown: 0.3
+  strongDamageMultiplier: 2.5
+  strongAttackDelay: 0.8
+  strongCooldown: 3
+  digDuration: 3
+  digCooldown: 8
+  digSpeed: 4
+  emergeDamage: 20
+  emergeKnockback: 10
+  emergeRadius: 2.5
+  attackPoint: {fileID: 676693712535734591}
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  boxSize: {x: 3.27, y: 0.26}
+  castDistance: 0.33
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!1 &5370570431850788081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 676693712535734591}
+  m_Layer: 7
+  m_Name: AttackPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &676693712535734591
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5370570431850788081}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.39, y: 1.62, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2375941918907307760}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

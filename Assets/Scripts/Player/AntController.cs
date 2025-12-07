@@ -32,15 +32,16 @@ public class AntController : MonoBehaviour
     public Transform attackPoint;       
     public LayerMask enemyLayers;       
     
-    // 바닥 체크 변수 (애벌레 방식)
+    // 바닥 체크
     public Vector2 boxSize = new Vector2(0.8f, 0.2f); 
-    public float castDistance = 0.3f; // ★ 0.3 ~ 0.4 정도로 넉넉하게 주셔도 됩니다 (이제 공중부양 안 함)
+    public float castDistance = 0.3f; 
     public LayerMask groundLayer;      
 
     // 상태 변수
     private bool isStrongAttacking = false;
-    private bool isUnderground = false;
+    private bool isUnderground = false; // 땅속 상태
     private bool isBasicAttacking = false;
+    private bool isDiggingAnim = false; // 파고 들거나 나오는 애니메이션 중
 
     // 컴포넌트
     private Rigidbody2D rb;
@@ -53,6 +54,8 @@ public class AntController : MonoBehaviour
     private float defaultGravity;
     private float jumpCooldown; 
     private Vector2 surfaceNormal;
+
+    private bool isFacingRight = true;
 
     void Start()
     {
@@ -68,20 +71,33 @@ public class AntController : MonoBehaviour
     {
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
 
+        // --- [우선순위 로직 정리] ---
+        
+        // 1. 구멍 파는 애니메이션 중 (진입/탈출) -> 꼼짝 마!
+        if (isDiggingAnim)
+        {
+            rb.linearVelocity = Vector2.zero; // 물리력 완전 차단
+            UpdateAnimation(); // 땅속 상태 갱신을 위해 호출
+            return; // 다른 입력 무시
+        }
+        
+        // 2. 땅속 이동 중 -> 좌우 이동만 가능
         if (isUnderground)
         {
             HandleUndergroundMove();
-            return; 
+            UpdateAnimation();
+            return;
         }
-
-        CheckGround();
-
+        
+        // 3. 강공격 중 -> 멈춤
         if (isStrongAttacking)
         {
             rb.linearVelocity = Vector2.zero;
             return;
         }
 
+        // 4. 평상시 -> 바닥 체크 및 이동
+        CheckGround();
         ProcessInput();
         UpdateAnimation();
     }
@@ -102,15 +118,29 @@ public class AntController : MonoBehaviour
 
         if (isGrounded) surfaceNormal = hit.normal;
         else surfaceNormal = Vector2.up;
-        
-        transform.rotation = Quaternion.identity;
     }
 
     void ProcessInput()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && !isBasicAttacking) StartCoroutine(BasicAttackRoutine());
-        if (Input.GetKeyDown(KeyCode.X) && canStrongAttack && isGrounded) { StartCoroutine(StrongAttackRoutine()); return; }
-        if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.C) && canDig && isGrounded) { StartCoroutine(DigRoutine()); return; }
+        // [Z] 평타
+        if (Input.GetKeyDown(KeyCode.Z) && !isBasicAttacking && isGrounded) 
+        {
+            StartCoroutine(BasicAttackRoutine());
+        }
+
+        // [X] 강공격
+        if (Input.GetKeyDown(KeyCode.X) && canStrongAttack && isGrounded) 
+        { 
+            StartCoroutine(StrongAttackRoutine()); 
+            return; 
+        }
+
+        // [Down+C] 땅파기
+        if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.C) && canDig && isGrounded) 
+        { 
+            StartCoroutine(DigRoutine()); 
+            return; 
+        }
 
         float moveInput = Input.GetAxisRaw("Horizontal");
 
@@ -125,50 +155,61 @@ public class AntController : MonoBehaviour
             return;
         }
 
-        // ★ [여기가 문제 해결의 핵심입니다] ★
-        // "땅 감지됨(isGrounded)" 상태라도, "떨어지는 속도가 빠르면(isFalling)" 아직 공중으로 취급합니다.
-        // -3f보다 더 빠르게 떨어지고 있으면 낙하 중이라고 판단
+        // [이동 및 낙하 처리]
         bool isFalling = rb.linearVelocity.y < -3f; 
 
         if (isGrounded && moveInput != 0 && !isFalling)
         {
-            // [진짜 땅에 착지해서 걷는 중]
-            // 떨어지는 속도가 줄어들었을 때만 이 로직이 실행됩니다.
+            // 땅에서 걷기
             rb.gravityScale = defaultGravity;
-            
             Vector2 slopeDir = Vector2.Perpendicular(surfaceNormal).normalized;
             Vector2 moveDir = slopeDir * -moveInput;
             rb.linearVelocity = moveDir * moveSpeed;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y - 5f);
         }
-        else if (!isGrounded || isFalling) // ★ 공중이거나, 센서는 닿았지만 아직 떨어지는 중일 때
+        else if (!isGrounded || isFalling)
         {
-            // [공중 물리 적용]
-            // 경사면 계산이나 강제 멈춤 없이, 물리 엔진(중력)에 몸을 맡깁니다.
+            // 공중
             rb.gravityScale = defaultGravity;
             rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
         }
         else
         {
-            // [땅에서 멈춤 - Idle]
+            // 아이들 (Idle)
             rb.gravityScale = defaultGravity;
-            // 여기도 혹시 모르니 Y축 속도는 건드리지 않고 X축만 멈춥니다.
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y); 
         }
 
-        if (moveInput > 0) sr.flipX = false;
-        else if (moveInput < 0) sr.flipX = true;
+        // 방향 전환
+        if (moveInput > 0 && !isFacingRight) Flip();
+        else if (moveInput < 0 && isFacingRight) Flip();
+    }
+
+    void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        Vector3 scaler = transform.localScale;
+        scaler.x *= -1; 
+        transform.localScale = scaler;
     }
 
     void UpdateAnimation()
     {
+        // 땅속이거나 파는 중이면, 무조건 땅에 있는 것으로 처리 (Fly 방지)
+        if (isUnderground || isDiggingAnim)
+        {
+            anim.SetBool("IsGrounded", true);
+            anim.SetFloat("Speed", 0f);
+            anim.SetFloat("VerticalSpeed", 0f);
+            return;
+        }
+
         anim.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
-        // 애니메이션은 센서값(isGrounded)을 그대로 써서, 땅에 닿기 직전에 미리 모션을 취하게 합니다.
-        anim.SetBool("IsGrounded", isGrounded); 
+        anim.SetBool("IsGrounded", isGrounded);
         anim.SetFloat("VerticalSpeed", rb.linearVelocity.y);
     }
 
-    // ... (아래 공격, 스킬 코루틴들은 기존과 동일) ...
+    // --- 공격 코루틴 ---
     IEnumerator BasicAttackRoutine()
     {
         isBasicAttacking = true;
@@ -183,15 +224,20 @@ public class AntController : MonoBehaviour
     {
         canStrongAttack = false;
         isStrongAttacking = true;
+        
         Color originalColor = sr.color;
         Vector3 originalScale = transform.localScale;
-        sr.color = Color.red; 
-        transform.localScale = originalScale * 1.3f; 
+
+        transform.localScale = new Vector3(originalScale.x * 1.1f, originalScale.y * 1.1f, originalScale.z);
+
         anim.SetTrigger("DoStrongAttack"); 
         yield return new WaitForSeconds(strongAttackDelay);
+        
         ApplyDamage(attackPoint.position, attackRange * 1.5f, strongDamageMultiplier);
+        
         sr.color = originalColor;
-        transform.localScale = originalScale;
+        transform.localScale = originalScale; 
+
         isStrongAttacking = false;
         yield return new WaitForSeconds(strongCooldown);
         canStrongAttack = true;
@@ -212,37 +258,62 @@ public class AntController : MonoBehaviour
     {
         float moveInput = Input.GetAxisRaw("Horizontal");
         rb.linearVelocity = new Vector2(moveInput * digSpeed, 0f);
-        if (moveInput > 0) sr.flipX = false;
-        else if (moveInput < 0) sr.flipX = true;
+        
+        if (moveInput > 0 && !isFacingRight) Flip();
+        else if (moveInput < 0 && isFacingRight) Flip();
     }
 
+    // --- 구멍 파기 코루틴 (수정 완료) ---
     IEnumerator DigRoutine()
     {
         canDig = false;
+        
+        // 1. 파고 들기 시작
+        isDiggingAnim = true; 
         anim.SetTrigger("DoDig");
         rb.gravityScale = 0f;        
         rb.linearVelocity = Vector2.zero;
         myCollider.enabled = false; 
+        
         yield return new WaitForSeconds(0.5f); 
+
+        // 2. 땅속 진입 완료
+        isDiggingAnim = false;
         isUnderground = true;
-        Color oldColor = sr.color;
-        sr.color = new Color(oldColor.r, oldColor.g, oldColor.b, 0.5f); 
+        
+        // ★ [수정됨] 투명도 변경 코드 삭제 (원래 색 유지)
+        // Color oldColor = sr.color; 
+        // sr.color = new Color(oldColor.r, oldColor.g, oldColor.b, 0.5f); <-- 삭제함
+        
         transform.position += Vector3.down * 0.5f;
+
+        // 3. 땅속 대기
         float timer = 0f;
         while (timer < digDuration) {
             timer += Time.deltaTime;
             if (Input.GetKeyDown(KeyCode.C)) break; 
             yield return null; 
         }
-        isUnderground = false;
-        transform.position += Vector3.up * 0.5f;
-        sr.color = oldColor;
+
+        // 4. 나오기 시작
+        isUnderground = false; 
+        isDiggingAnim = true; 
+        
+        // ★ [수정됨] 0.8f -> 0.6f로 변경 (나오는 높이 조절)
+     
+        
+        // sr.color = oldColor; <-- 투명도 안 바꿨으니 복구도 필요 없음
         sr.enabled = true;
         anim.SetTrigger("DoEmerge"); 
         EmergeAttack();
+        
         yield return new WaitForSeconds(0.5f); 
-        rb.gravityScale = defaultGravity;
-        myCollider.enabled = true;
+
+        // 5. 복귀 완료
+        rb.gravityScale = defaultGravity; 
+        myCollider.enabled = true;        
+        isDiggingAnim = false;            
+
         yield return new WaitForSeconds(digCooldown);
         canDig = true;
     }

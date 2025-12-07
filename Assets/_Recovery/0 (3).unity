@@ -1015,6 +1015,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 676693712535734591, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.39
+      objectReference: {fileID: 0}
     - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
       propertyPath: m_LocalPosition.x
       value: 18.42
@@ -1059,10 +1063,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_Ant
       objectReference: {fileID: 0}
+    - target: {fileID: 3911953317845764012, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: attackRange
+      value: 1.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 3911953317845764012, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: strongAttackDelay
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 6747504010959678914, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
       propertyPath: playerHUD
       value: 
       objectReference: {fileID: 4851749276714347125}
+    - target: {fileID: 9218557278516262225, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_Size.x
+      value: 5.97561
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218557278516262225, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_Size.y
+      value: 4.487805
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

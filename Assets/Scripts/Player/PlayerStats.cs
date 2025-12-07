@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     [Header("References")]
-    public PlayerHUD playerHUD; // UI 매니저 연결용
+    public PlayerHUD playerHUD; 
 
     [Header("Level Info")]
     public int currentLevel = 1;
@@ -21,64 +21,50 @@ public class PlayerStats : MonoBehaviour
     public float bonusDefense = 0f;
     public float bonusMaxHp = 0f;
 
-    // 프로퍼티 (최종 스탯 계산)
+    // 시작 위치 저장용 변수
+    private Vector3 startPosition;
+
     public float TotalAttack => (baseAttack * currentLevel) + bonusAttack;
     public float TotalDefense => (baseDefense * currentLevel) + bonusDefense;
     public float TotalMaxHp => (maxHp * currentLevel) + bonusMaxHp;
 
     void Start()
     {
-        // UI 매니저가 연결 안 되어 있으면 자동으로 찾기
         if (playerHUD == null)
             playerHUD = FindObjectOfType<PlayerHUD>();
 
+        // ★ 게임 시작 시점의 위치를 기억해둡니다 (리스폰 용)
+        startPosition = transform.position;
+
         currentHp = TotalMaxHp;
         CalculateNextLevelExp();
-        UpdateUI(); // 시작하자마자 UI 한번 그림
+        
+        UpdateUI(); 
+        
+        UIManager uiManager = FindObjectOfType<UIManager>();
+        if (uiManager != null) uiManager.UpdateEvolutionUI(0);
     }
 
-    // ★ 테스트용 업데이트 함수 추가
     void Update()
     {
-        // 'J' 키를 누르면 경험치 50 획득
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            Debug.Log("치트키 작동: 경험치 +50");
-            GainExp(50); 
-        }
-        
-        // (참고) 'K' 키를 누르면 데미지 입는 테스트도 가능
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            currentHp -= 10;
-            if(currentHp < 0) currentHp = 0;
-            UpdateUI();
-        }
+        if (Input.GetKeyDown(KeyCode.J)) GainExp(50); 
+        if (Input.GetKeyDown(KeyCode.K)) TakeDamage(10);
     }
 
     public void GainExp(float amount)
     {
         currentExp += amount;
-        
-        // 경험치가 목표치보다 많으면 레벨업
-        if (currentExp >= expToNextLevel)
-        {
-            LevelUp();
-        }
-        UpdateUI(); // 경험치 변했으니 UI 갱신
+        if (currentExp >= expToNextLevel) LevelUp();
+        UpdateUI(); 
     }
 
     void LevelUp()
     {
         currentLevel++;
-        currentExp -= expToNextLevel; // 남은 경험치 다음 레벨로 이월
-        
-        CalculateNextLevelExp(); // 다음 레벨 필요 경험치 재계산
-        currentHp = TotalMaxHp;  // 레벨업 축하: 체력 풀회복
-        
-        Debug.Log($"레벨 업! Lv.{currentLevel}");
-
-        // 경험치가 너무 많아서 한 번에 2업 이상 할 경우 처리
+        currentExp -= expToNextLevel; 
+        CalculateNextLevelExp(); 
+        currentHp = TotalMaxHp;  
+        // Debug.Log($"레벨 업! Lv.{currentLevel}");
         if(currentExp >= expToNextLevel) LevelUp();
     }
 
@@ -87,79 +73,98 @@ public class PlayerStats : MonoBehaviour
         expToNextLevel = currentLevel * 100f * (1f + currentLevel * 0.1f);
     }
 
-    // UI 갱신 함수 (HUD 스크립트에게 값 전달)
     void UpdateUI()
     {
         if (playerHUD != null)
         {
-            // HUD에게 현재 값들을 다 던져줍니다.
             playerHUD.UpdateHP(currentHp, TotalMaxHp);
             playerHUD.UpdateXP(currentExp, expToNextLevel);
             playerHUD.UpdateLevel(currentLevel);
-            Debug.Log($"[UI갱신] 현재: {currentHp} / 최대: {TotalMaxHp} (비율: {currentHp/TotalMaxHp})");
         }
     }
 
-    // --- 진화 시스템 (핵심) ---
-
-    // 진화 'R' 버튼을 눌러 선택을 마쳤을 때 호출되는 함수
     public void Evolve(int selectedPathIndex)
     {
-        Debug.Log($"진화 루트 {selectedPathIndex} 선택됨! 진화 시작!");
-
-        // 1. 현재 레벨에 따른 보너스 스탯 계산 (높은 레벨일수록 많이 받음)
-        // 예: 레벨당 공격력 2, 방어력 1, 체력 10 씩 영구 보너스 추가
-        float bonusMultiplier = currentLevel * 0.5f; // 밸런스 조절 필요
-
+        // ... (기존 진화 로직 유지) ...
+        float bonusMultiplier = currentLevel * 0.5f; 
         bonusAttack += 2f * bonusMultiplier;
         bonusDefense += 1f * bonusMultiplier;
         bonusMaxHp += 10f * bonusMultiplier;
 
-        Debug.Log($"진화 보너스 획득! Atk+{2f * bonusMultiplier}, Def+{1f * bonusMultiplier}");
-
-        // 2. 루트별 특수 능력치 부여 (예시)
         switch (selectedPathIndex)
         {
-            case 0: // 공격형 루트
-                bonusAttack += 10f;
-                break;
-            case 1: // 방어형 루트
-                bonusDefense += 10f;
-                break;
-            case 2: // 스피드/유틸 루트
-                bonusMaxHp += 50f;
-                break;
+            case 0: bonusAttack += 10f; break;
+            case 1: bonusDefense += 10f; break;
+            case 2: bonusMaxHp += 50f; break;
         }
 
-        // 3. 레벨 및 경험치 초기화
         currentLevel = 1;
         currentExp = 0;
         CalculateNextLevelExp();
         currentHp = TotalMaxHp;
 
-        Debug.Log("진화 완료! 1레벨로 돌아갔지만 더 강해졌습니다.");
         UpdateUI();
 
-        // 진화 창 닫기 요청
-        FindObjectOfType<UIManager>().CloseEvolutionPopup();
+        UIManager uiManager = FindObjectOfType<UIManager>();
+        if (uiManager != null)
+        {
+            uiManager.UpdateEvolutionUI(selectedPathIndex + 1);
+            uiManager.CloseEvolutionPopup();
+        }
     }
     
-    // 데미지 입는 함수
     public void TakeDamage(float damage)
     {
-        currentHp -= damage;
-        Debug.Log($"플레이어 피격! 남은 체력: {currentHp}");
+        float finalDamage = Mathf.Max(1f, damage - TotalDefense);
+        currentHp -= finalDamage;
 
         if (currentHp < 0) currentHp = 0;
-
-        // UI 갱신 (HUD가 있다면)
         UpdateUI(); 
 
+        // 체력이 0이 되면 사망 처리
         if (currentHp <= 0)
         {
-            Debug.Log("플레이어 사망... 게임 오버");
-            // 여기에 게임 오버 처리 로직 추가
+            Die();
         }
     }
 
+    // ★ 사망 처리 함수
+    void Die()
+    {
+        Debug.Log("플레이어 사망!");
+        
+        // 1. 캐릭터 조작 비활성화 (선택 사항: 원하시면 추가)
+        // GetComponent<PlayerController>().enabled = false;
+
+        // 2. UIManager에게 게임 오버 창 띄우라고 지시
+        UIManager uiManager = FindObjectOfType<UIManager>();
+        if (uiManager != null)
+        {
+            uiManager.ShowGameOver();
+        }
+    }
+
+    // ★ 부활(리스폰) 함수 - UIManager가 호출함
+    public void Respawn()
+    {
+        Debug.Log("플레이어 부활!");
+
+        // 1. 레벨 1로 초기화 (하지만 bonusStats는 초기화 안 함 -> 진화 유지됨)
+        currentLevel = 1;
+        currentExp = 0;
+        CalculateNextLevelExp();
+
+        // 2. 체력 풀회복
+        currentHp = TotalMaxHp;
+
+        // 3. 시작 위치로 이동
+        transform.position = startPosition;
+        
+        // 4. 리지드바디 속도 초기화 (낙하 중이었으면 멈추게)
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if(rb != null) rb.linearVelocity = Vector2.zero;
+
+        // 5. UI 갱신
+        UpdateUI();
+    }
 }

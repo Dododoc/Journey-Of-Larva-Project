@@ -1,25 +1,37 @@
 fileFormatVersion: 2
-guid: 74fb6b38a10d44f8caed0ff341141d7a
+guid: e971a2ef8f3a2ef469cdc98e9096a304
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6065777735017490886
-    second: Ant_Dig_Out_0
+      213: -6121502942920670594
+    second: Ant_Digging_0
   - first:
-      213: -2146428201053335219
-    second: Ant_Dig_Out_1
+      213: -8187419090186447680
+    second: Ant_Digging_1
   - first:
-      213: 4759780074696300108
-    second: Ant_Dig_Out_2
+      213: 4438105386488519923
+    second: Ant_Digging_2
   - first:
-      213: 3007801684929124232
-    second: Ant_Dig_Out_3
+      213: -5968441739044476737
+    second: Ant_Digging_3
   - first:
-      213: 4658727385147395717
-    second: Ant_Dig_Out_4
+      213: 1677307083774871789
+    second: Ant_Digging_4
   - first:
-      213: -1290565253005064285
-    second: Ant_Dig_Out_5
+      213: -7722956786194369894
+    second: Ant_Digging_5
+  - first:
+      213: 9009189262562345211
+    second: Ant_Digging_6
+  - first:
+      213: 5035085315142313687
+    second: Ant_Digging_7
+  - first:
+      213: 3088420360155745559
+    second: Ant_Digging_8
+  - first:
+      213: 1817396817872705276
+    second: Ant_Digging_9
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -66,7 +78,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 54
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -111,17 +123,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ant_Dig_Out_0
+      name: Ant_Digging_0
       rect:
         serializedVersion: 2
-        x: 339
-        y: 912
-        width: 436
-        height: 175
+        x: 127
+        y: 1013
+        width: 506
+        height: 178
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,20 +155,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a361fc1b94702dba0800000000000000
-      internalID: -6065777735017490886
+      spriteID: e7284bba18d0c0ba0800000000000000
+      internalID: -6121502942920670594
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Dig_Out_1
+      name: Ant_Digging_1
       rect:
         serializedVersion: 2
-        x: 857
-        y: 915
-        width: 375
-        height: 193
+        x: 928
+        y: 1014
+        width: 535
+        height: 228
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,20 +177,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d41d5546cea5632e0800000000000000
-      internalID: -2146428201053335219
+      spriteID: 0c45f2e57b1706e80800000000000000
+      internalID: -8187419090186447680
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Dig_Out_2
+      name: Ant_Digging_2
       rect:
         serializedVersion: 2
-        x: 1279
-        y: 912
-        width: 450
-        height: 280
+        x: 1740
+        y: 1015
+        width: 535
+        height: 225
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,20 +199,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c46514172c22e0240800000000000000
-      internalID: 4759780074696300108
+      spriteID: 3fc556db551579d30800000000000000
+      internalID: 4438105386488519923
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Dig_Out_3
+      name: Ant_Digging_3
       rect:
         serializedVersion: 2
-        x: 321
-        y: 335
-        width: 479
-        height: 378
+        x: 133
+        y: 625
+        width: 508
+        height: 226
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -196,20 +221,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 887950942bbddb920800000000000000
-      internalID: 3007801684929124232
+      spriteID: fb8a3a94cd5db2da0800000000000000
+      internalID: -5968441739044476737
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Dig_Out_4
+      name: Ant_Digging_4
       rect:
         serializedVersion: 2
-        x: 836
-        y: 349
-        width: 455
-        height: 430
+        x: 965
+        y: 625
+        width: 507
+        height: 203
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,20 +243,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 58e4811bfdf17a040800000000000000
-      internalID: 4658727385147395717
+      spriteID: de8c5abe7edf64710800000000000000
+      internalID: 1677307083774871789
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Dig_Out_5
+      name: Ant_Digging_5
       rect:
         serializedVersion: 2
-        x: 1384
-        y: 375
-        width: 296
-        height: 240
+        x: 1817
+        y: 624
+        width: 507
+        height: 178
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -240,8 +265,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3a7cb277dbdf61ee0800000000000000
-      internalID: -1290565253005064285
+      spriteID: a92313f88bb82d490800000000000000
+      internalID: -7722956786194369894
       vertices: []
       indices: 
       edges: []
@@ -250,7 +275,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b1a4745578fbe4872a4f2e8a5a6b69ab
+    spriteID: a077d8a8e6683804ba8af9eee64598a0
     internalID: 0
     vertices: []
     indices: 
@@ -260,14 +285,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Ant_Dig_Out_0: -6065777735017490886
-      Ant_Dig_Out_1: -2146428201053335219
-      Ant_Dig_Out_2: 4759780074696300108
-      Ant_Dig_Out_3: 3007801684929124232
-      Ant_Dig_Out_4: 4658727385147395717
-      Ant_Dig_Out_5: -1290565253005064285
+      Ant_Digging_0: -6121502942920670594
+      Ant_Digging_1: -8187419090186447680
+      Ant_Digging_2: 4438105386488519923
+      Ant_Digging_3: -5968441739044476737
+      Ant_Digging_4: 1677307083774871789
+      Ant_Digging_5: -7722956786194369894
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

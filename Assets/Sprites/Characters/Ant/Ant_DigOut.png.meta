@@ -1,0 +1,595 @@
+fileFormatVersion: 2
+guid: 425de96f7b71fd249ba691058202d5e2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6574944709040586270
+    second: Ant_DigOut_0
+  - first:
+      213: -4492619271447113815
+    second: Ant_DigOut_1
+  - first:
+      213: -8099699660886431451
+    second: Ant_DigOut_2
+  - first:
+      213: 7198411623622342421
+    second: Ant_DigOut_3
+  - first:
+      213: -5596866203094701366
+    second: Ant_DigOut_4
+  - first:
+      213: 1825667256302691586
+    second: Ant_DigOut_5
+  - first:
+      213: -1829283909659018475
+    second: Ant_DigOut_6
+  - first:
+      213: 7858053172164864496
+    second: Ant_DigOut_7
+  - first:
+      213: 1501337790816193296
+    second: Ant_DigOut_8
+  - first:
+      213: -2898065440279649759
+    second: Ant_DigOut_9
+  - first:
+      213: -1635804191719119762
+    second: Ant_DigOut_10
+  - first:
+      213: -3600756978493010978
+    second: Ant_DigOut_11
+  - first:
+      213: -3077610577461702196
+    second: Ant_DigOut_12
+  - first:
+      213: 9013895538779856348
+    second: Ant_DigOut_13
+  - first:
+      213: -4326830443699594297
+    second: Ant_DigOut_14
+  - first:
+      213: -4185253694552518207
+    second: Ant_DigOut_15
+  - first:
+      213: -5799479374926673472
+    second: Ant_DigOut_16
+  - first:
+      213: 6720051307662986448
+    second: Ant_DigOut_17
+  - first:
+      213: -6866536063629356171
+    second: Ant_DigOut_18
+  - first:
+      213: 8781176022001406506
+    second: Ant_DigOut_19
+  - first:
+      213: 3204913765823181919
+    second: Ant_DigOut_20
+  - first:
+      213: 3286818006343016325
+    second: Ant_DigOut_21
+  - first:
+      213: 5228335772300412544
+    second: Ant_DigOut_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 75
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Ant_DigOut_1
+      rect:
+        serializedVersion: 2
+        x: 632
+        y: 1372
+        width: 469
+        height: 195
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1eb2389065ee3b50800000000000000
+      internalID: 6574944709040586270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_2
+      rect:
+        serializedVersion: 2
+        x: 1191
+        y: 1372
+        width: 534
+        height: 313
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 529238d8216189f80800000000000000
+      internalID: -8099699660886431451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_7
+      rect:
+        serializedVersion: 2
+        x: 1187
+        y: 992
+        width: 531
+        height: 379
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5177d0d9b35e5e360800000000000000
+      internalID: 7198411623622342421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_4
+      rect:
+        serializedVersion: 2
+        x: 1754
+        y: 1373
+        width: 467
+        height: 310
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 205ebf162b2165910800000000000000
+      internalID: 1825667256302691586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_0
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 1374
+        width: 413
+        height: 185
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51bbf63e9f31d96e0800000000000000
+      internalID: -1829283909659018475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_5
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 992
+        width: 468
+        height: 314
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f9a401f9b96d0d60800000000000000
+      internalID: 7858053172164864496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_6
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 992
+        width: 472
+        height: 330
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01b087d24c2d5d410800000000000000
+      internalID: 1501337790816193296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_9
+      rect:
+        serializedVersion: 2
+        x: 1815
+        y: 994
+        width: 467
+        height: 312
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 122ab4036d008c7d0800000000000000
+      internalID: -2898065440279649759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_12
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 609
+        width: 469
+        height: 321
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc119655c712a45d0800000000000000
+      internalID: -3077610577461702196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_14
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 571
+        width: 478
+        height: 379
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cb90ffc2a204f3c0800000000000000
+      internalID: -4326830443699594297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_16
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 563
+        width: 489
+        height: 419
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c98a474c3c148fa0800000000000000
+      internalID: -5799479374926673472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_17
+      rect:
+        serializedVersion: 2
+        x: 1732
+        y: 571
+        width: 582
+        height: 408
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0dcc6a95f0b624d50800000000000000
+      internalID: 6720051307662986448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_18
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 94
+        width: 566
+        height: 504
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57396f1a4d925b0a0800000000000000
+      internalID: -6866536063629356171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_19
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 186
+        width: 366
+        height: 292
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a22529d31110dd970800000000000000
+      internalID: 8781176022001406506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_20
+      rect:
+        serializedVersion: 2
+        x: 1020
+        y: 105
+        width: 339
+        height: 306
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5476a3f6142a7c20800000000000000
+      internalID: 3204913765823181919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_21
+      rect:
+        serializedVersion: 2
+        x: 1403
+        y: 83
+        width: 453
+        height: 314
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58fde6dff8f1d9d20800000000000000
+      internalID: 3286818006343016325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_DigOut_22
+      rect:
+        serializedVersion: 2
+        x: 1880
+        y: 98
+        width: 431
+        height: 334
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0860f6a1fa7ce8840800000000000000
+      internalID: 5228335772300412544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: ac4c9826b4cb8da4d85b829b2c39ed4c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      0: 1825667256302691586
+      Ant_DigOut_0: -1829283909659018475
+      Ant_DigOut_1: 6574944709040586270
+      Ant_DigOut_10: -1635804191719119762
+      Ant_DigOut_11: -3600756978493010978
+      Ant_DigOut_12: -3077610577461702196
+      Ant_DigOut_13: 9013895538779856348
+      Ant_DigOut_14: -4326830443699594297
+      Ant_DigOut_15: -4185253694552518207
+      Ant_DigOut_16: -5799479374926673472
+      Ant_DigOut_17: 6720051307662986448
+      Ant_DigOut_18: -6866536063629356171
+      Ant_DigOut_19: 8781176022001406506
+      Ant_DigOut_2: -8099699660886431451
+      Ant_DigOut_20: 3204913765823181919
+      Ant_DigOut_21: 3286818006343016325
+      Ant_DigOut_22: 5228335772300412544
+      Ant_DigOut_4: 1825667256302691586
+      Ant_DigOut_5: 7858053172164864496
+      Ant_DigOut_6: 1501337790816193296
+      Ant_DigOut_7: 7198411623622342421
+      Ant_DigOut_9: -2898065440279649759
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

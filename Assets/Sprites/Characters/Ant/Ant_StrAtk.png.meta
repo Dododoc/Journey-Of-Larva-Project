@@ -1,25 +1,10 @@
 fileFormatVersion: 2
-guid: 5a0cbf11e3d034c0ab6b6a30d48e781e
+guid: 0f178b25f2902d441931eb5c2910fcdb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9204271966384831891
-    second: Ant_Walk_0
-  - first:
-      213: -4965019723749961103
-    second: Ant_Walk_1
-  - first:
-      213: 2062286908682262507
-    second: Ant_Walk_2
-  - first:
-      213: -8262519452085730305
-    second: Ant_Walk_3
-  - first:
-      213: 7568677296885870087
-    second: Ant_Walk_4
-  - first:
-      213: 5328915199423629097
-    second: Ant_Walk_5
+      213: -7261999656386028604
+    second: Ant_StrAtk_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -66,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 35
+  spritePixelsToUnits: 43
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -128,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ant_Walk_0
+      name: Ant_StrAtk_0
       rect:
         serializedVersion: 2
-        x: 95
-        y: 433
-        width: 197
-        height: 148
+        x: 104
+        y: 498
+        width: 245
+        height: 184
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,130 +128,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d62cb83b96bd34080800000000000000
-      internalID: -9204271966384831891
+      spriteID: 4cb1a1ac9c1383b90800000000000000
+      internalID: -7261999656386028604
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Walk_1
+      name: Ant_StrAtk_2
       rect:
         serializedVersion: 2
-        x: 323
-        y: 431
-        width: 196
-        height: 151
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1725317fdd4b81bb0800000000000000
-      internalID: -4965019723749961103
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ant_Walk_2
-      rect:
-        serializedVersion: 2
-        x: 541
-        y: 431
-        width: 197
-        height: 152
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: be7d1f85407be9c10800000000000000
-      internalID: 2062286908682262507
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ant_Walk_3
-      rect:
-        serializedVersion: 2
-        x: 769
-        y: 431
-        width: 197
-        height: 151
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ff3cca4c552a55d80800000000000000
-      internalID: -8262519452085730305
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ant_Walk_4
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 269
-        width: 196
-        height: 149
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 70e2274a6e7590960800000000000000
-      internalID: 7568677296885870087
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ant_Walk_5
-      rect:
-        serializedVersion: 2
-        x: 438
-        y: 267
-        width: 193
-        height: 149
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 92743dbd32c14f940800000000000000
-      internalID: 5328915199423629097
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ant_Walk_6
-      rect:
-        serializedVersion: 2
-        x: 724
-        y: 266
-        width: 198
-        height: 149
+        x: 370
+        y: 498
+        width: 245
+        height: 213
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -275,8 +150,118 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 863dbfe4120416648bc65a2e3bad440f
-      internalID: 950713786
+      spriteID: 71ea931fd47d3ea4891266eff700f6b0
+      internalID: -1262964031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_StrAtk_3
+      rect:
+        serializedVersion: 2
+        x: 627
+        y: 498
+        width: 254
+        height: 211
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1d12efe5e365c94faa8516a3e5bda86
+      internalID: 91570430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_StrAtk_4
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 498
+        width: 245
+        height: 184
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2e2c4d19fc9dc44d967e20d82236312
+      internalID: 408630578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_StrAtk_7
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 306
+        width: 280
+        height: 189
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59c36f766a6a02e498fc42c14c831ec2
+      internalID: -711944802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_StrAtk_8
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 305
+        width: 250
+        height: 170
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f1092535d905bc40ac3a45e6279e7c7
+      internalID: 2040819796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_StrAtk_10
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 294
+        width: 272
+        height: 187
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d28693e53f5ef704f9ac1c8988627cd7
+      internalID: -2134458751
       vertices: []
       indices: 
       edges: []
@@ -285,7 +270,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: fb5ea380f4ecb4fb7af797b95734aede
+    spriteID: 1b6734e741b916b4894a350463bee46d
     internalID: 0
     vertices: []
     indices: 
@@ -295,15 +280,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Ant_Walk_0: -9204271966384831891
-      Ant_Walk_1: -4965019723749961103
-      Ant_Walk_2: 2062286908682262507
-      Ant_Walk_3: -8262519452085730305
-      Ant_Walk_4: 7568677296885870087
-      Ant_Walk_5: 5328915199423629097
-      Ant_Walk_6: 950713786
+      Ant_StrAtk_0: -7261999656386028604
+      Ant_StrAtk_1: 816689384
+      Ant_StrAtk_10: -2134458751
+      Ant_StrAtk_11: -1418149472
+      Ant_StrAtk_2: -1262964031
+      Ant_StrAtk_3: 91570430
+      Ant_StrAtk_4: 408630578
+      Ant_StrAtk_5: 750548862
+      Ant_StrAtk_6: -2078363707
+      Ant_StrAtk_7: -711944802
+      Ant_StrAtk_8: 2040819796
+      Ant_StrAtk_9: -281334875
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

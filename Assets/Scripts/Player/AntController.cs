@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic; // 리스트 사용을 위해 추가
 
 public class AntController : MonoBehaviour
 {
@@ -12,11 +13,16 @@ public class AntController : MonoBehaviour
     public float attackRange = 1.5f;
     public float attackDelay = 0.1f;
     public float attackCooldown = 0.3f;
+    public float basicEnemyKnockback = 5f; 
     
     [Header("3. 강공격 설정 (X - 깨불어부수기)")]
     public float strongDamageMultiplier = 2.5f;
-    public float strongAttackDelay = 0.4f;
+    public float strongAttackDelay = 0.25f; 
     public float strongCooldown = 3.0f;
+    // ★ [수정] 흡혈 비율 0.2로 감소
+    public float lifestealRatio = 0.2f; 
+    // ★ [수정] 넉백 힘 7로 감소
+    public float strongEnemyKnockback = 7f; 
     private bool canStrongAttack = true;
 
     [Header("4. 스킬 설정 (땅파기 - Down + C)")]
@@ -24,26 +30,33 @@ public class AntController : MonoBehaviour
     public float digCooldown = 8f;
     public float digSpeed = 4f;
     public float emergeDamage = 20f;
-    public float emergeKnockback = 10f;
+    public float emergeKnockback = 10f; 
     public float emergeRadius = 2.5f;
+    
+    [Header("4-1. 땅파기 탈출 설정")]
+    public float emergeAnimDuration = 0.6f; 
+    public float emergeDamageDelay = 0.3f;  
     private bool canDig = true;
 
-    [Header("5. 체크 및 레이어")]
+    [Header("5. 피격 및 넉백 설정")]
+    public float hitKnockbackPower = 5f; 
+    public float hitInvincibilityDuration = 1.0f; 
+    private bool isInvincible = false;      
+    private bool isKnockedBack = false;     
+
+    [Header("6. 체크 및 레이어")]
     public Transform attackPoint;       
     public LayerMask enemyLayers;       
-    
-    // 바닥 체크
     public Vector2 boxSize = new Vector2(0.8f, 0.2f); 
     public float castDistance = 0.3f; 
     public LayerMask groundLayer;      
 
     // 상태 변수
     private bool isStrongAttacking = false;
-    private bool isUnderground = false; // 땅속 상태
+    private bool isUnderground = false; 
     private bool isBasicAttacking = false;
-    private bool isDiggingAnim = false; // 파고 들거나 나오는 애니메이션 중
+    private bool isDiggingAnim = false; 
 
-    // 컴포넌트
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private Animator anim;
@@ -54,7 +67,6 @@ public class AntController : MonoBehaviour
     private float defaultGravity;
     private float jumpCooldown; 
     private Vector2 surfaceNormal;
-
     private bool isFacingRight = true;
 
     void Start()
@@ -71,17 +83,19 @@ public class AntController : MonoBehaviour
     {
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
 
-        // --- [우선순위 로직 정리] ---
-        
-        // 1. 구멍 파는 애니메이션 중 (진입/탈출) -> 꼼짝 마!
+        if (isKnockedBack) 
+        {
+            UpdateAnimation();
+            return;
+        }
+
         if (isDiggingAnim)
         {
-            rb.linearVelocity = Vector2.zero; // 물리력 완전 차단
-            UpdateAnimation(); // 땅속 상태 갱신을 위해 호출
-            return; // 다른 입력 무시
+            if (rb.gravityScale == 0) rb.linearVelocity = Vector2.zero; 
+            UpdateAnimation(); 
+            return; 
         }
         
-        // 2. 땅속 이동 중 -> 좌우 이동만 가능
         if (isUnderground)
         {
             HandleUndergroundMove();
@@ -89,14 +103,12 @@ public class AntController : MonoBehaviour
             return;
         }
         
-        // 3. 강공격 중 -> 멈춤
         if (isStrongAttacking)
         {
             rb.linearVelocity = Vector2.zero;
             return;
         }
 
-        // 4. 평상시 -> 바닥 체크 및 이동
         CheckGround();
         ProcessInput();
         UpdateAnimation();
@@ -115,27 +127,23 @@ public class AntController : MonoBehaviour
         RaycastHit2D hit = Physics2D.BoxCast(boxOrigin, boxSize, 0f, Vector2.down, castDistance + 0.3f, groundLayer);
 
         isGrounded = hit.collider != null;
-
         if (isGrounded) surfaceNormal = hit.normal;
         else surfaceNormal = Vector2.up;
     }
 
     void ProcessInput()
     {
-        // [Z] 평타
         if (Input.GetKeyDown(KeyCode.Z) && !isBasicAttacking && isGrounded) 
         {
             StartCoroutine(BasicAttackRoutine());
         }
 
-        // [X] 강공격
         if (Input.GetKeyDown(KeyCode.X) && canStrongAttack && isGrounded) 
         { 
             StartCoroutine(StrongAttackRoutine()); 
             return; 
         }
 
-        // [Down+C] 땅파기
         if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.C) && canDig && isGrounded) 
         { 
             StartCoroutine(DigRoutine()); 
@@ -144,7 +152,6 @@ public class AntController : MonoBehaviour
 
         float moveInput = Input.GetAxisRaw("Horizontal");
 
-        // [점프]
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             jumpCooldown = 0.2f;
@@ -155,12 +162,10 @@ public class AntController : MonoBehaviour
             return;
         }
 
-        // [이동 및 낙하 처리]
         bool isFalling = rb.linearVelocity.y < -3f; 
 
         if (isGrounded && moveInput != 0 && !isFalling)
         {
-            // 땅에서 걷기
             rb.gravityScale = defaultGravity;
             Vector2 slopeDir = Vector2.Perpendicular(surfaceNormal).normalized;
             Vector2 moveDir = slopeDir * -moveInput;
@@ -169,18 +174,15 @@ public class AntController : MonoBehaviour
         }
         else if (!isGrounded || isFalling)
         {
-            // 공중
             rb.gravityScale = defaultGravity;
             rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
         }
         else
         {
-            // 아이들 (Idle)
             rb.gravityScale = defaultGravity;
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y); 
         }
 
-        // 방향 전환
         if (moveInput > 0 && !isFacingRight) Flip();
         else if (moveInput < 0 && isFacingRight) Flip();
     }
@@ -195,8 +197,7 @@ public class AntController : MonoBehaviour
 
     void UpdateAnimation()
     {
-        // 땅속이거나 파는 중이면, 무조건 땅에 있는 것으로 처리 (Fly 방지)
-        if (isUnderground || isDiggingAnim)
+        if (isUnderground || isDiggingAnim || isKnockedBack)
         {
             anim.SetBool("IsGrounded", true);
             anim.SetFloat("Speed", 0f);
@@ -209,13 +210,12 @@ public class AntController : MonoBehaviour
         anim.SetFloat("VerticalSpeed", rb.linearVelocity.y);
     }
 
-    // --- 공격 코루틴 ---
     IEnumerator BasicAttackRoutine()
     {
         isBasicAttacking = true;
         anim.SetTrigger("DoAttack"); 
         yield return new WaitForSeconds(attackDelay);
-        ApplyDamage(attackPoint.position, attackRange, 1f); 
+        ApplyDamage(attackPoint.position, attackRange, 1f, false, basicEnemyKnockback); 
         yield return new WaitForSeconds(attackCooldown);
         isBasicAttacking = false;
     }
@@ -224,51 +224,179 @@ public class AntController : MonoBehaviour
     {
         canStrongAttack = false;
         isStrongAttacking = true;
-        
         Color originalColor = sr.color;
         Vector3 originalScale = transform.localScale;
-
+        sr.color = new Color(1f, 0.8f, 0.8f); 
         transform.localScale = new Vector3(originalScale.x * 1.1f, originalScale.y * 1.1f, originalScale.z);
 
         anim.SetTrigger("DoStrongAttack"); 
+        
         yield return new WaitForSeconds(strongAttackDelay);
         
-        ApplyDamage(attackPoint.position, attackRange * 1.5f, strongDamageMultiplier);
+        ApplyDamage(attackPoint.position, attackRange * 1.5f, strongDamageMultiplier, true, strongEnemyKnockback);
         
         sr.color = originalColor;
         transform.localScale = originalScale; 
-
         isStrongAttacking = false;
         yield return new WaitForSeconds(strongCooldown);
         canStrongAttack = true;
     }
 
-    void ApplyDamage(Vector2 point, float range, float multiplier)
+    // 넉백/공격 시 끼임 방지용
+    IEnumerator IgnoreCollisionRoutine(Collider2D enemyCol, float duration = 0.5f)
+    {
+        if (enemyCol == null || myCollider == null) yield break;
+
+        Physics2D.IgnoreCollision(myCollider, enemyCol, true);
+        yield return new WaitForSeconds(duration);
+        
+        if (enemyCol != null && myCollider != null)
+            Physics2D.IgnoreCollision(myCollider, enemyCol, false);
+    }
+
+    // ★ [추가] 땅에서 나올 때 주변 모든 적과 충돌 무시 (끼임 해결)
+    void PreventStuckOnEmerge()
+    {
+        // 내 주변(반경 2.5)에 있는 모든 적을 찾음
+        Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(transform.position, emergeRadius, enemyLayers);
+        
+        foreach (Collider2D enemy in nearbyEnemies)
+        {
+            // 그 적들과 2초 동안 물리 충돌을 끈다 (서로 통과됨)
+            StartCoroutine(IgnoreCollisionRoutine(enemy, 2.0f));
+        }
+    }
+
+    void ApplyDamage(Vector2 point, float range, float multiplier, bool isLeech, float knockbackForce)
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(point, range, enemyLayers);
         float baseDmg = (myStats != null) ? myStats.TotalAttack : attackDamage;
         float finalDmg = baseDmg * multiplier;
+        float totalHeal = 0f;
+
         foreach (Collider2D enemy in hitEnemies) {
             EnemyStats es = enemy.GetComponent<EnemyStats>();
             if (es != null) es.TakeDamage(finalDmg);
+
+            if (isLeech && myStats != null)
+                totalHeal += finalDmg * lifestealRatio;
+
+            Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>();
+            if (enemyRb != null)
+            {
+                float dirX = (enemy.transform.position.x - transform.position.x) > 0 ? 1f : -1f;
+                Vector2 knockbackDir = new Vector2(dirX, 1.5f).normalized;
+                
+                enemyRb.linearVelocity = Vector2.zero; 
+                enemyRb.AddForce(knockbackDir * knockbackForce, ForceMode2D.Impulse);
+
+                StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>()));
+            }
         }
+
+        if (isLeech && totalHeal > 0 && myStats != null)
+            myStats.Heal(totalHeal);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isUnderground || isDiggingAnim || isInvincible) return;
+
+        if (collision.gameObject.CompareTag("Enemy"))
+            HandleCollisionDamage(collision.gameObject);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (isUnderground || isDiggingAnim || isInvincible) return;
+
+        if (other.CompareTag("Enemy") || other.CompareTag("Trap")) 
+            HandleCollisionDamage(other.gameObject);
+    }
+
+    void HandleCollisionDamage(GameObject target)
+    {
+        EnemyStats enemyStats = target.GetComponent<EnemyStats>();
+        float damageToTake = (enemyStats != null) ? enemyStats.attackDamage : 10f; 
+
+        if (myStats != null) myStats.TakeDamage(damageToTake);
+
+        float pushDirX = (transform.position.x < target.transform.position.x) ? -1f : 1f;
+        Vector2 knockbackDir = new Vector2(pushDirX, 1.5f).normalized;
+        
+        ApplyKnockback(knockbackDir * hitKnockbackPower);
+
+        StartCoroutine(IgnoreCollisionRoutine(target.GetComponent<Collider2D>()));
+    }
+
+    public void ApplyKnockback(Vector2 force)
+    {
+        // 1. 진행 중인 모든 공격/스킬 로직 중단
+        isBasicAttacking = false;
+        isStrongAttacking = false;
+        isDiggingAnim = false; // 땅파기 모션도 취소
+        canDig = true;         // 스킬 쿨타임 등의 꼬임 방지
+        canStrongAttack = true;
+
+        StopAllCoroutines(); 
+
+        // 2. ★ [핵심] 공격 애니메이션 예약된 것들 모두 취소
+        anim.ResetTrigger("DoAttack");
+        anim.ResetTrigger("DoStrongAttack");
+        anim.ResetTrigger("DoDig");
+        anim.ResetTrigger("DoEmerge");
+
+        // 3. ★ [핵심] 강제로 피격 모션(또는 점프 모션)으로 전환
+        // "Hit"라는 애니메이션이 있다면 anim.SetTrigger("DoHit"); 을 쓰겠지만,
+        // 지금은 없으므로 강제로 '점프(공중)' 상태로 보내서 공격 모션을 끊어버립니다.
+        anim.Play("Ant_Fly", 0, 0f); // "Ant_Jump"는 점프 애니메이션 이름입니다. (확인 필요)
+        // 만약 점프 애니메이션 이름이 다르다면 그 이름을 넣거나, 
+        // 그냥 아래처럼 IsGrounded를 끄는 것만으로도 Animator 설정에 따라 바뀔 수 있습니다.
+
+        // 4. 시각적 효과 (깜빡임, 방향)
+        sr.color = Color.white;
+        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * (isFacingRight ? 1 : -1), Mathf.Abs(transform.localScale.y), transform.localScale.z);
+
+        // 5. 물리적 넉백 적용
+        isKnockedBack = true;
+        rb.gravityScale = defaultGravity;
+        rb.linearVelocity = Vector2.zero; 
+        rb.AddForce(force, ForceMode2D.Impulse);
+
+        StartCoroutine(KnockbackRoutine());
+    }
+
+    IEnumerator KnockbackRoutine()
+    {
+        isInvincible = true; 
+        yield return new WaitForSeconds(0.3f);
+        isKnockedBack = false; 
+
+        float blinkEndTime = Time.time + (hitInvincibilityDuration - 0.3f);
+        while (Time.time < blinkEndTime)
+        {
+            sr.color = new Color(1, 1, 1, 0.4f); 
+            yield return new WaitForSeconds(0.1f);
+            sr.color = Color.white;              
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        isInvincible = false;
+        canDig = true; 
+        canStrongAttack = true;
     }
 
     void HandleUndergroundMove()
     {
         float moveInput = Input.GetAxisRaw("Horizontal");
         rb.linearVelocity = new Vector2(moveInput * digSpeed, 0f);
-        
         if (moveInput > 0 && !isFacingRight) Flip();
         else if (moveInput < 0 && isFacingRight) Flip();
     }
 
-    // --- 구멍 파기 코루틴 (수정 완료) ---
     IEnumerator DigRoutine()
     {
         canDig = false;
-        
-        // 1. 파고 들기 시작
         isDiggingAnim = true; 
         anim.SetTrigger("DoDig");
         rb.gravityScale = 0f;        
@@ -277,17 +405,10 @@ public class AntController : MonoBehaviour
         
         yield return new WaitForSeconds(0.5f); 
 
-        // 2. 땅속 진입 완료
         isDiggingAnim = false;
         isUnderground = true;
-        
-        // ★ [수정됨] 투명도 변경 코드 삭제 (원래 색 유지)
-        // Color oldColor = sr.color; 
-        // sr.color = new Color(oldColor.r, oldColor.g, oldColor.b, 0.5f); <-- 삭제함
-        
         transform.position += Vector3.down * 0.5f;
 
-        // 3. 땅속 대기
         float timer = 0f;
         while (timer < digDuration) {
             timer += Time.deltaTime;
@@ -295,24 +416,28 @@ public class AntController : MonoBehaviour
             yield return null; 
         }
 
-        // 4. 나오기 시작
+        // --- 탈출 ---
         isUnderground = false; 
         isDiggingAnim = true; 
         
-        // ★ [수정됨] 0.8f -> 0.6f로 변경 (나오는 높이 조절)
-     
-        
-        // sr.color = oldColor; <-- 투명도 안 바꿨으니 복구도 필요 없음
         sr.enabled = true;
         anim.SetTrigger("DoEmerge"); 
-        EmergeAttack();
-        
-        yield return new WaitForSeconds(0.5f); 
 
-        // 5. 복귀 완료
         rb.gravityScale = defaultGravity; 
-        myCollider.enabled = true;        
-        isDiggingAnim = false;            
+        myCollider.enabled = true;
+        rb.linearVelocity = Vector2.zero;
+
+        // ★ [핵심] 콜라이더가 켜지자마자, 내 위치에 있는 적들과 충돌을 끈다!
+        PreventStuckOnEmerge();
+
+        yield return new WaitForSeconds(emergeDamageDelay); 
+        
+        EmergeAttack(); 
+
+        float remainingTime = emergeAnimDuration - emergeDamageDelay;
+        if (remainingTime > 0) yield return new WaitForSeconds(remainingTime);
+        
+        isDiggingAnim = false; 
 
         yield return new WaitForSeconds(digCooldown);
         canDig = true;
@@ -324,11 +449,18 @@ public class AntController : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies) {
             EnemyStats es = enemy.GetComponent<EnemyStats>();
             if (es != null) es.TakeDamage(emergeDamage);
+            
             Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>();
             if (enemyRb != null) {
-                Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
-                knockbackDir += Vector2.up * 0.5f; 
-                enemyRb.AddForce(knockbackDir.normalized * emergeKnockback, ForceMode2D.Impulse);
+                float diffX = enemy.transform.position.x - transform.position.x;
+                float dirX = 0;
+                if (Mathf.Abs(diffX) < 0.1f) dirX = isFacingRight ? 1f : -1f;
+                else dirX = diffX > 0 ? 1f : -1f;
+
+                Vector2 knockbackDir = new Vector2(dirX, 0.5f).normalized;
+                
+                enemyRb.linearVelocity = Vector2.zero;
+                enemyRb.AddForce(knockbackDir * emergeKnockback, ForceMode2D.Impulse);
             }
         }
     }

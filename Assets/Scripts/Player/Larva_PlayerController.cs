@@ -176,39 +176,41 @@ public class PlayerController : MonoBehaviour
             HandleEnemyCollision(other.gameObject);
     }
 
+    // Larva_PlayerController.cs 내부의 함수 수정
+
     void HandleEnemyCollision(GameObject enemyObj)
     {
         if (isInvincible) return;
 
         EnemyStats enemyStats = enemyObj.GetComponent<EnemyStats>();
-        Vector2 directionToEnemy = (enemyObj.transform.position - transform.position).normalized;
-
-        // ★ 상황 A: 돌격 공격 성공!
+        
+        // 상황 A: 돌격 공격 성공 (변화 없음)
         if (isDashing)
         {
             if (enemyStats != null) 
             {
-                // ★ 여기가 핵심 변경점! ★
-                // 고정된 숫자가 아니라, PlayerStats에서 계산된 'TotalAttack'을 가져옴
-                // (myStats가 없으면 기본값 10)
                 float realDamage = (myStats != null) ? myStats.TotalAttack : 10f;
-                
                 enemyStats.TakeDamage(realDamage);
-                Debug.Log($"[공격 성공] 레벨 보정 데미지: {realDamage}");
             }
-
-            Vector2 recoilDir = -directionToEnemy + Vector2.up * 0.5f;
-            ApplyRecoil(recoilDir.normalized * recoilPower);
+            // 반동도 살짝 위로 튀게 수정
+            float recoilX = (transform.position.x > enemyObj.transform.position.x) ? 1f : -1f;
+            Vector2 recoilDir = new Vector2(recoilX, 1.0f).normalized;
+            ApplyRecoil(recoilDir * recoilPower);
         }
-        // 상황 B: 피격
+        // ★ 상황 B: 피격 (여기를 수정!)
         else
         {
             float damage = (enemyStats != null) ? enemyStats.attackDamage : 10f;
             if (myStats != null) 
                 myStats.TakeDamage(damage);
 
-            Vector2 knockbackDir = -directionToEnemy + Vector2.up * 0.5f;
-            ApplyKnockback(knockbackDir.normalized * knockbackPower);
+            // 적 기준 반대 방향 X값 추출
+            float pushDirX = (transform.position.x > enemyObj.transform.position.x) ? 1f : -1f;
+
+            // ★ 공중으로 붕 뜨게 Y값을 1.5f로 설정
+            Vector2 knockbackDir = new Vector2(pushDirX, 1.5f).normalized;
+            
+            ApplyKnockback(knockbackDir * knockbackPower);
         }
     }
 

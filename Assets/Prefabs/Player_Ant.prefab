@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7272432082692982915}
   - component: {fileID: 6747504010959678914}
   - component: {fileID: 8216396185328236203}
-  - component: {fileID: 3911953317845764012}
   m_Layer: 7
   m_Name: Player_Ant
   m_TagString: Player
@@ -214,42 +213,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3911953317845764012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2883033676194067544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a7ebddfdaef6499fa3325e216cd4217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AntController
-  moveSpeed: 6
-  jumpForce: 13
-  attackDamage: 15
-  attackRange: 1.39
-  attackDelay: 0.1
-  attackCooldown: 0.3
-  strongDamageMultiplier: 2.5
-  strongAttackDelay: 0.8
-  strongCooldown: 3
-  digDuration: 3
-  digCooldown: 8
-  digSpeed: 4
-  emergeDamage: 20
-  emergeKnockback: 10
-  emergeRadius: 2.5
-  attackPoint: {fileID: 676693712535734591}
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 256
-  boxSize: {x: 3.27, y: 0.26}
-  castDistance: 0.33
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &5370570431850788081
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2375941918907307760}
   - component: {fileID: 9218557278516262225}
+  - component: {fileID: 6671431317961985807}
+  - component: {fileID: 8541765989143691785}
   - component: {fileID: 6901964944147935251}
   - component: {fileID: 7272432082692982915}
   - component: {fileID: 6747504010959678914}
@@ -95,6 +97,92 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6671431317961985807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2883033676194067544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a7ebddfdaef6499fa3325e216cd4217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AntController
+  moveSpeed: 6
+  jumpForce: 13
+  attackDamage: 15
+  attackRange: 1.5
+  attackDelay: 0.1
+  attackCooldown: 0.3
+  basicEnemyKnockback: 5
+  strongDamageMultiplier: 2.5
+  strongAttackDelay: 0.25
+  strongCooldown: 3
+  lifestealRatio: 0.2
+  strongEnemyKnockback: 7
+  digDuration: 3
+  digCooldown: 8
+  digSpeed: 10
+  emergeDamage: 12
+  emergeKnockback: 15
+  emergeRadius: 2.5
+  emergeAnimDuration: 0.6
+  emergeDamageDelay: 0.3
+  hitKnockbackPower: 5
+  hitInvincibilityDuration: 1
+  attackPoint: {fileID: 676693712535734591}
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  boxSize: {x: 2.92, y: 0.26}
+  castDistance: 0.09
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!114 &8541765989143691785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2883033676194067544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a7ebddfdaef6499fa3325e216cd4217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AntController
+  moveSpeed: 6
+  jumpForce: 13
+  attackDamage: 15
+  attackRange: 1.5
+  attackDelay: 0.1
+  attackCooldown: 0.3
+  basicEnemyKnockback: 5
+  strongDamageMultiplier: 2.5
+  strongAttackDelay: 0.25
+  strongCooldown: 3
+  lifestealRatio: 0.2
+  strongEnemyKnockback: 7
+  digDuration: 3
+  digCooldown: 8
+  digSpeed: 10
+  emergeDamage: 12
+  emergeKnockback: 15
+  emergeRadius: 2.5
+  emergeAnimDuration: 0.6
+  emergeDamageDelay: 0.3
+  hitKnockbackPower: 5
+  hitInvincibilityDuration: 1
+  attackPoint: {fileID: 676693712535734591}
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  boxSize: {x: 2.92, y: 0.26}
+  castDistance: 0.09
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!50 &6901964944147935251
 Rigidbody2D:
   serializedVersion: 5

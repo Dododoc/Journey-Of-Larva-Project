@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic; // 리스트 사용을 위해 추가
+using System.Collections.Generic;
 
 public class AntController : MonoBehaviour
 {
@@ -19,9 +19,7 @@ public class AntController : MonoBehaviour
     public float strongDamageMultiplier = 2.5f;
     public float strongAttackDelay = 0.25f; 
     public float strongCooldown = 3.0f;
-    // ★ [수정] 흡혈 비율 0.2로 감소
     public float lifestealRatio = 0.2f; 
-    // ★ [수정] 넉백 힘 7로 감소
     public float strongEnemyKnockback = 7f; 
     private bool canStrongAttack = true;
 
@@ -242,7 +240,6 @@ public class AntController : MonoBehaviour
         canStrongAttack = true;
     }
 
-    // 넉백/공격 시 끼임 방지용
     IEnumerator IgnoreCollisionRoutine(Collider2D enemyCol, float duration = 0.5f)
     {
         if (enemyCol == null || myCollider == null) yield break;
@@ -254,15 +251,11 @@ public class AntController : MonoBehaviour
             Physics2D.IgnoreCollision(myCollider, enemyCol, false);
     }
 
-    // ★ [추가] 땅에서 나올 때 주변 모든 적과 충돌 무시 (끼임 해결)
     void PreventStuckOnEmerge()
     {
-        // 내 주변(반경 2.5)에 있는 모든 적을 찾음
         Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(transform.position, emergeRadius, enemyLayers);
-        
         foreach (Collider2D enemy in nearbyEnemies)
         {
-            // 그 적들과 2초 동안 물리 충돌을 끈다 (서로 통과됨)
             StartCoroutine(IgnoreCollisionRoutine(enemy, 2.0f));
         }
     }
@@ -298,7 +291,22 @@ public class AntController : MonoBehaviour
             myStats.Heal(totalHeal);
     }
 
+    // --- 충돌 감지 (수정됨) ---
+
     void OnCollisionEnter2D(Collision2D collision)
+    {
+        // 무적이어도 공격중이면 캔슬돼야 하므로 '공격중' 조건은 여기서 빼는 게 좋음
+        // (즉, 공격하다가도 맞을 수 있음)
+        if (isUnderground || isDiggingAnim || isInvincible) return;
+
+        if (collision.gameObject.CompareTag("Enemy"))
+            HandleCollisionDamage(collision.gameObject);
+    }
+
+    // ★ [추가] 비비고 있을 때도 충돌 판정 (이미 붙어있는데 때리면 넉백돼야 함)
+    // 하지만 "내가 적을 때리는 판정"은 보통 'ApplyDamage' 함수에서 처리하므로,
+    // 여기서는 "적이 나를 계속 비벼서 아프게 하는 상황"을 처리합니다.
+    void OnCollisionStay2D(Collision2D collision)
     {
         if (isUnderground || isDiggingAnim || isInvincible) return;
 
@@ -314,13 +322,23 @@ public class AntController : MonoBehaviour
             HandleCollisionDamage(other.gameObject);
     }
 
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (isUnderground || isDiggingAnim || isInvincible) return;
+
+        if (other.CompareTag("Enemy") || other.CompareTag("Trap")) 
+            HandleCollisionDamage(other.gameObject);
+    }
+
     void HandleCollisionDamage(GameObject target)
     {
+        // 1. 데미지 입기
         EnemyStats enemyStats = target.GetComponent<EnemyStats>();
         float damageToTake = (enemyStats != null) ? enemyStats.attackDamage : 10f; 
 
         if (myStats != null) myStats.TakeDamage(damageToTake);
 
+        // 2. 넉백 적용
         float pushDirX = (transform.position.x < target.transform.position.x) ? -1f : 1f;
         Vector2 knockbackDir = new Vector2(pushDirX, 1.5f).normalized;
         
@@ -331,33 +349,25 @@ public class AntController : MonoBehaviour
 
     public void ApplyKnockback(Vector2 force)
     {
-        // 1. 진행 중인 모든 공격/스킬 로직 중단
         isBasicAttacking = false;
         isStrongAttacking = false;
-        isDiggingAnim = false; // 땅파기 모션도 취소
-        canDig = true;         // 스킬 쿨타임 등의 꼬임 방지
+        isDiggingAnim = false; 
+        canDig = true;         
         canStrongAttack = true;
 
         StopAllCoroutines(); 
 
-        // 2. ★ [핵심] 공격 애니메이션 예약된 것들 모두 취소
         anim.ResetTrigger("DoAttack");
         anim.ResetTrigger("DoStrongAttack");
         anim.ResetTrigger("DoDig");
         anim.ResetTrigger("DoEmerge");
 
-        // 3. ★ [핵심] 강제로 피격 모션(또는 점프 모션)으로 전환
-        // "Hit"라는 애니메이션이 있다면 anim.SetTrigger("DoHit"); 을 쓰겠지만,
-        // 지금은 없으므로 강제로 '점프(공중)' 상태로 보내서 공격 모션을 끊어버립니다.
-        anim.Play("Ant_Fly", 0, 0f); // "Ant_Jump"는 점프 애니메이션 이름입니다. (확인 필요)
-        // 만약 점프 애니메이션 이름이 다르다면 그 이름을 넣거나, 
-        // 그냥 아래처럼 IsGrounded를 끄는 것만으로도 Animator 설정에 따라 바뀔 수 있습니다.
+        // 피격 시 강제로 점프 모션 (또는 피격 모션)
+        anim.Play("Ant_Fly", 0, 0f); 
 
-        // 4. 시각적 효과 (깜빡임, 방향)
         sr.color = Color.white;
         transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * (isFacingRight ? 1 : -1), Mathf.Abs(transform.localScale.y), transform.localScale.z);
 
-        // 5. 물리적 넉백 적용
         isKnockedBack = true;
         rb.gravityScale = defaultGravity;
         rb.linearVelocity = Vector2.zero; 
@@ -416,7 +426,6 @@ public class AntController : MonoBehaviour
             yield return null; 
         }
 
-        // --- 탈출 ---
         isUnderground = false; 
         isDiggingAnim = true; 
         
@@ -427,7 +436,6 @@ public class AntController : MonoBehaviour
         myCollider.enabled = true;
         rb.linearVelocity = Vector2.zero;
 
-        // ★ [핵심] 콜라이더가 켜지자마자, 내 위치에 있는 적들과 충돌을 끈다!
         PreventStuckOnEmerge();
 
         yield return new WaitForSeconds(emergeDamageDelay); 
@@ -461,6 +469,8 @@ public class AntController : MonoBehaviour
                 
                 enemyRb.linearVelocity = Vector2.zero;
                 enemyRb.AddForce(knockbackDir * emergeKnockback, ForceMode2D.Impulse);
+
+                StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>()));
             }
         }
     }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6314591417062857485}
   - component: {fileID: 593451201546337798}
   - component: {fileID: 7183255080575465575}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MantisA
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503514158930610623}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 63.300003, y: -2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f05032f84bfe6499793276e480d8ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  maxHp: 30
+  maxHp: 80
   currentHp: 0
   attackDamage: 10
   expReward: 50
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 6008954222222316175}
   - component: {fileID: 6281908779705051776}
   - component: {fileID: 9146176495466277672}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 70}
+  m_SizeDelta: {x: 500, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6281908779705051776
 CanvasRenderer:
@@ -316,7 +316,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6329621345220916430}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -350,7 +350,7 @@ GameObject:
   - component: {fileID: 1362015268228545644}
   - component: {fileID: 7689604012824108882}
   - component: {fileID: 1964451803517384025}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyHealthCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -374,8 +374,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 3.1}
-  m_SizeDelta: {x: 500, y: 70}
+  m_AnchoredPosition: {x: 0, y: 3.43}
+  m_SizeDelta: {x: 500, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1362015268228545644
 Canvas:
@@ -397,7 +397,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -701270523
   m_SortingOrder: 20
   m_TargetDisplay: 0
 --- !u!114 &7689604012824108882
@@ -451,7 +451,7 @@ GameObject:
   - component: {fileID: 2305255872921452796}
   - component: {fileID: 3851830864397750924}
   - component: {fileID: 1697040725085315489}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -474,8 +474,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.09996033, y: 0.29999924}
-  m_SizeDelta: {x: -36.800068, y: -27.800001}
+  m_AnchoredPosition: {x: -0.75, y: 0.125}
+  m_SizeDelta: {x: -36.960007, y: -8.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3851830864397750924
 CanvasRenderer:

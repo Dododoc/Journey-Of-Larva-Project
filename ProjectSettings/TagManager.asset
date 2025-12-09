@@ -50,8 +50,14 @@ TagManager:
   - name: Background
     uniqueID: 3585416207
     locked: 0
+  - name: light
+    uniqueID: 1505987285
+    locked: 0
   - name: Middleground
     uniqueID: 2082398435
+    locked: 0
+  - name: Sideground
+    uniqueID: 2620539535
     locked: 0
   - name: Character
     uniqueID: 1831104673

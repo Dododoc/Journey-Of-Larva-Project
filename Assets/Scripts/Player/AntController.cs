@@ -66,6 +66,9 @@ public class AntController : MonoBehaviour
     private float jumpCooldown; 
     private Vector2 surfaceNormal;
     private bool isFacingRight = true;
+    
+    // ★ [추가] 원래 크기를 기억하는 변수
+    private Vector3 defaultScale;
 
     void Start()
     {
@@ -75,6 +78,9 @@ public class AntController : MonoBehaviour
         myCollider = GetComponent<Collider2D>();
         myStats = GetComponent<PlayerStats>();
         defaultGravity = rb.gravityScale;
+
+        // ★ [추가] 게임 시작 시 원래 크기 저장
+        defaultScale = transform.localScale;
     }
 
     void Update()
@@ -223,9 +229,14 @@ public class AntController : MonoBehaviour
         canStrongAttack = false;
         isStrongAttacking = true;
         Color originalColor = sr.color;
-        Vector3 originalScale = transform.localScale;
+        
+        // ★ [수정] 현재 크기 대신 Start에서 저장한 defaultScale을 기준으로 1.1배
+        Vector3 bigScale = new Vector3(defaultScale.x * 1.1f, defaultScale.y * 1.1f, defaultScale.z);
+        // 방향 고려 (Flip 상태 유지)
+        if (!isFacingRight) bigScale.x *= -1;
+
         sr.color = new Color(1f, 0.8f, 0.8f); 
-        transform.localScale = new Vector3(originalScale.x * 1.1f, originalScale.y * 1.1f, originalScale.z);
+        transform.localScale = bigScale;
 
         anim.SetTrigger("DoStrongAttack"); 
         
@@ -234,7 +245,12 @@ public class AntController : MonoBehaviour
         ApplyDamage(attackPoint.position, attackRange * 1.5f, strongDamageMultiplier, true, strongEnemyKnockback);
         
         sr.color = originalColor;
-        transform.localScale = originalScale; 
+        
+        // ★ [수정] 복구할 때도 방향을 고려해서 defaultScale로 복구
+        Vector3 restoreScale = defaultScale;
+        if (!isFacingRight) restoreScale.x *= -1;
+        transform.localScale = restoreScale; 
+
         isStrongAttacking = false;
         yield return new WaitForSeconds(strongCooldown);
         canStrongAttack = true;
@@ -291,21 +307,14 @@ public class AntController : MonoBehaviour
             myStats.Heal(totalHeal);
     }
 
-    // --- 충돌 감지 (수정됨) ---
-
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // 무적이어도 공격중이면 캔슬돼야 하므로 '공격중' 조건은 여기서 빼는 게 좋음
-        // (즉, 공격하다가도 맞을 수 있음)
         if (isUnderground || isDiggingAnim || isInvincible) return;
 
         if (collision.gameObject.CompareTag("Enemy"))
             HandleCollisionDamage(collision.gameObject);
     }
 
-    // ★ [추가] 비비고 있을 때도 충돌 판정 (이미 붙어있는데 때리면 넉백돼야 함)
-    // 하지만 "내가 적을 때리는 판정"은 보통 'ApplyDamage' 함수에서 처리하므로,
-    // 여기서는 "적이 나를 계속 비벼서 아프게 하는 상황"을 처리합니다.
     void OnCollisionStay2D(Collision2D collision)
     {
         if (isUnderground || isDiggingAnim || isInvincible) return;
@@ -332,13 +341,11 @@ public class AntController : MonoBehaviour
 
     void HandleCollisionDamage(GameObject target)
     {
-        // 1. 데미지 입기
         EnemyStats enemyStats = target.GetComponent<EnemyStats>();
         float damageToTake = (enemyStats != null) ? enemyStats.attackDamage : 10f; 
 
         if (myStats != null) myStats.TakeDamage(damageToTake);
 
-        // 2. 넉백 적용
         float pushDirX = (transform.position.x < target.transform.position.x) ? -1f : 1f;
         Vector2 knockbackDir = new Vector2(pushDirX, 1.5f).normalized;
         
@@ -362,11 +369,14 @@ public class AntController : MonoBehaviour
         anim.ResetTrigger("DoDig");
         anim.ResetTrigger("DoEmerge");
 
-        // 피격 시 강제로 점프 모션 (또는 피격 모션)
         anim.Play("Ant_Fly", 0, 0f); 
 
         sr.color = Color.white;
-        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * (isFacingRight ? 1 : -1), Mathf.Abs(transform.localScale.y), transform.localScale.z);
+        
+        // ★ [핵심 수정] 넉백 당할 때 강제로 '원래 크기(defaultScale)'로 되돌림!
+        // 현재 보고 있는 방향은 유지
+        float direction = isFacingRight ? 1f : -1f;
+        transform.localScale = new Vector3(Mathf.Abs(defaultScale.x) * direction, Mathf.Abs(defaultScale.y), defaultScale.z);
 
         isKnockedBack = true;
         rb.gravityScale = defaultGravity;

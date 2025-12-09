@@ -1245,6 +1245,18 @@ PrefabInstance:
       propertyPath: playerHUD
       value: 
       objectReference: {fileID: 4851749276714347125}
+    - target: {fileID: 8541765989143691785, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: emergeDamageDelay
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8541765989143691785, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: emergeAnimDuration
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8541765989143691785, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: strongDamageMultiplier
+      value: 1.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

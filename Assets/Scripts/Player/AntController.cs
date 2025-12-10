@@ -67,7 +67,7 @@ public class AntController : MonoBehaviour
     private Vector2 surfaceNormal;
     private bool isFacingRight = true;
     
-    // ★ [추가] 원래 크기를 기억하는 변수
+    // ★ 원래 크기를 기억하는 변수
     private Vector3 defaultScale;
 
     void Start()
@@ -79,7 +79,7 @@ public class AntController : MonoBehaviour
         myStats = GetComponent<PlayerStats>();
         defaultGravity = rb.gravityScale;
 
-        // ★ [추가] 게임 시작 시 원래 크기 저장
+        // ★ 게임 시작 시 원래 크기 저장 (이게 있어야 복구 가능)
         defaultScale = transform.localScale;
     }
 
@@ -230,9 +230,7 @@ public class AntController : MonoBehaviour
         isStrongAttacking = true;
         Color originalColor = sr.color;
         
-        // ★ [수정] 현재 크기 대신 Start에서 저장한 defaultScale을 기준으로 1.1배
         Vector3 bigScale = new Vector3(defaultScale.x * 1.1f, defaultScale.y * 1.1f, defaultScale.z);
-        // 방향 고려 (Flip 상태 유지)
         if (!isFacingRight) bigScale.x *= -1;
 
         sr.color = new Color(1f, 0.8f, 0.8f); 
@@ -244,9 +242,9 @@ public class AntController : MonoBehaviour
         
         ApplyDamage(attackPoint.position, attackRange * 1.5f, strongDamageMultiplier, true, strongEnemyKnockback);
         
+        // 정상 종료 시 복구 코드 (맞아서 끊기면 여기 실행 안 됨)
         sr.color = originalColor;
         
-        // ★ [수정] 복구할 때도 방향을 고려해서 defaultScale로 복구
         Vector3 restoreScale = defaultScale;
         if (!isFacingRight) restoreScale.x *= -1;
         transform.localScale = restoreScale; 
@@ -371,10 +369,9 @@ public class AntController : MonoBehaviour
 
         anim.Play("Ant_Fly", 0, 0f); 
 
+        // ★ [핵심 수정]넉백 당할 때 강제로 색상을 '흰색'으로, 크기를 '원래 크기'로 초기화!
         sr.color = Color.white;
         
-        // ★ [핵심 수정] 넉백 당할 때 강제로 '원래 크기(defaultScale)'로 되돌림!
-        // 현재 보고 있는 방향은 유지
         float direction = isFacingRight ? 1f : -1f;
         transform.localScale = new Vector3(Mathf.Abs(defaultScale.x) * direction, Mathf.Abs(defaultScale.y), defaultScale.z);
 

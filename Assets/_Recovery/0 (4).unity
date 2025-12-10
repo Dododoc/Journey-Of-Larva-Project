@@ -7819,7 +7819,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 539.3, y: 10.65, z: -40}
+  m_LocalPosition: {x: 439.1, y: 8.750601, z: -40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10060,7 +10060,7 @@ Transform:
   m_GameObject: {fileID: 733094211}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 342.87122, y: 9.9, z: 0}
+  m_LocalPosition: {x: 342.87122, y: 6.06392, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14018,9 +14018,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: MantisA
       objectReference: {fileID: 0}
+    - target: {fileID: 503514158930610623, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 782579105386299274, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1167752012788346352, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 563.3
+      value: 533.02893
       objectReference: {fileID: 0}
     - target: {fileID: 1167752012788346352, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -14057,6 +14065,18 @@ PrefabInstance:
     - target: {fileID: 1167752012788346352, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1912670148207568004, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2814040320864807266, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5785171772978221488, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14698,7 +14718,7 @@ MonoBehaviour:
   CameraDistance: 40
   DeadZoneDepth: 0
   Composition:
-    ScreenPosition: {x: 0, y: 0}
+    ScreenPosition: {x: 0, y: 0.17}
     DeadZone:
       Enabled: 0
       Size: {x: 0.2, y: 0.2}
@@ -14707,7 +14727,7 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 6.35, z: 0}
+  TargetOffset: {x: 0, y: 0, z: 0}
   Damping: {x: 1, y: 1, z: 1}
   Lookahead:
     Enabled: 0
@@ -14766,7 +14786,7 @@ Transform:
   m_GameObject: {fileID: 1066356595}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 539.3, y: 10.65, z: -40}
+  m_LocalPosition: {x: 439.1, y: 8.750601, z: -40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17413,7 +17433,7 @@ Transform:
   m_GameObject: {fileID: 1253811743}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 597.7, y: 7.81, z: 0}
+  m_LocalPosition: {x: 564.24786, y: 7.81, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28811,7 +28831,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 539.3
+      value: 439.1
       objectReference: {fileID: 0}
     - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
       propertyPath: m_LocalPosition.y
@@ -28852,10 +28872,6 @@ PrefabInstance:
     - target: {fileID: 2883033676194067544, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
       propertyPath: m_Name
       value: Player_Ant
-      objectReference: {fileID: 0}
-    - target: {fileID: 7298030837633013142, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: moveSpeed
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29243,7 +29259,6 @@ SceneRoots:
   - {fileID: 1225924959}
   - {fileID: 690635118}
   - {fileID: 1346305500}
-  - {fileID: 2114877421}
   - {fileID: 1970919731}
   - {fileID: 1607543594}
   - {fileID: 1333130667}
@@ -29257,6 +29272,7 @@ SceneRoots:
   - {fileID: 1359653923}
   - {fileID: 789454325}
   - {fileID: 1253811746}
+  - {fileID: 2114877421}
   - {fileID: 581511789}
   - {fileID: 1033818322}
   - {fileID: 776277271}

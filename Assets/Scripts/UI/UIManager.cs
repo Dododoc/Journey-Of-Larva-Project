@@ -58,7 +58,7 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 1f; 
         }
 
-        PlayerStats player = FindObjectOfType<PlayerStats>();
+        PlayerStats player = FindFirstObjectByType<PlayerStats>();
         if (player != null) player.Respawn();
     }
 

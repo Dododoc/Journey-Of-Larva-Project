@@ -349,7 +349,7 @@ MonoBehaviour:
   liftDamage: 30
   liftRange: 2.5
   liftCatchDelay: 0.05
-  liftThrowDelay: 0.2
+  liftThrowDelay: 0.25
   liftThrowForce: 15
   liftCooldown: 3
   diveSpeed: 20
@@ -360,7 +360,7 @@ MonoBehaviour:
   impactRadius: 3.5
   impactKnockback1: 5
   impactDamage2: 40
-  impactDelay2: 0.15
+  impactDelay2: 0.1
   impactKnockback2: 15
   hitKnockbackPower: 3
   hitInvincibilityDuration: 1

@@ -556,7 +556,7 @@ GameObject:
   - component: {fileID: 236813996}
   - component: {fileID: 236813995}
   - component: {fileID: 236813994}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -682,6 +682,96 @@ Transform:
   m_Children: []
   m_Father: {fileID: 391157484}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &246350829
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 246350830}
+  - component: {fileID: 246350831}
+  m_Layer: 0
+  m_Name: sand tree-Photoroom_0 (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &246350830
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246350829}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0.015067158, w: 0.9998865}
+  m_LocalPosition: {x: 112.1, y: -58.467953, z: 0}
+  m_LocalScale: {x: 2.2816002, y: 2.2816002, z: 2.2816}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 391157484}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.727}
+--- !u!212 &246350831
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246350829}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 2082398435
+  m_SortingLayer: 4
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -8007436643783113041, guid: 9a31debdc3b54f74c862dd68c39f8743, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 8.97, y: 12.79}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &278099924
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,7 +783,7 @@ GameObject:
   - component: {fileID: 278099927}
   - component: {fileID: 278099926}
   - component: {fileID: 278099925}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform-Photoroom_0 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -920,7 +1010,7 @@ GameObject:
   - component: {fileID: 345933674}
   - component: {fileID: 345933673}
   - component: {fileID: 345933672}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1097,6 +1187,7 @@ Transform:
   - {fileID: 345933674}
   - {fileID: 342923339}
   - {fileID: 1046940928}
+  - {fileID: 246350830}
   - {fileID: 1472394629}
   - {fileID: 1365554357}
   - {fileID: 1073627793}
@@ -1116,7 +1207,7 @@ GameObject:
   - component: {fileID: 412214421}
   - component: {fileID: 412214420}
   - component: {fileID: 412214419}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform-Photoroom_0 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1285,7 +1376,7 @@ GameObject:
   - component: {fileID: 433345283}
   - component: {fileID: 433345282}
   - component: {fileID: 433345281}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1422,7 +1513,7 @@ GameObject:
   - component: {fileID: 437896006}
   - component: {fileID: 437896005}
   - component: {fileID: 437896004}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2041,7 +2132,7 @@ Transform:
   m_GameObject: {fileID: 504073434}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 127.43671, y: -63.367954, z: 0}
+  m_LocalPosition: {x: 101.6, y: -63.367954, z: 0}
   m_LocalScale: {x: 1.464, y: 1.464, z: 1.464}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2128,7 +2219,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 13.09
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2153,7 +2244,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 562.5, y: 48.2, z: -40}
+  m_LocalPosition: {x: 566, y: 20.8, z: -40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2426,7 +2517,7 @@ GameObject:
   - component: {fileID: 602339542}
   - component: {fileID: 602339541}
   - component: {fileID: 602339540}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform-Photoroom_0 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2563,7 +2654,7 @@ GameObject:
   - component: {fileID: 646687870}
   - component: {fileID: 646687869}
   - component: {fileID: 646687868}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform-Photoroom_0 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2700,7 +2791,7 @@ GameObject:
   - component: {fileID: 659362118}
   - component: {fileID: 659362117}
   - component: {fileID: 659362116}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3007,6 +3098,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!4 &980220032 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+  m_PrefabInstance: {fileID: 1539249645}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &982941408
 GameObject:
   m_ObjectHideFlags: 0
@@ -3018,7 +3114,7 @@ GameObject:
   - component: {fileID: 982941411}
   - component: {fileID: 982941410}
   - component: {fileID: 982941409}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform-Photoroom_0 (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3380,7 +3476,7 @@ MonoBehaviour:
   CameraDistance: 40
   DeadZoneDepth: 0
   Composition:
-    ScreenPosition: {x: 0, y: 0}
+    ScreenPosition: {x: 0, y: 0.25}
     DeadZone:
       Enabled: 0
       Size: {x: 0.2, y: 0.2}
@@ -3416,12 +3512,12 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 1753135849}
+    TrackingTarget: {fileID: 980220032}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60
-    OrthographicSize: 13.09
+    OrthographicSize: 15
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -3448,7 +3544,7 @@ Transform:
   m_GameObject: {fileID: 1066356595}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 562.5, y: 48.2, z: -40}
+  m_LocalPosition: {x: 566, y: 20.8, z: -40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3464,7 +3560,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1073627793}
   - component: {fileID: 1073627792}
-  - component: {fileID: 1073627791}
   m_Layer: 0
   m_Name: sand tree-Photoroom_0 (4)
   m_TagString: Untagged
@@ -3472,52 +3567,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &1073627791
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1073627790}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: -0.15704852, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.97, y: 12.79}
-    newSize: {x: 8.97, y: 12.79}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 2.0924416, y: 12.79}
-  m_EdgeRadius: 0
 --- !u!212 &1073627792
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3666,7 +3715,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1094795431}
   m_BodyType: 0
-  m_Simulated: 1
+  m_Simulated: 0
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 150
@@ -4334,7 +4383,7 @@ GameObject:
   - component: {fileID: 1292081317}
   - component: {fileID: 1292081316}
   - component: {fileID: 1292081315}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform-Photoroom_0 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4854,7 +4903,7 @@ GameObject:
   - component: {fileID: 1366958686}
   - component: {fileID: 1366958685}
   - component: {fileID: 1366958684}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform-Photoroom_0 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4991,7 +5040,7 @@ GameObject:
   - component: {fileID: 1393888117}
   - component: {fileID: 1393888116}
   - component: {fileID: 1393888115}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5128,7 +5177,7 @@ GameObject:
   - component: {fileID: 1400738740}
   - component: {fileID: 1400738739}
   - component: {fileID: 1400738738}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform-Photoroom_0 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5478,7 +5527,7 @@ GameObject:
   - component: {fileID: 1477584877}
   - component: {fileID: 1477584876}
   - component: {fileID: 1477584875}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5615,7 +5664,7 @@ GameObject:
   - component: {fileID: 1479801466}
   - component: {fileID: 1479801465}
   - component: {fileID: 1479801464}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform-Photoroom_0 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5752,7 +5801,7 @@ GameObject:
   - component: {fileID: 1515421557}
   - component: {fileID: 1515421556}
   - component: {fileID: 1515421555}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform-Photoroom_0 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5878,6 +5927,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 391157484}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1539249645
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 566
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2883033676194067544, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: m_Name
+      value: Player_Ant (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298030837633013142, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+      propertyPath: moveSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
 --- !u!1 &1564369461
 GameObject:
   m_ObjectHideFlags: 0
@@ -5889,7 +5999,7 @@ GameObject:
   - component: {fileID: 1564369464}
   - component: {fileID: 1564369463}
   - component: {fileID: 1564369462}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6026,7 +6136,7 @@ GameObject:
   - component: {fileID: 1661105408}
   - component: {fileID: 1661105407}
   - component: {fileID: 1661105406}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6152,11 +6262,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 391157484}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1753135849 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-  m_PrefabInstance: {fileID: 5669468503658218645}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1792671499
 GameObject:
   m_ObjectHideFlags: 0
@@ -6391,7 +6496,7 @@ GameObject:
   - component: {fileID: 1973331963}
   - component: {fileID: 1973331962}
   - component: {fileID: 1973331961}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sand platform-Photoroom_0 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7024,63 +7129,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1792671500}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &5669468503658218645
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 562.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 48.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2375941918907307760, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2883033676194067544, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: m_Name
-      value: Player_Ant
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -7091,7 +7139,6 @@ SceneRoots:
   - {fileID: 1425192199}
   - {fileID: 1066356598}
   - {fileID: 1456767435}
-  - {fileID: 5669468503658218645}
   - {fileID: 2087177991}
   - {fileID: 2103519619}
   - {fileID: 426550552}
@@ -7099,3 +7146,4 @@ SceneRoots:
   - {fileID: 391157484}
   - {fileID: 2070091750}
   - {fileID: 1007393883}
+  - {fileID: 1539249645}

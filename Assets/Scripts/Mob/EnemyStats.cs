@@ -4,28 +4,54 @@ using UnityEngine.UI;
 public class EnemyStats : MonoBehaviour
 {
     [Header("Enemy Stats")]
-    public float maxHp = 30f;       // 최대 체력
-    public float currentHp;         // 현재 체력
-    public float attackDamage = 10f; // 공격력
-    public float expReward = 50f;   // ★ [추가] 이 몬스터를 잡으면 주는 경험치
+    public float maxHp = 30f;       
+    public float currentHp;         
+    public float attackDamage = 10f; 
+    public float expReward = 50f;   
 
-    [Header("HP Bar UI")]
+    [Header("HP Bar UI (일반 몬스터용)")]
     public Image hpBarFill;     
     public GameObject hpCanvas; 
+
+    // ★ [수정] private -> public으로 바꿔서 Inspector에서 보이게 함
+    [Header("Boss UI (직접 드래그해서 넣으세요)")]
+    public Image bossScreenHPBar; 
+
+    private BossAntlion bossScript;
 
     void Start()
     {
         currentHp = maxHp;
+        bossScript = GetComponent<BossAntlion>(); 
+
+        // ★ [수정] 코드로 찾는 기능 삭제 -> 이미 Inspector에서 넣었을 테니까!
+        
+        // 만약 보스 HP바가 연결되어 있다면?
+        if (bossScreenHPBar != null)
+        {
+            // 1. 꺼져있을 수도 있으니 강제로 켠다! (부모인 프레임까지 켜주면 더 좋음)
+            bossScreenHPBar.gameObject.SetActive(true);
+            
+            // (팁: 만약 프레임 전체를 껐다 켰다 하려면 프레임 오브젝트도 변수로 받아서 켜야 함)
+            // 일단은 바라도 켜지게 설정.
+            if(bossScreenHPBar.transform.parent != null)
+                bossScreenHPBar.transform.parent.gameObject.SetActive(true);
+                
+            // 2. 일반 몬스터용 HP바는 끈다.
+            if (hpCanvas != null) hpCanvas.SetActive(false);
+        }
+
         UpdateHPBar(); 
     }
 
     public void TakeDamage(float damage)
     {
-        currentHp -= damage;
-        // Debug.Log($"적 피격! 남은 체력: {currentHp}"); // 로그가 너무 많으면 주석 처리
+        if (currentHp <= 0) return;
 
+        currentHp -= damage;
         UpdateHPBar();
 
+        if (bossScript != null) bossScript.OnHit();
         if (currentHp <= 0)
         {
             Die();
@@ -34,12 +60,15 @@ public class EnemyStats : MonoBehaviour
 
     void UpdateHPBar()
     {
-        if (hpBarFill != null)
+        float fillAmount = (maxHp > 0) ? currentHp / maxHp : 0;
+
+        if (bossScreenHPBar != null)
         {
-            if (maxHp > 0)
-                hpBarFill.fillAmount = currentHp / maxHp;
-            else
-                hpBarFill.fillAmount = 0;
+            bossScreenHPBar.fillAmount = fillAmount;
+        }
+        else if (hpBarFill != null)
+        {
+            hpBarFill.fillAmount = fillAmount;
         }
     }
 
@@ -47,25 +76,27 @@ public class EnemyStats : MonoBehaviour
     {
         Debug.Log($"적 사망! 경험치 {expReward} 획득");
         
-        // ★ [추가] 죽는 순간 플레이어를 찾아서 경험치를 줌
-        // (Scene에 있는 PlayerStats를 가진 오브젝트를 찾음)
         PlayerStats player = FindObjectOfType<PlayerStats>();
-        if (player != null)
+        if (player != null) player.GainExp(expReward);
+
+        if (hpCanvas != null) hpCanvas.SetActive(false);
+        
+        // ★ [추가] 보스가 죽으면 화면 HP바 끄기
+        if (bossScreenHPBar != null)
         {
-            player.GainExp(expReward);
+             if(bossScreenHPBar.transform.parent != null)
+                bossScreenHPBar.transform.parent.gameObject.SetActive(false);
+             else
+                bossScreenHPBar.gameObject.SetActive(false);
         }
 
-        // HP바 끄기
-        if (hpCanvas != null) 
-            hpCanvas.SetActive(false);
-
-        // 적 삭제
-        Destroy(gameObject); 
+        if (bossScript != null) bossScript.StartDeathSequence();
+        else Destroy(gameObject); 
     }
 
     void LateUpdate() 
     {
-        if (hpCanvas != null)
+        if (hpCanvas != null && hpCanvas.activeSelf)
         {
             hpCanvas.transform.rotation = Quaternion.identity;
         }

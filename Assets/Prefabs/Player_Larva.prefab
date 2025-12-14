@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 8428160254218063514}
   - component: {fileID: 4600972623636143870}
   m_Layer: 7
-  m_Name: Larva
+  m_Name: Player_Larva
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

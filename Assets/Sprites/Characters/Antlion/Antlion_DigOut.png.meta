@@ -1,0 +1,359 @@
+fileFormatVersion: 2
+guid: 0c3909dab0e316f41be5c54f1f52f6a3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3889295434153917023
+    second: Antlion_DigOut_0
+  - first:
+      213: -7413280333968967719
+    second: Antlion_DigOut_1
+  - first:
+      213: -5400527706902893067
+    second: Antlion_DigOut_2
+  - first:
+      213: 8585778628786119990
+    second: Antlion_DigOut_3
+  - first:
+      213: 6111726710529104019
+    second: Antlion_DigOut_4
+  - first:
+      213: 7326029445274249806
+    second: Antlion_DigOut_5
+  - first:
+      213: 1540483078620474490
+    second: Antlion_DigOut_6
+  - first:
+      213: 801906956139905683
+    second: Antlion_DigOut_7
+  - first:
+      213: 7055795693868379862
+    second: Antlion_DigOut_8
+  - first:
+      213: -5805969194484311050
+    second: Antlion_DigOut_9
+  - first:
+      213: 8557370287771963646
+    second: Antlion_DigOut_10
+  - first:
+      213: 1853640549325373154
+    second: Antlion_DigOut_11
+  - first:
+      213: -3776101192566229146
+    second: Antlion_DigOut_12
+  - first:
+      213: 5159085196452656734
+    second: Antlion_DigOut_13
+  - first:
+      213: -6081930014506696842
+    second: Antlion_DigOut_14
+  - first:
+      213: -2450754566646890597
+    second: Antlion_DigOut_15
+  - first:
+      213: -9040636127139926147
+    second: Antlion_DigOut_16
+  - first:
+      213: 8726178905019451713
+    second: Antlion_DigOut_17
+  - first:
+      213: -9119716349257669867
+    second: Antlion_DigOut_18
+  - first:
+      213: -5643436890533807129
+    second: Antlion_DigOut_19
+  - first:
+      213: -3649688689230565730
+    second: Antlion_DigOut_20
+  - first:
+      213: -7119127375393256863
+    second: Antlion_DigOut_21
+  - first:
+      213: 4509184993992479227
+    second: Antlion_DigOut_22
+  - first:
+      213: -886724903479344733
+    second: Antlion_DigOut_23
+  - first:
+      213: -5454702464209630318
+    second: Antlion_DigOut_24
+  - first:
+      213: -3796621304468777682
+    second: Antlion_DigOut_25
+  - first:
+      213: 7443921170683904638
+    second: Antlion_DigOut_26
+  - first:
+      213: -2207178658604329149
+    second: Antlion_DigOut_27
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 73
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Antlion_DigOut_0
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 1220
+        width: 542
+        height: 144
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a505b4b862760ac0800000000000000
+      internalID: -3889295434153917023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Antlion_DigOut_2
+      rect:
+        serializedVersion: 2
+        x: 1250
+        y: 1199
+        width: 800
+        height: 301
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fde56ee9a87d05b0800000000000000
+      internalID: -5400527706902893067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Antlion_DigOut_3
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 621
+        width: 877
+        height: 340
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 635efe86c20d62770800000000000000
+      internalID: 8585778628786119990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Antlion_DigOut_4
+      rect:
+        serializedVersion: 2
+        x: 1228
+        y: 608
+        width: 901
+        height: 501
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3989a59df0731d450800000000000000
+      internalID: 6111726710529104019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Antlion_DigOut_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 14
+        width: 965
+        height: 510
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4aaf9b27f84ba560800000000000000
+      internalID: 7326029445274249806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Antlion_DigOut_7
+      rect:
+        serializedVersion: 2
+        x: 1222
+        y: 0
+        width: 891
+        height: 511
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39242afb022f02b00800000000000000
+      internalID: 801906956139905683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: ac03be2d8f041ad47bca1226fafee901
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Antlion_DigOut_0: -3889295434153917023
+      Antlion_DigOut_1: -7413280333968967719
+      Antlion_DigOut_10: 8557370287771963646
+      Antlion_DigOut_2: -5400527706902893067
+      Antlion_DigOut_3: 8585778628786119990
+      Antlion_DigOut_4: 6111726710529104019
+      Antlion_DigOut_5: 7326029445274249806
+      Antlion_DigOut_6: 1540483078620474490
+      Antlion_DigOut_7: 801906956139905683
+      Antlion_DigOut_8: 7055795693868379862
+      Antlion_DigOut_9: -5805969194484311050
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class AntController : MonoBehaviour
 {
     [Header("1. 움직임 설정")]
@@ -48,7 +49,7 @@ public class AntController : MonoBehaviour
     public Vector2 boxSize = new Vector2(0.8f, 0.2f); 
     public float castDistance = 0.3f; 
     public LayerMask groundLayer;      
-
+    public bool IsUnderground => isUnderground;
     // 상태 변수
     private bool isStrongAttacking = false;
     private bool isUnderground = false; 

@@ -128,8 +128,8 @@ MonoBehaviour:
   emergeRadius: 2.5
   emergeAnimDuration: 0.6
   emergeDamageDelay: 0.3
-  hitKnockbackPower: 5
-  hitInvincibilityDuration: 1
+  hitKnockbackPower: 7
+  hitInvincibilityDuration: 1.5
   attackPoint: {fileID: 676693712535734591}
   enemyLayers:
     serializedVersion: 2
@@ -225,6 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   playerHUD: {fileID: 0}
+  hitEffectPrefab: {fileID: 0}
   currentLevel: 1
   currentExp: 0
   expToNextLevel: 0

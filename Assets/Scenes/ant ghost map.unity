@@ -6437,14 +6437,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_Ant
       objectReference: {fileID: 0}
-    - target: {fileID: 6671431317961985807, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: hitKnockbackPower
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6671431317961985807, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: hitInvincibilityDuration
-      value: 1.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6747504010959678914, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
       propertyPath: playerHUD
       value: 

@@ -1228,26 +1228,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 6923550545883826053, guid: 502e660bdc2329947b411de5172e2bbe, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 6923550545883826053, guid: 502e660bdc2329947b411de5172e2bbe, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 6923550545883826053, guid: 502e660bdc2329947b411de5172e2bbe, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 6923550545883826053, guid: 502e660bdc2329947b411de5172e2bbe, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 360.78
-      objectReference: {fileID: 0}
-    - target: {fileID: 6923550545883826053, guid: 502e660bdc2329947b411de5172e2bbe, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -228.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6457,22 +6437,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_Ant
       objectReference: {fileID: 0}
-    - target: {fileID: 6671431317961985807, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: digSpeed
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 6671431317961985807, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: moveSpeed
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6747504010959678914, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
       propertyPath: playerHUD
       value: 
       objectReference: {fileID: 1430879468}
-    - target: {fileID: 7298030837633013142, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
-      propertyPath: moveSpeed
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6998,8 +6966,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 980220032}
     - target: {fileID: 4253688884654872387, guid: 25c59097b3299b24ead259c7f78c347c, type: 3}
-      propertyPath: detectionRange
-      value: 15
+      propertyPath: spikeDamage
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253688884654872387, guid: 25c59097b3299b24ead259c7f78c347c, type: 3}
+      propertyPath: stoneDamage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253688884654872387, guid: 25c59097b3299b24ead259c7f78c347c, type: 3}
+      propertyPath: touchDamage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253688884654872387, guid: 25c59097b3299b24ead259c7f78c347c, type: 3}
+      propertyPath: digOutDamage
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253688884654872387, guid: 25c59097b3299b24ead259c7f78c347c, type: 3}
+      propertyPath: vortexMaxDamage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253688884654872387, guid: 25c59097b3299b24ead259c7f78c347c, type: 3}
+      propertyPath: vortexMinDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253688884654872387, guid: 25c59097b3299b24ead259c7f78c347c, type: 3}
+      propertyPath: vortexPullRange
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253688884654872387, guid: 25c59097b3299b24ead259c7f78c347c, type: 3}
+      propertyPath: vortexDamageRange
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7916375269708417408, guid: 25c59097b3299b24ead259c7f78c347c, type: 3}
       propertyPath: bossUIFrame

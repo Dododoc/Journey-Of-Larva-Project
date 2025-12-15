@@ -94,7 +94,7 @@ public class BossAntlion : MonoBehaviour
         if(sr != null) sr.enabled = true;
 
         // 2. 등장 애니메이션 '즉시' 재생
-        anim.Play("DigOut"); 
+        anim.Play("Antlion_DigOut"); 
         yield return new WaitForSeconds(1.0f); 
 
         // 3. 피격 판정 켜기

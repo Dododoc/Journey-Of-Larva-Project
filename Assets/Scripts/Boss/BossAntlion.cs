@@ -11,14 +11,19 @@ public class BossAntlion : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr; 
 
+    [Header("감지 설정")]
+    public float detectionRange = 15.0f; // 플레이어 감지 거리
+
     [Header("스킬 프리팹 & 위치")]
     public GameObject spikePrefab;   
     public GameObject[] sandStones;  
     public Transform mouthPos;       
 
-    [Header("이펙트 설정 (신규)")]
+    [Header("이펙트 설정")]
     public GameObject vortexEffectPrefab; // 소용돌이 지속 이펙트
     public GameObject stoneBreakEffect;   // 돌이 깨질 때 나오는 이펙트
+    
+    // [삭제됨] hitImpactPrefab (타격 이펙트는 안 쓰기로 함)
 
     [Header("패턴 변수")]
     public float chargeSpeed = 10f;
@@ -32,7 +37,8 @@ public class BossAntlion : MonoBehaviour
     public float sandRainHeight = 8.0f;  
     public float chargeDuration = 2.5f;  
     public int sandRainCount = 3;   
-    public float chargeStartDelay = 2.0f; // 돌진 전 대기 시간 (기본 1초)     
+    public float chargeStartDelay = 2.0f; // 돌진 전 뜸 들이는 시간
+    public float diggingChaseTime = 2.5f; // 땅속 추적 시간
 
     [Header("데미지 설정")]
     public float touchDamage = 10f;     
@@ -57,10 +63,63 @@ public class BossAntlion : MonoBehaviour
         if(player == null && GameObject.FindWithTag("Player") != null) 
             player = GameObject.FindWithTag("Player").transform;
         
+        StartCoroutine(WaitPlayerRoutine());
+    }
+
+    // --- [1단계: 대기 모드] ---
+    IEnumerator WaitPlayerRoutine()
+    {
+        // 보스 숨기기 (무적 + 투명)
+        GetComponent<Collider2D>().enabled = false;
+        if(sr != null) sr.enabled = false;
+
+        while (player != null)
+        {
+            float dist = Vector2.Distance(transform.position, player.position);
+            
+            // 감지 거리 안으로 들어오면 등장!
+            if (dist <= detectionRange)
+            {
+                StartCoroutine(IntroSequence());
+                yield break; 
+            }
+            yield return null;
+        }
+    }
+
+    // --- [2단계: 등장 연출 (Intro)] ---
+    IEnumerator IntroSequence()
+    {
+        // 1. 보스 모습 켜기
+        if(sr != null) sr.enabled = true;
+
+        // 2. 등장 애니메이션 '즉시' 재생
+        anim.Play("DigOut"); 
+        yield return new WaitForSeconds(1.0f); 
+
+        // 3. 피격 판정 켜기
+        GetComponent<Collider2D>().enabled = true;
+
+        // 4. 체력바 UI 켜기
+        EnemyStats stats = GetComponent<EnemyStats>();
+        if (stats != null) stats.ShowBossUI();
+
+        // 5. 포효!
+        anim.SetTrigger("DoRoar");
+        yield return new WaitForSeconds(1.5f);
+
+        // 6. 애니메이션 상태 초기화
+        anim.SetBool("DoWalk", false);
+        anim.SetBool("DoVortex", false);
+        anim.SetBool("IsCharging", false);
+        anim.ResetTrigger("DoDigOut");
+        anim.ResetTrigger("DoRoar");
+
+        // 7. 전투 시작
         StartCoroutine(ThinkRoutine());
     }
 
-    // --- [AI 메인 루프] ---
+    // --- [3단계: 전투 AI 루프] ---
     IEnumerator ThinkRoutine()
     {
         while (!isDead)
@@ -86,7 +145,6 @@ public class BossAntlion : MonoBehaviour
     // --- [패턴 0: 걷기 & 추적] ---
     IEnumerator IdleAndMove()
     {
-        // 플레이어 재탐색 (안전장치)
         if (player == null)
         {
             GameObject p = GameObject.FindWithTag("Player");
@@ -107,10 +165,9 @@ public class BossAntlion : MonoBehaviour
                 anim.SetBool("DoWalk", true);
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, transform.position.y), moveSpeed * Time.deltaTime);
                 
-                if (player.position.x > transform.position.x) 
-                    transform.localScale = new Vector3(-1, 1, 1);
-                else 
-                    transform.localScale = new Vector3(1, 1, 1);
+                // 좌우 반전 (스케일 유지하며 X축만 변경)
+                float scaleX = (player.position.x > transform.position.x) ? -1 : 1;
+                transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
             }
             else
             {
@@ -145,8 +202,6 @@ public class BossAntlion : MonoBehaviour
             GameObject spike = Instantiate(spikePrefab, targetPos, Quaternion.identity);
             DamageDealer dealer = spike.AddComponent<DamageDealer>();
             dealer.damage = spikeDamage;
-            // 가시는 사라지는 이펙트가 따로 없으므로 hitEffectPrefab 설정 안 함 (필요시 추가)
-            
             Destroy(spike, 1.5f);
         }
     }
@@ -169,20 +224,14 @@ public class BossAntlion : MonoBehaviour
 
         for (int i = 0; i < sandRainCount; i++)
         {
-            float targetX = transform.position.x; 
-            if (player != null) 
-            {
-                targetX = player.position.x + Random.Range(-2.5f, 2.5f);
-            }
-
+            float targetX = (player != null) ? player.position.x + Random.Range(-2.5f, 2.5f) : transform.position.x;
             Vector3 spawnPos = new Vector3(targetX, sandRainHeight, 0); 
 
             GameObject stone = Instantiate(sandStones[Random.Range(0, sandStones.Length)], spawnPos, Quaternion.identity);
             
-            // 데미지 딜러 설정 및 이펙트 전달
             DamageDealer dealer = stone.AddComponent<DamageDealer>();
             dealer.damage = stoneDamage;
-            dealer.hitEffectPrefab = stoneBreakEffect; // ★ 이펙트 전달
+            dealer.hitEffectPrefab = stoneBreakEffect; 
 
             yield return new WaitForSeconds(Random.Range(0.2f, 0.5f));
         }
@@ -195,106 +244,99 @@ public class BossAntlion : MonoBehaviour
         GetComponent<Collider2D>().enabled = false; 
         yield return new WaitForSeconds(1.0f);
         
-        if (Random.value > 0.5f) // 50% 확률로 소용돌이 패턴
+        // 1. 소용돌이 위치로 이동 (접근)
+        float approachTime = 0f;
+        while (approachTime < 1.5f)
         {
-            // Digging 접근
-            float approachTime = 0f;
-            float approachDuration = 1.5f; 
-
-            while (approachTime < approachDuration)
-            {
-                if (player != null)
-                {
-                    float targetX = Mathf.MoveTowards(transform.position.x, player.position.x, moveSpeed * 3.0f * Time.deltaTime);
-                    transform.position = new Vector3(targetX, transform.position.y, 0);
-
-                    if (Mathf.Abs(transform.position.x - player.position.x) < 1.0f) 
-                        break;
-                }
-                approachTime += Time.deltaTime;
-                yield return null;
-            }
-            
-            // 소용돌이 시작
-            anim.SetBool("DoVortex", true);
-            
-            // ★ 소용돌이 이펙트 생성
-            GameObject currentVortexEffect = null;
-            if (vortexEffectPrefab != null)
-            {
-                currentVortexEffect = Instantiate(vortexEffectPrefab, transform.position, Quaternion.identity);
-            }
-
-            yield return new WaitForSeconds(0.5f); 
-
-            // Vortexing 로직
-            float timer = vortexDuration;
-            float damageTick = 0f; 
-
-            while (timer > 0)
-            {
-                // 이펙트 위치 동기화
-                if (currentVortexEffect != null) 
-                    currentVortexEffect.transform.position = transform.position;
-
-                if (player != null)
-                {
-                    float dist = Vector2.Distance(player.position, transform.position);
-                    
-                    // 1. 빨아들이기 (넓은 범위)
-                    if (dist < vortexPullRange) 
-                    {
-                        Vector2 pullDir = (transform.position - player.position).normalized;
-                        player.Translate(pullDir * vortexPullPower * Time.deltaTime);
-
-                        // 2. 데미지 입히기 (좁은 중심부 범위)
-                        if (dist < vortexDamageRange)
-                        {
-                            damageTick -= Time.deltaTime;
-                            if (damageTick <= 0)
-                            {
-                                float t = Mathf.Clamp01(1f - (dist / vortexDamageRange)); 
-                                float dmg = Mathf.Lerp(vortexMinDamage, vortexMaxDamage, t);
-
-                                PlayerStats ps = player.GetComponent<PlayerStats>();
-                                if (ps != null) ps.TakeDamage(dmg);
-
-                                damageTick = 0.5f; 
-                            }
-                        }
-                    }
-                }
-                timer -= Time.deltaTime;
-                yield return null;
-            }
-
-            // ★ 패턴 종료 후 이펙트 삭제
-            if (currentVortexEffect != null) Destroy(currentVortexEffect);
-
-            anim.SetBool("DoVortex", false); 
-            yield return new WaitForSeconds(1.0f); 
-        }
-
-        // 추적 후 튀어나오기
-        float chaseTime = 0f;
-        float chaseDuration = 2.0f; 
-
-        while(chaseTime < chaseDuration)
-        {
-            if(player != null)
+            if (player != null)
             {
                 float targetX = Mathf.MoveTowards(transform.position.x, player.position.x, moveSpeed * 3.0f * Time.deltaTime);
                 transform.position = new Vector3(targetX, transform.position.y, 0);
+                if (Mathf.Abs(transform.position.x - player.position.x) < 1.0f) break;
             }
-            chaseTime += Time.deltaTime;
+            approachTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        // 2. 소용돌이
+        anim.SetBool("DoVortex", true);
+        GameObject currentVortexEffect = null;
+        if (vortexEffectPrefab != null)
+        {
+            currentVortexEffect = Instantiate(vortexEffectPrefab, transform.position, Quaternion.identity);
+        }
+
+        yield return new WaitForSeconds(0.5f); 
+
+        // 3. 빨아들이기 & 데미지
+        float timer = vortexDuration;
+        float damageTick = 0f; 
+
+        while (timer > 0)
+        {
+            if (currentVortexEffect != null) 
+                currentVortexEffect.transform.position = transform.position;
+
+            if (player != null)
+            {
+                float dist = Vector2.Distance(player.position, transform.position);
+                
+                // 빨아들이기
+                if (dist < vortexPullRange) 
+                {
+                    Vector2 pullDir = (transform.position - player.position).normalized;
+                    player.Translate(pullDir * vortexPullPower * Time.deltaTime);
+
+                    // 데미지
+                    if (dist < vortexDamageRange)
+                    {
+                        damageTick -= Time.deltaTime;
+                        if (damageTick <= 0)
+                        {
+                            float t = Mathf.Clamp01(1f - (dist / vortexDamageRange)); 
+                            float dmg = Mathf.Lerp(vortexMinDamage, vortexMaxDamage, t);
+
+                            PlayerStats ps = player.GetComponent<PlayerStats>();
+                            // 플레이어 피격 이펙트는 PlayerStats에서 자동 처리
+                            if (ps != null) ps.TakeDamage(dmg);
+
+                            damageTick = 0.5f; 
+                        }
+                    }
+                }
+            }
+            timer -= Time.deltaTime;
             yield return null;
         }
 
+        if (currentVortexEffect != null) Destroy(currentVortexEffect);
+        anim.SetBool("DoVortex", false); 
+        yield return new WaitForSeconds(1.0f); 
+
+        // 4. 반반 확률 분기 (바로 나오기 vs 추적 후 나오기)
+        if (Random.value > 0.5f)
+        {
+            float chaseTime = 0f;
+            while(chaseTime < diggingChaseTime)
+            {
+                if(player != null)
+                {
+                    float targetX = Mathf.MoveTowards(transform.position.x, player.position.x, moveSpeed * 3.0f * Time.deltaTime);
+                    transform.position = new Vector3(targetX, transform.position.y, 0);
+                }
+                chaseTime += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        // 5. 튀어나오기
         GetComponent<Collider2D>().enabled = true; 
         anim.SetTrigger("DoDigOut"); 
         
         StartCoroutine(CheckDigOutDamage());
         yield return new WaitForSeconds(1.0f); 
+        
+        anim.ResetTrigger("DoDigOut");
     }
 
     IEnumerator CheckDigOutDamage()
@@ -330,7 +372,7 @@ public class BossAntlion : MonoBehaviour
     {
         anim.SetTrigger("DoRoar");
         yield return new WaitForSeconds(chargeStartDelay);
-        // ★ IsCharging 사용 (Animator 설정 필수)
+
         anim.SetBool("IsCharging", true);
 
         float currentChargeTime = chargeDuration;
@@ -352,27 +394,38 @@ public class BossAntlion : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
     }
 
+    // --- [보스 피격 처리] ---
     public void OnHit()
     {
-        StartCoroutine(HitFlashRoutine());
+        // ★ 이펙트 생성 코드 제거됨 (요청사항 반영)
+        
+        // 보스 피격 연출 (빨간맛 + 크기 반동)은 유지
+        StopCoroutine("HitActionRoutine");
+        StartCoroutine("HitActionRoutine");
     }
 
-    IEnumerator HitFlashRoutine()
+    IEnumerator HitActionRoutine()
     {
-        if (sr != null)
-        {
-            sr.color = Color.red; 
-            yield return new WaitForSeconds(0.1f); 
-            sr.color = Color.white; 
-        }
+        // X축 방향(좌우)을 유지한 채 1.1배 커짐
+        float currentScaleX = Mathf.Sign(transform.localScale.x);
+        transform.localScale = new Vector3(currentScaleX * 1.1f, 1.1f, 1f); 
+        
+        if (sr != null) sr.color = new Color(1f, 0.4f, 0.4f); // 붉은색
+        
+        yield return new WaitForSeconds(0.05f); 
+        
+        if (sr != null) sr.color = Color.white;
+        transform.localScale = new Vector3(currentScaleX * 1.0f, 1.0f, 1f); // 원래 크기
     }
 
+    // --- [몸통 박치기 데미지] ---
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isDead) return;
         if (collision.CompareTag("Player"))
         {
             PlayerStats ps = collision.GetComponent<PlayerStats>();
+            // 플레이어 피격 연출은 PlayerStats 내부에서 처리
             if (ps != null) ps.TakeDamage(touchDamage);
         }
     }

@@ -1,9 +1,13 @@
 using UnityEngine;
+using System.Collections; // 코루틴 사용을 위해 필수
 
 public class PlayerStats : MonoBehaviour
 {
     [Header("References")]
     public PlayerHUD playerHUD; 
+    
+    // ★ [추가] 플레이어가 맞았을 때 터질 이펙트 (피 튀기는 효과 등)
+    public GameObject hitEffectPrefab; 
 
     [Header("Level Info")]
     public int currentLevel = 1;
@@ -22,6 +26,7 @@ public class PlayerStats : MonoBehaviour
     public float bonusMaxHp = 0f;
 
     private Vector3 startPosition;
+    private SpriteRenderer sr; // ★ 색상 변경을 위해 추가
 
     public float TotalAttack => (baseAttack * currentLevel) + bonusAttack;
     public float TotalDefense => (baseDefense * currentLevel) + bonusDefense;
@@ -30,6 +35,8 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         if (playerHUD == null) playerHUD = FindObjectOfType<PlayerHUD>();
+        sr = GetComponent<SpriteRenderer>(); // ★ 컴포넌트 가져오기
+
         startPosition = transform.position;
         currentHp = TotalMaxHp;
         CalculateNextLevelExp();
@@ -45,13 +52,10 @@ public class PlayerStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K)) TakeDamage(10);
     }
 
-    // ★ [추가] 체력 회복 함수 (흡혈용)
     public void Heal(float amount)
     {
         currentHp += amount;
-        if (currentHp > TotalMaxHp) currentHp = TotalMaxHp; // 최대 체력 초과 방지
-        
-        Debug.Log($"흡혈! 체력 {amount} 회복");
+        if (currentHp > TotalMaxHp) currentHp = TotalMaxHp; 
         UpdateUI();
     }
 
@@ -115,19 +119,38 @@ public class PlayerStats : MonoBehaviour
         }
     }
     
+    // ★ [핵심] 데미지 입는 함수 수정
     public void TakeDamage(float damage)
     {
-        // 퍼센트 감소 공식
+        // 1. 데미지 계산
         float defenseFactor = 100f / (100f + TotalDefense);
         float finalDamage = damage * defenseFactor;
         finalDamage = Mathf.Max(1f, finalDamage);
         
         currentHp -= finalDamage;
 
+        // 2. ★ 피격 연출 (빨간맛 + 이펙트) 자동 실행!
+        StartCoroutine(HitFlashRoutine());
+        if (hitEffectPrefab != null)
+        {
+            Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+        }
+
         if (currentHp < 0) currentHp = 0;
         UpdateUI(); 
 
         if (currentHp <= 0) Die();
+    }
+
+    // ★ [신규] 빨갛게 깜빡이는 코루틴
+    IEnumerator HitFlashRoutine()
+    {
+        if (sr != null)
+        {
+            sr.color = new Color(1f, 0.4f, 0.4f); // 붉은색
+            yield return new WaitForSeconds(0.1f);
+            sr.color = Color.white; // 원래대로
+        }
     }
 
     void Die()
@@ -147,6 +170,9 @@ public class PlayerStats : MonoBehaviour
         
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if(rb != null) rb.linearVelocity = Vector2.zero;
+
+        // 부활 시 색상 초기화
+        if (sr != null) sr.color = Color.white;
 
         UpdateUI();
     }

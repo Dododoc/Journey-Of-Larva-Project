@@ -89,6 +89,7 @@ MonoBehaviour:
   hpBarFill: {fileID: 0}
   hpCanvas: {fileID: 0}
   bossScreenHPBar: {fileID: 0}
+  bossUIFrame: {fileID: 0}
 --- !u!212 &215007964956836649
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -184,6 +185,7 @@ MonoBehaviour:
   anim: {fileID: 6241597543164886271}
   player: {fileID: 0}
   moveSpeed: 2
+  detectionRange: 20
   spikePrefab: {fileID: 9152524265932493024, guid: dcac7ec1399098440948f5ee037e820d, type: 3}
   sandStones:
   - {fileID: 552866666001742107, guid: 0ebaf925c93ed574ab9edc9e4f6d12fd, type: 3}
@@ -201,14 +203,15 @@ MonoBehaviour:
   chargeDuration: 2.5
   sandRainCount: 3
   chargeStartDelay: 1.5
-  touchDamage: 10
-  spikeDamage: 15
-  stoneDamage: 10
-  digOutDamage: 20
-  vortexPullRange: 12
-  vortexDamageRange: 6
-  vortexMinDamage: 2
-  vortexMaxDamage: 10
+  diggingChaseTime: 3
+  touchDamage: 15
+  spikeDamage: 20
+  stoneDamage: 15
+  digOutDamage: 30
+  vortexPullRange: 20
+  vortexDamageRange: 8
+  vortexMinDamage: 4
+  vortexMaxDamage: 15
 --- !u!50 &5188841977601333618
 Rigidbody2D:
   serializedVersion: 5

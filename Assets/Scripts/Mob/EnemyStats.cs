@@ -13,9 +13,9 @@ public class EnemyStats : MonoBehaviour
     public Image hpBarFill;     
     public GameObject hpCanvas; 
 
-    // ★ [수정] private -> public으로 바꿔서 Inspector에서 보이게 함
-    [Header("Boss UI (직접 드래그해서 넣으세요)")]
-    public Image bossScreenHPBar; 
+    [Header("Boss UI (직접 드래그)")]
+    public Image bossScreenHPBar;    // 빨간색 게이지 (RedBarFill)
+    public GameObject bossUIFrame;   // ★ [추가] 보스 체력바 전체 틀 (BossFrame)
 
     private BossAntlion bossScript;
 
@@ -24,24 +24,37 @@ public class EnemyStats : MonoBehaviour
         currentHp = maxHp;
         bossScript = GetComponent<BossAntlion>(); 
 
-        // ★ [수정] 코드로 찾는 기능 삭제 -> 이미 Inspector에서 넣었을 테니까!
-        
-        // 만약 보스 HP바가 연결되어 있다면?
-        if (bossScreenHPBar != null)
+        // 시작할 때 보스 UI 전체(틀 포함) 끄기
+        if (bossUIFrame != null)
         {
-            // 1. 꺼져있을 수도 있으니 강제로 켠다! (부모인 프레임까지 켜주면 더 좋음)
-            bossScreenHPBar.gameObject.SetActive(true);
-            
-            // (팁: 만약 프레임 전체를 껐다 켰다 하려면 프레임 오브젝트도 변수로 받아서 켜야 함)
-            // 일단은 바라도 켜지게 설정.
+            bossUIFrame.SetActive(false);
+        }
+        else if (bossScreenHPBar != null)
+        {
+            // 혹시 틀을 연결 안 했으면 부모라도 끔
             if(bossScreenHPBar.transform.parent != null)
-                bossScreenHPBar.transform.parent.gameObject.SetActive(true);
-                
-            // 2. 일반 몬스터용 HP바는 끈다.
-            if (hpCanvas != null) hpCanvas.SetActive(false);
+                bossScreenHPBar.transform.parent.gameObject.SetActive(false);
         }
 
+        // 보스라면 일반 HP바 끄기
+        if (bossScript != null && hpCanvas != null) 
+            hpCanvas.SetActive(false);
+
         UpdateHPBar(); 
+    }
+
+    // 보스 등장 시 호출됨
+    public void ShowBossUI()
+    {
+        // ★ 틀 전체를 켭니다
+        if (bossUIFrame != null)
+        {
+            bossUIFrame.SetActive(true);
+        }
+        else if (bossScreenHPBar != null)
+        {
+            bossScreenHPBar.gameObject.SetActive(true);
+        }
     }
 
     public void TakeDamage(float damage)
@@ -81,13 +94,14 @@ public class EnemyStats : MonoBehaviour
 
         if (hpCanvas != null) hpCanvas.SetActive(false);
         
-        // ★ [추가] 보스가 죽으면 화면 HP바 끄기
-        if (bossScreenHPBar != null)
+        // ★ 보스 사망 시 틀 전체 끄기
+        if (bossUIFrame != null)
         {
-             if(bossScreenHPBar.transform.parent != null)
-                bossScreenHPBar.transform.parent.gameObject.SetActive(false);
-             else
-                bossScreenHPBar.gameObject.SetActive(false);
+            bossUIFrame.SetActive(false);
+        }
+        else if (bossScreenHPBar != null && bossScreenHPBar.transform.parent != null)
+        {
+            bossScreenHPBar.transform.parent.gameObject.SetActive(false);
         }
 
         if (bossScript != null) bossScript.StartDeathSequence();

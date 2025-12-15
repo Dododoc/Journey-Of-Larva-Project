@@ -6997,6 +6997,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 980220032}
+    - target: {fileID: 4253688884654872387, guid: 25c59097b3299b24ead259c7f78c347c, type: 3}
+      propertyPath: detectionRange
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916375269708417408, guid: 25c59097b3299b24ead259c7f78c347c, type: 3}
+      propertyPath: bossUIFrame
+      value: 
+      objectReference: {fileID: 1706193810}
     - target: {fileID: 7916375269708417408, guid: 25c59097b3299b24ead259c7f78c347c, type: 3}
       propertyPath: bossScreenHPBar
       value: 

@@ -1,74 +1,134 @@
 using UnityEngine;
-using Unity.Cinemachine; // 시네머신 3.0 네임스페이스
+using System.Collections;
+using Unity.Cinemachine;
 
 public class EvolutionItem : MonoBehaviour
 {
-    public GameObject nextCharacterPrefab; // 변신할 캐릭터 프리팹
-    public GameManager.CharacterType typeToChange; // 변신할 타입
+    [Header("변신 설정")]
+    public GameObject nextCharacterPrefab; 
+    public GameManager.CharacterType typeToChange; 
 
-    private bool canEvolve = false; // 변신 가능 여부 체크
-    private GameObject targetPlayer; // 닿아있는 플레이어 저장
+    [Header("애니메이션 설정")]
+    public string evolutionTriggerName = "ToAnt"; 
+    public float animationDuration = 2.0f;
 
-    private void Update()
+    [Header("UI 설정")]
+    [Tooltip("자식으로 넣어둔 안내 텍스트 오브젝트 (예: 'R키를 누르세요')")]
+    public GameObject guideTextObject; 
+
+    // 내부 변수
+    private bool canEvolve = false;
+    private bool isEvolving = false; 
+    private GameObject targetPlayer; 
+
+    private SpriteRenderer itemRenderer;
+    private Collider2D itemCollider;
+
+    private void Start()
     {
-        // 플레이어가 아이템 범위 안에 있고, R키를 눌렀다면?
-        if (canEvolve && Input.GetKeyDown(KeyCode.R))
+        itemRenderer = GetComponent<SpriteRenderer>();
+        itemCollider = GetComponent<Collider2D>();
+
+        // 시작할 때는 안내 문구를 안 보이게 끔
+        if (guideTextObject != null)
         {
-            Evolve();
+            guideTextObject.SetActive(false);
         }
     }
 
-    // 아이템 범위에 들어왔을 때
+    private void Update()
+    {
+        // 범위 안 + R키 + 변신 중 아님
+        if (canEvolve && Input.GetKeyDown(KeyCode.R) && !isEvolving)
+        {
+            StartCoroutine(EvolveProcess());
+        }
+    }
+
+    private IEnumerator EvolveProcess()
+    {
+        isEvolving = true; // 진화 시작
+
+        // 1. 아이템 숨기기 (먹은 효과)
+        if (itemRenderer != null) itemRenderer.enabled = false;
+        if (itemCollider != null) itemCollider.enabled = false;
+
+        // ★ 중요: 먹었으니까 안내 문구도 즉시 끔
+        if (guideTextObject != null) guideTextObject.SetActive(false);
+
+        Debug.Log($"진화 시작! 애니메이션: {evolutionTriggerName}");
+
+        // 2. 애니메이션 실행
+        if (targetPlayer != null)
+        {
+            Animator playerAnim = targetPlayer.GetComponent<Animator>();
+            if (playerAnim != null)
+            {
+                playerAnim.SetTrigger(evolutionTriggerName);
+            }
+        }
+
+        // 3. 애니메이션 대기
+        yield return new WaitForSeconds(animationDuration);
+
+        // 4. 변신 수행
+        PerformTransformation();
+    }
+
+    private void PerformTransformation()
+    {
+        if (targetPlayer == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (nextCharacterPrefab != null)
+        {
+            Vector3 spawnPos = targetPlayer.transform.position;
+            Quaternion spawnRot = targetPlayer.transform.rotation;
+
+            Destroy(targetPlayer);
+
+            GameObject newPlayer = Instantiate(nextCharacterPrefab, spawnPos, spawnRot);
+            newPlayer.tag = "Player";
+
+            var cineCam = FindObjectOfType<CinemachineCamera>();
+            if (cineCam != null) cineCam.Follow = newPlayer.transform;
+            
+            if (GameManager.instance != null) GameManager.instance.currentCharacter = typeToChange;
+        }
+
+        Debug.Log("진화 성공!");
+        Destroy(gameObject); 
+    }
+
+    // --- 충돌 감지 ---
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             canEvolve = true;
             targetPlayer = collision.gameObject;
-            Debug.Log("변신하려면 R 키를 누르세요!"); // 테스트용 로그
+
+            // ★ 범위에 들어오면 텍스트 켜기
+            if (guideTextObject != null) guideTextObject.SetActive(true);
         }
     }
 
-    // 아이템 범위에서 나갔을 때
     private void OnTriggerExit2D(Collider2D collision)
     {
+        // 진화 중이면 무시 (플레이어 정보 유지)
+        if (isEvolving) return;
+
         if (collision.CompareTag("Player"))
         {
             canEvolve = false;
             targetPlayer = null;
+
+            // ★ 범위에서 나가면 텍스트 끄기
+            if (guideTextObject != null) guideTextObject.SetActive(false);
         }
-    }
-
-    // 실제 변신 로직 (R키 누르면 실행됨)
-    private void Evolve()
-    {
-        if (targetPlayer == null) return;
-
-        // 1. 위치와 회전값 저장
-        Vector3 spawnPos = targetPlayer.transform.position;
-        Quaternion spawnRot = targetPlayer.transform.rotation;
-
-        // 2. 현재 플레이어(라바) 삭제
-        Destroy(targetPlayer);
-
-        // 3. 새로운 캐릭터 생성
-        GameObject newPlayer = Instantiate(nextCharacterPrefab, spawnPos, spawnRot);
-        newPlayer.tag = "Player";
-
-        // 4. 시네머신 카메라에게 새 주인 알려주기
-        var cineCam = FindObjectOfType<CinemachineCamera>();
-        if (cineCam != null)
-        {
-            cineCam.Follow = newPlayer.transform;
-        }
-
-        // 5. 게임 매니저 상태 업데이트
-        if (GameManager.instance != null)
-        {
-            GameManager.instance.currentCharacter = typeToChange;
-        }
-
-        // 6. 아이템 삭제
-        Destroy(gameObject);
     }
 }

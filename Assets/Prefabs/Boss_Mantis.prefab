@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f05032f84bfe6499793276e480d8ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  maxHp: 500
+  maxHp: 700
   currentHp: 0
   attackDamage: 10
   expReward: 500
@@ -164,6 +164,8 @@ MonoBehaviour:
   attackRange: 23
   isDead: 0
   isStunned: 0
+  introHeight: 50
+  introFallSpeed: 100
   bodyContactDamage: 20
   thrustSpeed: 80
   xSlashEffectPrefab: {fileID: 349183158413258032, guid: ddc3647f0fce94949b940fe8dce55373, type: 3}
@@ -177,7 +179,7 @@ MonoBehaviour:
   minCombo: 3
   maxCombo: 5
   jumpPrepDelay: 1
-  jumpUpSpeed: 35
+  jumpUpSpeed: 40
   jumpHeight: 50
   dropSpeed: 100
   landDamage: 25
@@ -188,7 +190,7 @@ MonoBehaviour:
   grabDashSpeed: 12
   holdPoint: {fileID: 1861818637047526524}
   grabDotDamage: 2
-  requiredMashCount: 2
+  requiredMashCount: 15
 --- !u!50 &1746885116239551728
 Rigidbody2D:
   serializedVersion: 5

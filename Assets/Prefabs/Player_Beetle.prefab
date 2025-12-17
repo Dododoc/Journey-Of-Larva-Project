@@ -163,30 +163,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeetleController
   moveSpeed: 7
-  jumpForce: 12
-  attackDamage: 20
-  attackRange: 2.52
+  jumpForce: 9
+  jumpGravity: 2
+  fallGravity: 0.8
+  speedMultiplier: 1
+  isJumpDisabled: 0
+  attackDamage: 7
+  attackRange: 2.5
   attackDelay: 0.2
   attackCooldown: 0.5
   basicKnockback: 8
-  liftDamage: 30
+  liftDamage: 10
   liftRange: 2.5
   liftCatchDelay: 0.05
   liftThrowDelay: 0.25
   liftThrowForce: 15
-  liftCooldown: 3
-  diveSpeed: 20
-  diveCooldown: 4
+  liftCooldown: 5
+  diveSpeed: 30
+  diveCooldown: 3
   emergeAnimDuration: 0.6
-  impactDamage1: 20
-  impactDelay1: 0.05
+  impactDamage1: 10
+  impactDelay1: 0.1
   impactRadius: 3.5
   impactKnockback1: 5
-  impactDamage2: 40
+  impactDamage2: 15
   impactDelay2: 0.1
   impactKnockback2: 15
-  hitKnockbackPower: 3
-  hitInvincibilityDuration: 1
+  hitKnockbackPower: 5
+  hitInvincibilityDuration: 2
+  isGrabbedByBoss: 0
   attackPoint: {fileID: 6520185362368635014}
   holdPoint: {fileID: 4520967274383155081}
   enemyLayers:

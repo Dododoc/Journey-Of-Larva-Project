@@ -108,9 +108,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a7ebddfdaef6499fa3325e216cd4217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AntController
-  moveSpeed: 8
+  moveSpeed: 9
   jumpForce: 13
-  attackDamage: 15
+  mapMinX: 543.5
+  mapMaxX: 700
+  attackDamage: 8
   attackRange: 1.5
   attackDelay: 0.1
   attackCooldown: 0.3
@@ -118,8 +120,10 @@ MonoBehaviour:
   strongDamageMultiplier: 2.5
   strongAttackDelay: 0.25
   strongCooldown: 3
-  lifestealRatio: 0.2
+  lifestealRatio: 1
   strongEnemyKnockback: 7
+  teleportRange: 10
+  teleportOffset: 1
   digDuration: 3
   digCooldown: 8
   digSpeed: 10
@@ -129,7 +133,7 @@ MonoBehaviour:
   emergeAnimDuration: 0.6
   emergeDamageDelay: 0.3
   hitKnockbackPower: 7
-  hitInvincibilityDuration: 1.5
+  hitInvincibilityDuration: 2
   attackPoint: {fileID: 676693712535734591}
   enemyLayers:
     serializedVersion: 2

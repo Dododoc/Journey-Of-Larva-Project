@@ -6,8 +6,13 @@ public class BeetleController : MonoBehaviour
 {
     [Header("1. 움직임 설정")]
     public float moveSpeed = 5f;
-    public float jumpForce = 12f;
-    // ★ [추가] 디버프용 변수
+    public float jumpForce = 6f; 
+    private int jumpCount = 0; 
+    private int maxJumps = 2; 
+
+    [Header("1-1. 점프 상세 설정")]
+    public float jumpGravity = 1.0f; 
+    public float fallGravity = 0.8f; 
     public float speedMultiplier = 1.0f; 
     public bool isJumpDisabled = false;
 
@@ -42,7 +47,8 @@ public class BeetleController : MonoBehaviour
 
     [Header("5. 피격 및 넉백")]
     public float hitKnockbackPower = 3f; 
-    public float hitInvincibilityDuration = 1.0f; 
+    // ★ [수정] 무적 시간 2초로 증가 (인스펙터에서 확인 필요)
+    public float hitInvincibilityDuration = 2.0f; 
     private bool isInvincible = false;      
     private bool isKnockedBack = false;     
     public bool isGrabbedByBoss = false;
@@ -95,6 +101,17 @@ public class BeetleController : MonoBehaviour
         if (isKnockedBack || isDiving || isLifting || isGrabbedByBoss) { UpdateAnimation(); return; }
 
         CheckGround();
+        
+        if (!isGrounded)
+        {
+            if (rb.linearVelocity.y > 0) rb.gravityScale = jumpGravity; 
+            else rb.gravityScale = fallGravity; 
+        }
+        else
+        {
+            rb.gravityScale = defaultGravity;
+        }
+
         ProcessInput();
         UpdateAnimation();
     }
@@ -105,9 +122,10 @@ public class BeetleController : MonoBehaviour
         if (isDiving) return; 
         Vector2 boxOrigin = (Vector2)transform.position + Vector2.up * 0.4f;
         RaycastHit2D hit = Physics2D.BoxCast(boxOrigin, boxSize, 0f, Vector2.down, castDistance + 0.3f, groundLayer);
+        bool wasGrounded = isGrounded;
         isGrounded = hit.collider != null;
-        if (isGrounded) surfaceNormal = hit.normal;
-        else surfaceNormal = Vector2.up;
+        if (isGrounded && !wasGrounded) jumpCount = 0;
+        if (isGrounded) surfaceNormal = hit.normal; else surfaceNormal = Vector2.up;
     }
 
     void ProcessInput()
@@ -118,20 +136,18 @@ public class BeetleController : MonoBehaviour
 
         float moveInput = Input.GetAxisRaw("Horizontal");
 
-        // ★ [수정] 점프: 디버프(isJumpDisabled)가 아닐 때만 가능
-        if (Input.GetButtonDown("Jump") && isGrounded && !isJumpDisabled)
+        if (Input.GetButtonDown("Jump") && !isJumpDisabled)
         {
-            jumpCooldown = 0.2f;
-            isGrounded = false;
-            rb.gravityScale = defaultGravity;
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            anim.SetTrigger("DoJump"); 
-            return;
+            if (isGrounded || jumpCount < maxJumps)
+            {
+                jumpCooldown = 0.1f; isGrounded = false; jumpCount++;
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0); 
+                rb.linearVelocity += Vector2.up * (jumpForce * 1.5f);
+                if (jumpCount == 1) anim.SetTrigger("DoJump"); 
+            }
         }
 
-        // ★ [수정] 이동: 속도에 speedMultiplier 곱함 (독 장판 느려짐)
         float currentSpeed = moveSpeed * speedMultiplier;
-
         if (isGrounded && moveInput != 0)
         {
             rb.gravityScale = defaultGravity;
@@ -142,7 +158,6 @@ public class BeetleController : MonoBehaviour
         }
         else
         {
-            rb.gravityScale = defaultGravity;
             rb.linearVelocity = new Vector2(moveInput * currentSpeed, rb.linearVelocity.y);
         }
 
@@ -154,38 +169,24 @@ public class BeetleController : MonoBehaviour
     {
         isFacingRight = !isFacingRight;
         Vector3 scaler = transform.localScale;
-        scaler.x *= -1; 
-        transform.localScale = scaler;
+        scaler.x *= -1; transform.localScale = scaler;
     }
 
     void UpdateAnimation()
     {
         if (isDiving || isLifting || isKnockedBack || isGrabbedByBoss)
         {
-            anim.SetBool("IsGrounded", true);
-            anim.SetFloat("Speed", 0f);
-            return;
+            anim.SetBool("IsGrounded", true); anim.SetFloat("Speed", 0f); return;
         }
         anim.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
         anim.SetBool("IsGrounded", isGrounded);
         anim.SetFloat("VerticalSpeed", rb.linearVelocity.y);
     }
 
-    // ★ [추가] 외부(독 장판)에서 디버프 거는 함수
     public void SetDebuff(bool active, float speedMult)
     {
-        if (active)
-        {
-            isJumpDisabled = true;
-            speedMultiplier = speedMult;
-            sr.color = new Color(0.6f, 1f, 0.6f); // 독 걸린 느낌 (초록)
-        }
-        else
-        {
-            isJumpDisabled = false;
-            speedMultiplier = 1.0f;
-            sr.color = Color.white;
-        }
+        if (active) { isJumpDisabled = true; speedMultiplier = speedMult; sr.color = new Color(0.6f, 1f, 0.6f); }
+        else { isJumpDisabled = false; speedMultiplier = 1.0f; sr.color = Color.white; }
     }
 
     public void SetGrabbed(bool grabbed)
@@ -209,16 +210,19 @@ public class BeetleController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isDiving) { if (collision.gameObject.CompareTag("Enemy") || ((1 << collision.gameObject.layer) & groundLayer) != 0) { StartCoroutine(DiveImpactRoutine()); return; } }
+        if (isDiving) { 
+            if (collision.gameObject.CompareTag("Enemy") || ((1 << collision.gameObject.layer) & groundLayer) != 0) 
+            { StartCoroutine(DiveImpactRoutine()); return; } 
+        }
         if (isLifting || isGrabbedByBoss || isInvincible) return;
         if (collision.gameObject.CompareTag("Enemy")) HandleCollisionDamage(collision.gameObject);
     }
 
     void HandleCollisionDamage(GameObject target)
     {
+        if (isInvincible) return;
         EnemyStats enemyStats = target.GetComponent<EnemyStats>();
         float damageToTake = (enemyStats != null) ? enemyStats.attackDamage : 10f; 
-        
         BossMantis boss = target.GetComponent<BossMantis>();
         if (boss != null) damageToTake = boss.bodyContactDamage;
 
@@ -233,18 +237,15 @@ public class BeetleController : MonoBehaviour
     public void ApplyKnockback(Vector2 force)
     {
         isBasicAttacking = false; isLifting = false; 
-        if(isDiving) { isDiving = false; rb.gravityScale = defaultGravity; }
+        if(isDiving) { isDiving = false; rb.gravityScale = defaultGravity; isInvincible = false; }
         StopAllCoroutines(); 
         anim.ResetTrigger("DoAttack"); anim.ResetTrigger("DoLift"); anim.ResetTrigger("DoDive"); anim.ResetTrigger("DoImpact");
-        anim.Play("Beetle_JumpUp", 0, 0f); 
-        sr.color = Color.white;
+        anim.Play("Beetle_JumpUp", 0, 0f); sr.color = Color.white;
         float direction = isFacingRight ? 1f : -1f;
         transform.localScale = new Vector3(Mathf.Abs(defaultScale.x) * direction, Mathf.Abs(defaultScale.y), defaultScale.z);
 
-        isKnockedBack = true;
-        speedMultiplier = 1.0f; isJumpDisabled = false; // 넉백 시 디버프 초기화
-        rb.gravityScale = defaultGravity;
-        rb.linearVelocity = Vector2.zero; 
+        isKnockedBack = true; speedMultiplier = 1.0f; isJumpDisabled = false; 
+        rb.gravityScale = defaultGravity; rb.linearVelocity = Vector2.zero; 
         rb.AddForce(force, ForceMode2D.Impulse);
         StartCoroutine(KnockbackRoutine());
     }
@@ -254,19 +255,91 @@ public class BeetleController : MonoBehaviour
         isInvincible = true; 
         yield return new WaitForSeconds(0.2f); 
         isKnockedBack = false; 
+        // 2초 무적
         float blinkEndTime = Time.time + (hitInvincibilityDuration - 0.2f);
         while (Time.time < blinkEndTime) { sr.color = new Color(1, 1, 1, 0.4f); yield return new WaitForSeconds(0.1f); sr.color = Color.white; yield return new WaitForSeconds(0.1f); }
         isInvincible = false; canLift = true; canDive = true;
     }
 
-    // (기존 스킬 코루틴들 생략 - 그대로 유지)
     IEnumerator BasicAttackRoutine() { isBasicAttacking = true; anim.SetTrigger("DoAttack"); yield return new WaitForSeconds(attackDelay); ApplyDamage(attackPoint.position, attackRange, 1f, basicKnockback); yield return new WaitForSeconds(attackCooldown); isBasicAttacking = false; }
-    IEnumerator LiftSkillRoutine() { canLift = false; isLifting = true; rb.gravityScale = 0f; rb.linearVelocity = Vector2.zero; anim.SetTrigger("DoLift"); yield return new WaitForSeconds(liftCatchDelay); Collider2D hitEnemy = Physics2D.OverlapCircle(attackPoint.position, liftRange, enemyLayers); Rigidbody2D targetRb = null; Collider2D targetCol = null; BossMantis bossScript = null; if (hitEnemy != null) { targetRb = hitEnemy.GetComponent<Rigidbody2D>(); targetCol = hitEnemy.GetComponent<Collider2D>(); bossScript = hitEnemy.GetComponent<BossMantis>(); if (targetRb != null) { if (bossScript != null) bossScript.SetGrabbedState(true); targetRb.linearVelocity = Vector2.zero; targetRb.bodyType = RigidbodyType2D.Kinematic; hitEnemy.transform.position = holdPoint.position; hitEnemy.transform.parent = holdPoint; if (targetCol != null) Physics2D.IgnoreCollision(myCollider, targetCol, true); } } yield return new WaitForSeconds(liftThrowDelay - liftCatchDelay); if (hitEnemy != null && targetRb != null) { hitEnemy.transform.parent = null; targetRb.bodyType = RigidbodyType2D.Dynamic; if (bossScript != null) bossScript.SetThrownState(); float throwDirX = isFacingRight ? -1f : 1f; Vector2 throwDir = new Vector2(throwDirX, 1.0f).normalized; targetRb.AddForce(throwDir * liftThrowForce, ForceMode2D.Impulse); EnemyStats es = hitEnemy.GetComponent<EnemyStats>(); float totalDmg = (myStats != null) ? myStats.TotalAttack + liftDamage : 30f; if (es != null) es.TakeDamage(totalDmg); StartCoroutine(IgnoreCollisionRoutine(targetCol, 1.0f)); } yield return new WaitForSeconds(0.3f); isLifting = false; rb.gravityScale = defaultGravity; yield return new WaitForSeconds(liftCooldown); canLift = true; }
-    IEnumerator DiveSkillRoutine() { canDive = false; isDiving = true; anim.SetTrigger("DoDive"); rb.gravityScale = 0; float xDir = isFacingRight ? 1f : -1f; Vector2 diveDirection = new Vector2(xDir, -0.55f).normalized; rb.linearVelocity = diveDirection * diveSpeed; float timer = 0f; while(isDiving && timer < 2.5f) { timer += Time.deltaTime; yield return null; } if (isDiving) StartCoroutine(DiveImpactRoutine()); }
-    IEnumerator DiveImpactRoutine() { if (!isDiving) yield break; rb.linearVelocity = Vector2.zero; rb.gravityScale = defaultGravity; anim.SetTrigger("DoImpact"); yield return new WaitForSeconds(impactDelay1); StartCoroutine(FlashGoldEffect()); PerformAreaDamage(impactDamage1, impactKnockback1); yield return new WaitForSeconds(impactDelay2); PerformAreaDamage(impactDamage2, impactKnockback2); float usedTime = impactDelay1 + impactDelay2; float remainingTime = emergeAnimDuration - usedTime; if (remainingTime > 0) yield return new WaitForSeconds(remainingTime); isDiving = false; yield return new WaitForSeconds(diveCooldown); canDive = true; }
-    void PerformAreaDamage(float addDamage, float knockback) { Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, impactRadius, enemyLayers); foreach (Collider2D enemy in hitEnemies) { EnemyStats es = enemy.GetComponent<EnemyStats>(); float finalDmg = (myStats != null) ? myStats.TotalAttack + addDamage : 30f; if (es != null) es.TakeDamage(finalDmg); Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>(); if (enemyRb != null) { Vector2 dir = (enemy.transform.position - transform.position).normalized; if(knockback > 10f) dir += Vector2.up * 0.5f; enemyRb.linearVelocity = Vector2.zero; enemyRb.AddForce(dir.normalized * knockback, ForceMode2D.Impulse); StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>())); } } }
+    
+    // ★ [수정] 들어 넘기기 스킬 (시작 즉시 무적 + 종료 후 3초 무적)
+    IEnumerator LiftSkillRoutine() 
+    { 
+        canLift = false; isLifting = true; isInvincible = true;
+        rb.gravityScale = 0f; rb.linearVelocity = Vector2.zero; anim.SetTrigger("DoLift"); 
+        yield return new WaitForSeconds(liftCatchDelay); 
+        
+        Collider2D hitEnemy = Physics2D.OverlapCircle(attackPoint.position, liftRange, enemyLayers); 
+        Rigidbody2D targetRb = null; Collider2D targetCol = null; BossMantis bossScript = null; 
+        if (hitEnemy != null) { 
+            targetRb = hitEnemy.GetComponent<Rigidbody2D>(); targetCol = hitEnemy.GetComponent<Collider2D>(); bossScript = hitEnemy.GetComponent<BossMantis>(); 
+            if (targetRb != null) { 
+                if (bossScript != null) bossScript.SetGrabbedState(true); 
+                targetRb.linearVelocity = Vector2.zero; targetRb.bodyType = RigidbodyType2D.Kinematic; 
+                hitEnemy.transform.position = holdPoint.position; hitEnemy.transform.parent = holdPoint; 
+                if (targetCol != null) Physics2D.IgnoreCollision(myCollider, targetCol, true); 
+            } 
+        } 
+        yield return new WaitForSeconds(liftThrowDelay - liftCatchDelay); 
+        
+        if (hitEnemy != null && targetRb != null) { 
+            hitEnemy.transform.parent = null; targetRb.bodyType = RigidbodyType2D.Dynamic; 
+            if (bossScript != null) bossScript.SetThrownState(); 
+            float throwDirX = isFacingRight ? -1f : 1f; Vector2 throwDir = new Vector2(throwDirX, 1.0f).normalized; 
+            targetRb.AddForce(throwDir * liftThrowForce, ForceMode2D.Impulse); 
+            EnemyStats es = hitEnemy.GetComponent<EnemyStats>(); float totalDmg = (myStats != null) ? myStats.TotalAttack + liftDamage : 30f; if (es != null) es.TakeDamage(totalDmg); 
+            StartCoroutine(IgnoreCollisionRoutine(targetCol, 1.0f)); 
+        } 
+        yield return new WaitForSeconds(0.3f); 
+        isLifting = false; rb.gravityScale = defaultGravity; 
+        StartCoroutine(InvincibilityRoutine(2.0f));
+        yield return new WaitForSeconds(liftCooldown); canLift = true; 
+    }
+
+    IEnumerator InvincibilityRoutine(float duration) { isInvincible = true; yield return new WaitForSeconds(duration); isInvincible = false; }
+    IEnumerator DiveSkillRoutine() { canDive = false; isDiving = true; isInvincible = true; anim.SetTrigger("DoDive"); rb.gravityScale = 0; float xDir = isFacingRight ? 1f : -1f; Vector2 diveDirection = new Vector2(xDir, -0.55f).normalized; rb.linearVelocity = diveDirection * diveSpeed; float timer = 0f; while(isDiving && timer < 2.5f) { timer += Time.deltaTime; yield return null; } if (isDiving) { isDiving = false; isInvincible = false; rb.gravityScale = defaultGravity; canDive = true; } }
+    IEnumerator DiveImpactRoutine() { if (!isDiving) yield break; rb.linearVelocity = Vector2.zero; rb.gravityScale = defaultGravity; anim.SetTrigger("DoImpact"); yield return new WaitForSeconds(impactDelay1); StartCoroutine(FlashGoldEffect()); PerformAreaDamage(impactDamage1, impactKnockback1); yield return new WaitForSeconds(impactDelay2); PerformAreaDamage(impactDamage2, impactKnockback2); float usedTime = impactDelay1 + impactDelay2; float remainingTime = emergeAnimDuration - usedTime; if (remainingTime > 0) yield return new WaitForSeconds(remainingTime); isDiving = false; StartCoroutine(PostDiveInvincibility(1.5f)); yield return new WaitForSeconds(diveCooldown); canDive = true; }
+    IEnumerator PostDiveInvincibility(float duration) { yield return new WaitForSeconds(duration); isInvincible = false; }
+
+    // ★ [수정] 중복 데미지 방지 (HashSet 사용)
+    void PerformAreaDamage(float addDamage, float knockback) { 
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, impactRadius, enemyLayers); 
+        HashSet<GameObject> hitSet = new HashSet<GameObject>();
+        foreach (Collider2D enemy in hitEnemies) { 
+            if(hitSet.Contains(enemy.gameObject)) continue; hitSet.Add(enemy.gameObject);
+            EnemyStats es = enemy.GetComponent<EnemyStats>(); float finalDmg = (myStats != null) ? myStats.TotalAttack + addDamage : 30f; if (es != null) es.TakeDamage(finalDmg); 
+            Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>(); if (enemyRb != null) { Vector2 dir = (enemy.transform.position - transform.position).normalized; if(knockback > 10f) dir += Vector2.up * 0.5f; enemyRb.linearVelocity = Vector2.zero; enemyRb.AddForce(dir.normalized * knockback, ForceMode2D.Impulse); StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>())); } } }
     IEnumerator FlashGoldEffect() { sr.color = new Color(1f, 0.9f, 0.4f); yield return new WaitForSeconds(0.15f); sr.color = Color.white; }
     IEnumerator IgnoreCollisionRoutine(Collider2D enemyCol, float duration = 0.5f) { if (enemyCol == null || myCollider == null) yield break; Physics2D.IgnoreCollision(myCollider, enemyCol, true); yield return new WaitForSeconds(duration); if (enemyCol != null && myCollider != null) Physics2D.IgnoreCollision(myCollider, enemyCol, false); }
-    void ApplyDamage(Vector2 point, float range, float multiplier, float knockbackForce) { Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(point, range, enemyLayers); float baseDmg = (myStats != null) ? myStats.TotalAttack : attackDamage; float finalDmg = baseDmg * multiplier; foreach (Collider2D enemy in hitEnemies) { EnemyStats es = enemy.GetComponent<EnemyStats>(); if (es != null) es.TakeDamage(finalDmg); Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>(); if (enemyRb != null) { float dirX = (enemy.transform.position.x - transform.position.x) > 0 ? 1f : -1f; Vector2 knockbackDir = new Vector2(dirX, 0.5f).normalized; enemyRb.linearVelocity = Vector2.zero; enemyRb.AddForce(knockbackDir * knockbackForce, ForceMode2D.Impulse); StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>())); } } }
+    
+    // ★ [수정] 중복 데미지 방지
+    void ApplyDamage(Vector2 point, float range, float multiplier, float knockbackForce) 
+    { 
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(point, range, enemyLayers); 
+        float baseDmg = (myStats != null) ? myStats.TotalAttack : attackDamage; 
+        float finalDmg = baseDmg * multiplier; 
+        
+        HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
+
+        foreach (Collider2D enemy in hitEnemies) 
+        { 
+            if (damagedEnemies.Contains(enemy.gameObject)) continue;
+            damagedEnemies.Add(enemy.gameObject);
+
+            EnemyStats es = enemy.GetComponent<EnemyStats>(); 
+            if (es != null) es.TakeDamage(finalDmg); 
+            
+            Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>(); 
+            if (enemyRb != null) 
+            { 
+                float dirX = (enemy.transform.position.x - transform.position.x) > 0 ? 1f : -1f; 
+                Vector2 knockbackDir = new Vector2(dirX, 0.5f).normalized; 
+                enemyRb.linearVelocity = Vector2.zero; 
+                enemyRb.AddForce(knockbackDir * knockbackForce, ForceMode2D.Impulse); 
+                StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>())); 
+            } 
+        } 
+    }
     void OnDrawGizmos() { if (isGrounded) Gizmos.color = Color.green; else Gizmos.color = Color.red; Vector2 boxOrigin = (Vector2)transform.position + Vector2.up * 0.4f; Gizmos.DrawWireCube(boxOrigin + Vector2.down * (castDistance + 0.3f), boxSize); if (attackPoint != null) { Gizmos.color = Color.blue; Gizmos.DrawWireSphere(attackPoint.position, attackRange); } if (holdPoint != null) { Gizmos.color = Color.yellow; Gizmos.DrawWireSphere(holdPoint.position, 0.3f); } }
 }

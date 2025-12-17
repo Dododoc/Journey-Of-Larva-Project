@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f05032f84bfe6499793276e480d8ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  maxHp: 500
+  maxHp: 800
   currentHp: 0
   attackDamage: 10
   expReward: 1000
@@ -182,15 +182,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00e6c6aff4218634586693cace68c329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAntlion
-  anim: {fileID: 6241597543164886271}
+  anim: {fileID: 0}
   player: {fileID: 0}
   moveSpeed: 2
-  detectionRange: 20
+  mapMinX: 543.5
+  mapMaxX: 700
+  detectionRange: 30
   spikePrefab: {fileID: 9152524265932493024, guid: dcac7ec1399098440948f5ee037e820d, type: 3}
   sandStones:
   - {fileID: 552866666001742107, guid: 0ebaf925c93ed574ab9edc9e4f6d12fd, type: 3}
   - {fileID: 711013269851351920, guid: e2d01db8a4bd33e4287daae8ea01949f, type: 3}
-  mouthPos: {fileID: 4212574792209570079}
+  mouthPos: {fileID: 0}
   vortexEffectPrefab: {fileID: 1563003172971708234, guid: 285d757b16d931047b07941a959e070f, type: 3}
   stoneBreakEffect: {fileID: 4738658698835708990, guid: 08c8ffbbf4a089243b56e875a8765efd, type: 3}
   chargeSpeed: 20
@@ -205,13 +207,13 @@ MonoBehaviour:
   chargeStartDelay: 1.5
   diggingChaseTime: 3
   touchDamage: 15
-  spikeDamage: 20
+  spikeDamage: 25
   stoneDamage: 15
   digOutDamage: 30
-  vortexPullRange: 20
-  vortexDamageRange: 8
-  vortexMinDamage: 4
-  vortexMaxDamage: 15
+  vortexPullRange: 25
+  vortexDamageRange: 10
+  vortexMinDamage: 10
+  vortexMaxDamage: 20
 --- !u!50 &5188841977601333618
 Rigidbody2D:
   serializedVersion: 5

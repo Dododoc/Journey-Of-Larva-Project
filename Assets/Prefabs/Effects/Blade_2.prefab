@@ -106,7 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BladeProjectile
   speed: 25
   lifetime: 3
-  damage: 30
+  damage: 25
 --- !u!61 &8633527137986048056
 BoxCollider2D:
   m_ObjectHideFlags: 0

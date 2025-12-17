@@ -105,7 +105,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FluidTrap
   duration: 5
-  slowMultiplier: 0.4
+  slowMultiplier: 0.6
+  spriteRenderer: {fileID: 0}
 --- !u!61 &8832760700478342869
 BoxCollider2D:
   m_ObjectHideFlags: 0

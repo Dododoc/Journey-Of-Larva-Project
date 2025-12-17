@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::XSlashEffect
   duration: 3
   spriteRenderer: {fileID: 6485592820379334741}
-  damage: 15
+  damage: 40
 --- !u!212 &6485592820379334741
 SpriteRenderer:
   m_ObjectHideFlags: 0

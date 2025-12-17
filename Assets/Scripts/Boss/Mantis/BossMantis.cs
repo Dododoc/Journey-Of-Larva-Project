@@ -18,6 +18,7 @@ public class BossMantis : MonoBehaviour
     private bool isActing = false; 
     private Vector3 defaultScale; 
     public bool isStunned = false; 
+    private bool pendingDeath = false;
 
     // 스킬 반복 방지
     private int lastSkillIndex = -1;
@@ -216,6 +217,13 @@ public class BossMantis : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.gravityScale = 0f; 
 
+        // [추가] 착지했는데, 아까 공중에서 죽음 예약(pendingDeath)이 걸려있었다면?
+        if (pendingDeath)
+        {
+            StartDeathSequence(); // 이제 진짜 죽음 함수 실행 (애니메이션 재생, 콜라이더 끔)
+            yield break; // 코루틴 종료 (일어나지 않음)
+        }
+
         if (shouldStunOnLand)
         {
             anim.SetTrigger("Stun"); 
@@ -395,5 +403,22 @@ public class BossMantis : MonoBehaviour
             }
         } 
     }
-    public void StartDeathSequence() { isDead = true; anim.SetBool("IsDead", true); anim.SetTrigger("DoDie"); GetComponent<Collider2D>().enabled = false; StopAllCoroutines(); }
-}
+    public void StartDeathSequence() 
+    { 
+        // [수정] 만약 던져져서 날아가고 있는 중(중력이 켜져있음)이라면?
+        // 아직 땅에 안 닿았는데 죽으라고 하면 -> "착지하고 죽겠다"고 예약만 함
+        if (rb.gravityScale > 0)
+        {
+            pendingDeath = true;
+            return; // 여기서 함수 종료 (아직 애니메이션 재생 안 함, 콜라이더 안 끔)
+        }
+
+        // [기존 로직] 땅에 있거나 평상시라면 바로 죽음 처리
+        isDead = true; 
+        anim.SetBool("IsDead", true); 
+        anim.SetTrigger("DoDie"); 
+        
+        GetComponent<Collider2D>().enabled = false; 
+        StopAllCoroutines(); 
+    }
+    }

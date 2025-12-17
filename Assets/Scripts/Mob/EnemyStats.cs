@@ -4,57 +4,49 @@ using UnityEngine.UI;
 public class EnemyStats : MonoBehaviour
 {
     [Header("Enemy Stats")]
-    public float maxHp = 30f;       
-    public float currentHp;         
+    public float maxHp = 100f;       
+    public float currentHp;   
+    
+    // ★ [복구됨] 이 변수가 없어서 에러가 났었습니다!
     public float attackDamage = 10f; 
-    public float expReward = 50f;   
+    
+    public float expReward = 500f;   
 
-    [Header("HP Bar UI (일반 몬스터용)")]
+    [Header("HP Bar UI")]
     public Image hpBarFill;     
     public GameObject hpCanvas; 
 
-    [Header("Boss UI (직접 드래그)")]
-    public Image bossScreenHPBar;    // 빨간색 게이지 (RedBarFill)
-    public GameObject bossUIFrame;   // ★ [추가] 보스 체력바 전체 틀 (BossFrame)
+    [Header("Boss UI")]
+    public Image bossScreenHPBar;    
+    public GameObject bossUIFrame;   
 
-    private BossAntlion bossScript;
+    // 두 종류의 보스 스크립트 연결
+    private BossAntlion antlionScript;
+    private BossMantis mantisScript; 
 
     void Start()
     {
         currentHp = maxHp;
-        bossScript = GetComponent<BossAntlion>(); 
+        
+        antlionScript = GetComponent<BossAntlion>(); 
+        mantisScript = GetComponent<BossMantis>();
 
-        // 시작할 때 보스 UI 전체(틀 포함) 끄기
-        if (bossUIFrame != null)
+        // 보스 UI 프레임 초기화
+        if (bossUIFrame != null) bossUIFrame.SetActive(false);
+        
+        // 보스라면 일반 몬스터용 머리 위 체력바는 끄기
+        if (antlionScript != null || mantisScript != null)
         {
-            bossUIFrame.SetActive(false);
+            if (hpCanvas != null) hpCanvas.SetActive(false); 
         }
-        else if (bossScreenHPBar != null)
-        {
-            // 혹시 틀을 연결 안 했으면 부모라도 끔
-            if(bossScreenHPBar.transform.parent != null)
-                bossScreenHPBar.transform.parent.gameObject.SetActive(false);
-        }
-
-        // 보스라면 일반 HP바 끄기
-        if (bossScript != null && hpCanvas != null) 
-            hpCanvas.SetActive(false);
 
         UpdateHPBar(); 
     }
 
-    // 보스 등장 시 호출됨
     public void ShowBossUI()
     {
-        // ★ 틀 전체를 켭니다
-        if (bossUIFrame != null)
-        {
-            bossUIFrame.SetActive(true);
-        }
-        else if (bossScreenHPBar != null)
-        {
-            bossScreenHPBar.gameObject.SetActive(true);
-        }
+        if (bossUIFrame != null) bossUIFrame.SetActive(true);
+        else if (bossScreenHPBar != null) bossScreenHPBar.gameObject.SetActive(true);
     }
 
     public void TakeDamage(float damage)
@@ -64,7 +56,10 @@ public class EnemyStats : MonoBehaviour
         currentHp -= damage;
         UpdateHPBar();
 
-        if (bossScript != null) bossScript.OnHit();
+        // 연결된 보스가 있다면 피격 반응(OnHit) 호출
+        if (antlionScript != null) antlionScript.OnHit();
+        if (mantisScript != null) mantisScript.OnHit();
+
         if (currentHp <= 0)
         {
             Die();
@@ -75,44 +70,23 @@ public class EnemyStats : MonoBehaviour
     {
         float fillAmount = (maxHp > 0) ? currentHp / maxHp : 0;
 
-        if (bossScreenHPBar != null)
-        {
-            bossScreenHPBar.fillAmount = fillAmount;
-        }
-        else if (hpBarFill != null)
-        {
-            hpBarFill.fillAmount = fillAmount;
-        }
+        if (bossScreenHPBar != null) bossScreenHPBar.fillAmount = fillAmount;
+        else if (hpBarFill != null) hpBarFill.fillAmount = fillAmount;
     }
 
     void Die()
     {
-        Debug.Log($"적 사망! 경험치 {expReward} 획득");
-        
+        // 플레이어에게 경험치 지급
         PlayerStats player = FindObjectOfType<PlayerStats>();
         if (player != null) player.GainExp(expReward);
 
+        // UI 끄기
+        if (bossUIFrame != null) bossUIFrame.SetActive(false);
         if (hpCanvas != null) hpCanvas.SetActive(false);
-        
-        // ★ 보스 사망 시 틀 전체 끄기
-        if (bossUIFrame != null)
-        {
-            bossUIFrame.SetActive(false);
-        }
-        else if (bossScreenHPBar != null && bossScreenHPBar.transform.parent != null)
-        {
-            bossScreenHPBar.transform.parent.gameObject.SetActive(false);
-        }
 
-        if (bossScript != null) bossScript.StartDeathSequence();
-        else Destroy(gameObject); 
-    }
-
-    void LateUpdate() 
-    {
-        if (hpCanvas != null && hpCanvas.activeSelf)
-        {
-            hpCanvas.transform.rotation = Quaternion.identity;
-        }
+        // 보스별 사망 연출 호출
+        if (antlionScript != null) antlionScript.StartDeathSequence();
+        else if (mantisScript != null) mantisScript.StartDeathSequence();
+        else Destroy(gameObject); // 일반 몬스터는 그냥 삭제
     }
 }

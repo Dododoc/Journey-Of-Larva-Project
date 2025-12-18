@@ -13,6 +13,7 @@ public class Larva_PlayerController : MonoBehaviour
     public float dashCooldown = 1f;   
     private bool isDashing = false;   
     private bool canDash = true;      
+    public bool IsDashing => isDashing; // 외부에서 대시 여부를 읽을 수 있게 함
 
     [Header("Knockback & Invincibility")]
     public float knockbackPower = 10f;      
@@ -53,6 +54,34 @@ public class Larva_PlayerController : MonoBehaviour
         CheckGround();
         ProcessInput();
         UpdateAnimation();
+
+        // ★ [추가] X 키를 눌러 아이템 수집 시도
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            TryCollectLeaf();
+        }
+    }
+    void TryCollectLeaf()
+    {
+        float collectRange = 2.5f; // 아이템을 인지하는 범위 (기호에 따라 조정 가능)
+        
+        // 플레이어 위치 중심으로 범위 내의 모든 콜라이더 검색
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, collectRange);
+        
+        foreach (var hitCollider in hitColliders)
+        {
+            // 충돌체에서 LeafItem 컴포넌트를 찾음
+            LeafItem leaf = hitCollider.GetComponent<LeafItem>();
+            
+            if (leaf != null)
+            {
+                // 나뭇잎의 Collect 함수 호출 (PlayerStats를 인자로 전달)
+                leaf.Collect(myStats); 
+                
+                // 한 번의 X 입력에 여러 개를 동시에 먹고 싶지 않다면 여기서 break;를 사용하세요.
+                // 전체를 한 번에 먹고 싶다면 break 없이 진행합니다.
+            }
+        }
     }
 
     void CheckGround()
@@ -302,5 +331,8 @@ public class Larva_PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Vector2 boxOrigin = (Vector2)transform.position + Vector2.up * 0.3f;
         Gizmos.DrawWireCube(boxOrigin + Vector2.down * (castDistance + 0.3f), boxSize);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, 2.5f);
     }
 }

@@ -14,7 +14,7 @@ public class ConditionalPortal : MonoBehaviour
             if (currentType == GameManager.CharacterType.Ant)
             {
                 Debug.Log("개미 맵으로 이동!");
-                SceneManager.LoadScene("ant ghost map"); // 이동할 씬 이름
+                SceneManager.LoadScene("Ant Stage"); // 이동할 씬 이름
             }
             else if (currentType == GameManager.CharacterType.Beetle)
             {

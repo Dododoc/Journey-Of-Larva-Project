@@ -15,11 +15,17 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Scenes/ant ghost map.unity
-    guid: ae266f80c0f2a7e4486e812cc2d4247f
+    path: Assets/Scenes/Ant Stage.unity
+    guid: 7af3197311ac592479ada77a0a253f67
   - enabled: 1
     path: Assets/Scenes/Beetle Map.unity
     guid: cea08cf279837f04ca3c5cf2d7eadead
+  - enabled: 1
+    path: Assets/Scenes/ant ghost map.unity
+    guid: ae266f80c0f2a7e4486e812cc2d4247f
+  - enabled: 1
+    path: Assets/Scenes/Ant boss map.unity
+    guid: 719860ed537b61145a4d9a35a316e61d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

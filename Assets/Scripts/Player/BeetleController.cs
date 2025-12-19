@@ -295,35 +295,108 @@ IEnumerator FlashGoldEffect()
     // ★ [수정] 들어 넘기기 스킬 (시작 즉시 무적 + 종료 후 3초 무적)
     IEnumerator LiftSkillRoutine() 
     { 
-        canLift = false; isLifting = true; isInvincible = true;
-        rb.gravityScale = 0f; rb.linearVelocity = Vector2.zero; anim.SetTrigger("DoLift"); 
+        canLift = false; 
+        isLifting = true; 
+        isInvincible = true;
+        rb.gravityScale = 0f; 
+        rb.linearVelocity = Vector2.zero; 
+        anim.SetTrigger("DoLift"); 
+        
         yield return new WaitForSeconds(liftCatchDelay); 
         
         Collider2D hitEnemy = Physics2D.OverlapCircle(attackPoint.position, liftRange, enemyLayers); 
-        Rigidbody2D targetRb = null; Collider2D targetCol = null; BossMantis bossScript = null; 
+        
+        // =========================================================
+        // [추가된 부분] 거미인지 먼저 확인하고, 거미라면 여기서 처리 후 스킬 종료
+        // =========================================================
+        if (hitEnemy != null)
+        {
+            SpiderAI spider = hitEnemy.GetComponentInParent<SpiderAI>();
+            if (spider != null)
+            {
+                // 1. 데미지 주기
+                EnemyStats es = hitEnemy.GetComponentInParent<EnemyStats>();
+                if (es != null) es.TakeDamage(liftDamage);
+                
+                // 2. 거미 전용 흔들림(넉백 대체) 효과 실행
+                spider.ApplyKnockback(Vector2.right * 5f);
+
+                // 3. 풍뎅이 상태 원상복구 (스킬 종료 처리)
+                isLifting = false; 
+                rb.gravityScale = defaultGravity; 
+                StartCoroutine(InvincibilityRoutine(2.0f));
+                
+                yield return new WaitForSeconds(liftCooldown); 
+                canLift = true;
+                
+                // ★ 여기서 코루틴을 끝내서 아래의 "들기(Lift)" 로직이 실행되지 않게 함
+                yield break; 
+            }
+        }
+        // =========================================================
+
+        // [기존 코드 유지] 보스 및 일반 몹 처리를 위한 변수 선언 (절대 지우지 마세요!)
+        Rigidbody2D targetRb = null; 
+        Collider2D targetCol = null; 
+        BossMantis bossScript = null; 
+        
         if (hitEnemy != null) { 
-            targetRb = hitEnemy.GetComponent<Rigidbody2D>(); targetCol = hitEnemy.GetComponent<Collider2D>(); bossScript = hitEnemy.GetComponent<BossMantis>(); 
+            targetRb = hitEnemy.GetComponentInParent<Rigidbody2D>(); 
+            targetCol = hitEnemy.GetComponent<Collider2D>(); // 충돌 무시는 해당 콜라이더와 직접
+            bossScript = hitEnemy.GetComponentInParent<BossMantis>();
+            
             if (targetRb != null) { 
                 if (bossScript != null) bossScript.SetGrabbedState(true); 
-                targetRb.linearVelocity = Vector2.zero; targetRb.bodyType = RigidbodyType2D.Kinematic; 
-                hitEnemy.transform.position = holdPoint.position; hitEnemy.transform.parent = holdPoint; 
+                targetRb.linearVelocity = Vector2.zero; 
+                targetRb.bodyType = RigidbodyType2D.Kinematic; 
+                
+                // 부모(본체)를 이동시킴
+                targetRb.transform.position = holdPoint.position; 
+                targetRb.transform.parent = holdPoint; 
                 if (targetCol != null) Physics2D.IgnoreCollision(myCollider, targetCol, true); 
-            } 
+            }
         } 
+        
         yield return new WaitForSeconds(liftThrowDelay - liftCatchDelay); 
         
-        if (hitEnemy != null && targetRb != null) { 
-            hitEnemy.transform.parent = null; targetRb.bodyType = RigidbodyType2D.Dynamic; 
-            if (bossScript != null) bossScript.SetThrownState(); 
-            float throwDirX = isFacingRight ? -1f : 1f; Vector2 throwDir = new Vector2(throwDirX, 1.0f).normalized; 
-            targetRb.AddForce(throwDir * liftThrowForce, ForceMode2D.Impulse); 
-            EnemyStats es = hitEnemy.GetComponent<EnemyStats>(); float totalDmg = (myStats != null) ? myStats.TotalAttack + liftDamage : 30f; if (es != null) es.TakeDamage(totalDmg); 
-            StartCoroutine(IgnoreCollisionRoutine(targetCol, 1.0f)); 
-        } 
+        if (hitEnemy != null && targetRb != null) 
+{ 
+    targetRb.transform.parent = null; 
+    
+    // [보스 처리]
+    if (bossScript != null) bossScript.SetThrownState(); 
+    
+    // 던지는 방향 계산
+    float throwDirX = isFacingRight ? -1f : 1f; 
+    Vector2 throwDir = new Vector2(throwDirX, 1.0f).normalized; 
+    Vector2 finalForce = throwDir * liftThrowForce;
+
+    // ★ [수정] 직접 AddForce 하는 대신, 적의 AI에게 "너 던져졌어!"라고 알림
+    BaseEnemyAI enemyAI = targetRb.GetComponent<BaseEnemyAI>();
+    if (enemyAI != null)
+    {
+        enemyAI.OnThrown(finalForce); // 여기서 벌은 중력이 켜짐!
+    }
+    else
+    {
+        // AI 스크립트가 없는 물체라면 그냥 물리력만 적용
+        targetRb.bodyType = RigidbodyType2D.Dynamic; 
+        targetRb.AddForce(finalForce, ForceMode2D.Impulse); 
+    }
+    
+    // (데미지 주는 코드 등 나머지는 그대로 유지...)
+    EnemyStats es = targetRb.GetComponent<EnemyStats>(); 
+    float totalDmg = (myStats != null) ? myStats.TotalAttack + liftDamage : 30f; 
+    if (es != null) es.TakeDamage(totalDmg); 
+    StartCoroutine(IgnoreCollisionRoutine(targetCol, 1.0f)); 
+}
+        
         yield return new WaitForSeconds(0.3f); 
-        isLifting = false; rb.gravityScale = defaultGravity; 
+        isLifting = false; 
+        rb.gravityScale = defaultGravity; 
         StartCoroutine(InvincibilityRoutine(2.0f));
-        yield return new WaitForSeconds(liftCooldown); canLift = true; 
+        yield return new WaitForSeconds(liftCooldown); 
+        canLift = true; 
     }
 
     IEnumerator InvincibilityRoutine(float duration) { isInvincible = true; yield return new WaitForSeconds(duration); isInvincible = false; }
@@ -333,81 +406,61 @@ IEnumerator FlashGoldEffect()
 
     // ★ [수정] 중복 데미지 방지 (HashSet 사용)
     void PerformAreaDamage(float addDamage, float knockback) 
-{ 
-    Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, impactRadius, enemyLayers);
-    HashSet<GameObject> hitSet = new HashSet<GameObject>();
-
-    foreach (Collider2D enemy in hitEnemies) 
     { 
-        if(hitSet.Contains(enemy.gameObject)) continue; 
-        hitSet.Add(enemy.gameObject);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, impactRadius, enemyLayers);
+        HashSet<GameObject> hitSet = new HashSet<GameObject>();
 
-        // 1. 데미지 전달
-        EnemyStats es = enemy.GetComponent<EnemyStats>(); 
-        float finalDmg = (myStats != null) ? myStats.TotalAttack + addDamage : 30f; 
-        if (es != null) es.TakeDamage(finalDmg);
-        
-        // 2. ★ 넉백 처리 (거미 vs 일반 몹 분기)
-        SpiderAI spider = enemy.GetComponent<SpiderAI>();
-        if (spider != null)
-        {
-            // 거미줄에 매달린 거미에게도 충격 전달
-            spider.ApplyKnockback(new Vector2(knockback, 0)); 
-        }
-        else
-        {
-            // 일반 몹 넉백 처리
-            Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>(); 
-            if (enemyRb != null) 
-            { 
-                Vector2 dir = (enemy.transform.position - transform.position).normalized; 
-                if(knockback > 10f) dir += Vector2.up * 0.5f; 
-                enemyRb.linearVelocity = Vector2.zero; 
-                enemyRb.AddForce(dir.normalized * knockback, ForceMode2D.Impulse); 
-                StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>()));
-            } 
-        }
-    } 
-}
+        foreach (Collider2D enemy in hitEnemies) 
+        { 
+            // 부모 오브젝트를 기준으로 중복 체크
+            GameObject parentObj = enemy.transform.parent != null ? enemy.transform.parent.gameObject : enemy.gameObject;
+            if(hitSet.Contains(parentObj)) continue; 
+            hitSet.Add(parentObj);
+
+            // 1. 데미지 전달 (부모 참조)
+            EnemyStats es = enemy.GetComponentInParent<EnemyStats>(); 
+            float finalDmg = (myStats != null) ? myStats.TotalAttack + addDamage : 30f; 
+            if (es != null) es.TakeDamage(finalDmg);
+            
+            // 2. 넉백 처리 (부모 Rigidbody 참조)
+            SpiderAI spider = enemy.GetComponentInParent<SpiderAI>();
+            if (spider != null) spider.ApplyKnockback(new Vector2(knockback, 0)); 
+            BaseEnemyAI enemyAI = enemy.GetComponentInParent<BaseEnemyAI>();
+            if (enemyAI != null) {
+                Vector2 dir = (enemy.transform.position - transform.position).normalized;
+                if(knockback > 10f) dir += Vector2.up * 0.1f; // 강한 공격일 때 위로 더 띄움
+                enemyAI.ApplyKnockback(dir.normalized * knockback, 1f); // 0.5초간 AI 정지
+            }
+        } 
+    }
     // ★ [수정] 중복 데미지 방지
     void ApplyDamage(Vector2 point, float range, float multiplier, float knockbackForce) 
-{ 
-    Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(point, range, enemyLayers);
-    float baseDmg = (myStats != null) ? myStats.TotalAttack : attackDamage;
-    float finalDmg = baseDmg * multiplier; 
-    
-    HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
-
-    foreach (Collider2D enemy in hitEnemies) 
     { 
-        if (damagedEnemies.Contains(enemy.gameObject)) continue;
-        damagedEnemies.Add(enemy.gameObject);
-
-        // 1. 데미지 전달
-        EnemyStats es = enemy.GetComponent<EnemyStats>(); 
-        if (es != null) es.TakeDamage(finalDmg);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(point, range, enemyLayers);
+        float baseDmg = (myStats != null) ? myStats.TotalAttack : attackDamage;
+        float finalDmg = baseDmg * multiplier; 
         
-        // 2. ★ 넉백 처리 (거미 vs 일반 몹 분기)
-        SpiderAI spider = enemy.GetComponent<SpiderAI>();
-        if (spider != null)
-        {
-            // 거미라면 흔들림 효과 호출
-            spider.ApplyKnockback(new Vector2(knockbackForce, 0)); 
-        }
-        else
-        {
-            // 일반 몹이라면 물리적인 힘을 가함
-            Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>(); 
-            if (enemyRb != null) 
-            { 
-                float dirX = (enemy.transform.position.x - transform.position.x) > 0 ? 1f : -1f; 
-                Vector2 knockbackDir = new Vector2(dirX, 0.5f).normalized; 
-                enemyRb.linearVelocity = Vector2.zero; 
-                enemyRb.AddForce(knockbackDir * knockbackForce, ForceMode2D.Impulse); 
-                StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>()));
-            } 
-        }
-    } 
-}
+        HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
+
+        foreach (Collider2D enemy in hitEnemies) 
+        { 
+            GameObject parentObj = enemy.transform.parent != null ? enemy.transform.parent.gameObject : enemy.gameObject;
+            if (damagedEnemies.Contains(parentObj)) continue;
+            damagedEnemies.Add(parentObj);
+
+            EnemyStats es = enemy.GetComponentInParent<EnemyStats>();
+            if (es != null) es.TakeDamage(finalDmg);
+            
+            SpiderAI spider = enemy.GetComponentInParent<SpiderAI>();
+            if (spider != null) spider.ApplyKnockback(new Vector2(knockbackForce, 0)); 
+            // BeetleController.cs의 ApplyDamage 함수 안에서 수정
+            BaseEnemyAI enemyAI = enemy.GetComponentInParent<BaseEnemyAI>();
+            if (enemyAI != null) {
+                float dirX = (enemy.transform.position.x - transform.position.x) > 0 ? 1f : -1f;
+                Vector2 kDir = new Vector2(dirX, 0.1f).normalized; // 0.5f를 더해 살짝 위로 띄움
+                enemyAI.ApplyKnockback(kDir * knockbackForce, 1f); // 힘과 정지 시간(0.4초) 전달
+            }
+        } 
+    }
     void OnDrawGizmos() { if (isGrounded) Gizmos.color = Color.green; else Gizmos.color = Color.red; Vector2 boxOrigin = (Vector2)transform.position + Vector2.up * 0.4f; Gizmos.DrawWireCube(boxOrigin + Vector2.down * (castDistance + 0.3f), boxSize); if (attackPoint != null) { Gizmos.color = Color.blue; Gizmos.DrawWireSphere(attackPoint.position, attackRange); } if (holdPoint != null) { Gizmos.color = Color.yellow; Gizmos.DrawWireSphere(holdPoint.position, 0.3f); } }
 }

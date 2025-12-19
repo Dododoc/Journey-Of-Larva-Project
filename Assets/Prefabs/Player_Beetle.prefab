@@ -177,7 +177,7 @@ MonoBehaviour:
   liftRange: 2.5
   liftCatchDelay: 0.05
   liftThrowDelay: 0.25
-  liftThrowForce: 15
+  liftThrowForce: 30
   liftCooldown: 5
   diveSpeed: 30
   diveCooldown: 3
@@ -185,11 +185,11 @@ MonoBehaviour:
   impactDamage1: 10
   impactDelay1: 0.1
   impactRadius: 3.5
-  impactKnockback1: 5
+  impactKnockback1: 10
   impactDamage2: 15
   impactDelay2: 0.1
   impactKnockback2: 15
-  hitKnockbackPower: 5
+  hitKnockbackPower: 7
   hitInvincibilityDuration: 2
   isGrabbedByBoss: 0
   attackPoint: {fileID: 6520185362368635014}

@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &217988157864808069
 Transform:
   m_ObjectHideFlags: 0
@@ -178,8 +178,8 @@ MonoBehaviour:
   mouthPoint: {fileID: 5992687434943510681}
   minCombo: 3
   maxCombo: 5
-  mapMinX: -25
-  mapMaxX: 25
+  mapMinX: 15.72
+  mapMaxX: 26.4
   jumpPrepDelay: 1
   jumpUpSpeed: 40
   jumpHeight: 50

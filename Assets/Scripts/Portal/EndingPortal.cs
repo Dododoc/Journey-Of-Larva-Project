@@ -1,5 +1,5 @@
 using UnityEngine;
-// using UnityEngine.SceneManagement; // 이제 씬 이동이 아니므로 필요 없습니다.
+// 씬 이동 기능은 쓰지 않으므로 SceneManager는 필요 없습니다.
 
 public class EndingPortal : MonoBehaviour
 {
@@ -15,11 +15,15 @@ public class EndingPortal : MonoBehaviour
 
             if (UIManager.instance != null)
             {
-                // ★ 씬 이동 대신 UIManager에게 팝업을 띄우라고 요청
+                // UIManager에게 팝업을 띄우라고 요청
                 UIManager.instance.ShowEndingPopup();
                 
-                // 포탈은 할 일을 다 했으니 제거 (선택사항)
+                // 포탈은 할 일을 다 했으니 제거
                 Destroy(gameObject); 
+            }
+            else
+            {
+                Debug.LogError("UIManager 인스턴스를 찾을 수 없습니다!");
             }
         }
     }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -100,8 +101,15 @@ public class UIManager : MonoBehaviour
     }
     public void QuitGameClick()
     {
-        Application.Quit();
-        Debug.Log("게임 종료");
+        // 1. 멈췄던 시간을 다시 흐르게 해줍니다. (중요!)
+        Time.timeScale = 1f; 
+        
+        // 2. 타이틀 씬을 불러옵니다.
+        // 따옴표("") 안에 본인의 타이틀 씬 이름을 정확히 적어주세요.
+        // (예: "TitleScene", "MainTitle", "StartScene" 등)
+        SceneManager.LoadScene("TitleScene"); 
+        
+        Debug.Log("타이틀 화면으로 이동합니다.");
     }
 }
 

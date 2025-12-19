@@ -6430,10 +6430,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2483406106082381018, guid: 502e660bdc2329947b411de5172e2bbe, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -9.000488
-      objectReference: {fileID: 0}
     - target: {fileID: 4232500955603927616, guid: 502e660bdc2329947b411de5172e2bbe, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -6517,10 +6513,6 @@ PrefabInstance:
     - target: {fileID: 6002698828368470098, guid: 502e660bdc2329947b411de5172e2bbe, type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 7957953756062942950, guid: 502e660bdc2329947b411de5172e2bbe, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.00048828125
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7880,14 +7872,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4013422956870383353, guid: dfd5a41937081fa478c14e6a2f4309e1, type: 3}
-      propertyPath: endingPanel
-      value: 
-      objectReference: {fileID: 8389347753140264498, guid: 5511e904fda4f4b52a1d8c4ac57c120e, type: 3}
-    - target: {fileID: 4013422956870383353, guid: dfd5a41937081fa478c14e6a2f4309e1, type: 3}
-      propertyPath: playTimeText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4013422956870383353, guid: dfd5a41937081fa478c14e6a2f4309e1, type: 3}
       propertyPath: charFaceImage
       value: 
       objectReference: {fileID: 581511792}
@@ -7899,18 +7883,6 @@ PrefabInstance:
       propertyPath: evolutionPanel
       value: 
       objectReference: {fileID: 581511791}
-    - target: {fileID: 4013422956870383353, guid: dfd5a41937081fa478c14e6a2f4309e1, type: 3}
-      propertyPath: evolutionFaces.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4013422956870383353, guid: dfd5a41937081fa478c14e6a2f4309e1, type: 3}
-      propertyPath: 'evolutionFaces.Array.data[1]'
-      value: 
-      objectReference: {fileID: -5321607918524147536, guid: 25c68808854354122a7f888bd95b44cf, type: 3}
-    - target: {fileID: 4013422956870383353, guid: dfd5a41937081fa478c14e6a2f4309e1, type: 3}
-      propertyPath: 'evolutionFaces.Array.data[2]'
-      value: 
-      objectReference: {fileID: -681296081612547810, guid: 9724df16c19cd432984e2d340766e0d9, type: 3}
     - target: {fileID: 7118373590955795007, guid: dfd5a41937081fa478c14e6a2f4309e1, type: 3}
       propertyPath: m_Name
       value: Managers

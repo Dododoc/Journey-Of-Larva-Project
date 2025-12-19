@@ -157,8 +157,18 @@ public class Larva_PlayerController : MonoBehaviour
 
     IEnumerator DashRoutine()
     {
+        // 레이어 번호를 미리 가져옵니다. (인스펙터에 설정한 이름과 똑같아야 합니다.)
+        int playerLayer = LayerMask.NameToLayer("Player");
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+
         canDash = false;
         isDashing = true;
+
+        // ★ 1. 대시 시작: 몹과의 충돌을 허용함 (Ignore를 false로 설정)
+        if (playerLayer != -1 && enemyLayer != -1)
+        {
+            Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, false);
+        }
 
         float dashDir = sr.flipX ? -1f : 1f;
         float originalGravity = rb.gravityScale;
@@ -166,7 +176,7 @@ public class Larva_PlayerController : MonoBehaviour
         rb.gravityScale = 0f;
         rb.linearVelocity = new Vector2(dashDir * dashSpeed, 0f);
 
-        anim.SetBool("IsDashing", true); 
+        anim.SetBool("IsDashing", true);
         anim.ResetTrigger("DoAttack");
         anim.SetTrigger("DoAttack");
 
@@ -179,13 +189,18 @@ public class Larva_PlayerController : MonoBehaviour
             isDashing = false;
         }
 
-        anim.SetBool("IsDashing", false); 
+        // ★ 2. 대시 종료: 다시 몹을 통과하도록 설정 (Ignore를 true로 설정)
+        if (playerLayer != -1 && enemyLayer != -1)
+        {
+            Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
+        }
+
+        anim.SetBool("IsDashing", false);
         anim.ResetTrigger("DoAttack");
 
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
-
     // --- 충돌 감지 로직 (수정됨) ---
 
     // 1. 처음 부딪혔을 때
@@ -222,45 +237,51 @@ public class Larva_PlayerController : MonoBehaviour
     }
 
     void HandleEnemyCollision(GameObject enemyObj)
+{
+    EnemyStats enemyStats = enemyObj.GetComponent<EnemyStats>(); //
+    // ★ Vector3끼리의 뺄셈 결과를 (Vector2)로 형변환하여 모호성 제거
+    Vector2 directionToEnemy = (Vector2)(enemyObj.transform.position - transform.position).normalized;
+
+    if (isDashing)
     {
-        // ★ [수정됨] 무적 상태 확인 위치 변경
-        // 예전에는 여기서 바로 return해서 무적일 땐 공격도 못했습니다.
-        // 이제는 아래쪽 '상황 B(피격)'에서만 무적을 체크합니다.
-
-        EnemyStats enemyStats = enemyObj.GetComponent<EnemyStats>();
-        Vector2 directionToEnemy = (enemyObj.transform.position - transform.position).normalized;
-
-        // 상황 A: 돌격 공격 성공! (무적이어도 공격은 가능해야 함)
-        if (isDashing)
+        if (enemyStats != null) 
         {
-            if (enemyStats != null) 
-            {
-                float realDamage = (myStats != null) ? myStats.TotalAttack : 10f;
-                enemyStats.TakeDamage(realDamage);
-                Debug.Log($"[애벌레 돌진] 데미지 {realDamage} 입힘!");
-            }
-
-            // 공격 후 반동 (살짝 위로 튀게)
-            Vector2 recoilDir = -directionToEnemy + Vector2.up * 0.5f;
-            ApplyRecoil(recoilDir.normalized * recoilPower);
+            float realDamage = (myStats != null) ? myStats.TotalAttack : 10f;
+            enemyStats.TakeDamage(realDamage); //
         }
-        // 상황 B: 피격 (그냥 부딪힘)
+
+        // ★ 거미 체크 및 넉백 처리
+        SpiderAI spider = enemyObj.GetComponent<SpiderAI>();
+        if (spider != null)
+        {
+            spider.ApplyKnockback(new Vector2(recoilPower, 0)); //
+        }
         else
         {
-            // ★ 여기서 무적 체크! (무적이면 데미지 안 받음)
-            if (isInvincible) return;
-
-            float damage = (enemyStats != null) ? enemyStats.attackDamage : 10f;
-            if (myStats != null) 
-                myStats.TakeDamage(damage);
-
-            // 넉백 (공중으로 뜸)
-            float pushDirX = (transform.position.x > enemyObj.transform.position.x) ? 1f : -1f;
-            Vector2 knockbackDir = new Vector2(pushDirX, 1.5f).normalized;
-            
-            ApplyKnockback(knockbackDir * knockbackPower);
+            Rigidbody2D erb = enemyObj.GetComponent<Rigidbody2D>();
+            if (erb != null)
+            {
+                erb.linearVelocity = Vector2.zero;
+                erb.AddForce(directionToEnemy * recoilPower, ForceMode2D.Impulse);
+            }
         }
+
+        // ★ 에러가 났던 지점: (Vector2)를 추가하여 Vector2 + Vector2 연산으로 만듦
+        Vector2 recoilDir = -(Vector2)(enemyObj.transform.position - transform.position).normalized + Vector2.up * 0.5f;
+        ApplyRecoil(recoilDir.normalized * recoilPower);
     }
+    else
+    {
+        if (isInvincible) return; //
+
+        float damage = (enemyStats != null) ? enemyStats.attackDamage : 10f; //
+        if (myStats != null) myStats.TakeDamage(damage); //
+
+        float pushDirX = (transform.position.x > enemyObj.transform.position.x) ? 1f : -1f;
+        Vector2 knockbackDir = new Vector2(pushDirX, 1.5f).normalized;
+        ApplyKnockback(knockbackDir * knockbackPower); //
+    }
+}
 
     public void ApplyKnockback(Vector2 force)
     {

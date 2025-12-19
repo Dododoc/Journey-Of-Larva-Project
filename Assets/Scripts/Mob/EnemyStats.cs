@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections; // 코루틴을 위해 필요
 
 public class EnemyStats : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class EnemyStats : MonoBehaviour
     // 두 종류의 보스 스크립트 연결
     private BossAntlion antlionScript;
     private BossMantis mantisScript; 
+    private SpriteRenderer sr;
+    private Color originalColor;
 
     void Start()
     {
@@ -48,6 +51,11 @@ public class EnemyStats : MonoBehaviour
         if (bossUIFrame != null) bossUIFrame.SetActive(true);
         else if (bossScreenHPBar != null) bossScreenHPBar.gameObject.SetActive(true);
     }
+    void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();
+        if (sr != null) originalColor = sr.color;
+    }
 
     public void TakeDamage(float damage)
     {
@@ -55,7 +63,8 @@ public class EnemyStats : MonoBehaviour
 
         currentHp -= damage;
         UpdateHPBar();
-
+        StopCoroutine("HitFlashRoutine");
+        StartCoroutine("HitFlashRoutine");
         // 연결된 보스가 있다면 피격 반응(OnHit) 호출
         if (antlionScript != null) antlionScript.OnHit();
         if (mantisScript != null) mantisScript.OnHit();
@@ -64,6 +73,12 @@ public class EnemyStats : MonoBehaviour
         {
             Die();
         }
+    }
+    IEnumerator HitFlashRoutine()
+    {
+        sr.color = Color.red; // 빨간색으로 변경
+        yield return new WaitForSeconds(0.1f);
+        sr.color = originalColor; // 원래 색상으로 복구
     }
 
     void UpdateHPBar()

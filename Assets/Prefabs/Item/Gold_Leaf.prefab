@@ -60,7 +60,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 8d98a7a7edd48a84488c51fbd2f0e47b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,6 +106,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeafItem
   expAmount: 40
+  highlightColor: {r: 25.992073, g: 4.5627832, b: 0, a: 1}
+  maxOutlineWidth: 7
+  detectionRange: 3
 --- !u!58 &4968207381134967105
 CircleCollider2D:
   m_ObjectHideFlags: 0

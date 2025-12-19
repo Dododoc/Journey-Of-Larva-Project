@@ -207,6 +207,35 @@ public class BeetleController : MonoBehaviour
         if (isDiving || isLifting || isGrabbedByBoss || isInvincible) return;
         if (other.CompareTag("Enemy") || other.CompareTag("Trap")) HandleCollisionDamage(other.gameObject);
     }
+    // 1. 몹과 충돌 시 일시적으로 충돌을 무시하는 로직 (끼임 방지)
+IEnumerator IgnoreCollisionRoutine(Collider2D enemyCol, float duration = 0.5f)
+{
+    if (enemyCol == null || myCollider == null) yield break;
+    
+    // 플레이어와 해당 적의 충돌을 끔
+    Physics2D.IgnoreCollision(myCollider, enemyCol, true);
+    
+    yield return new WaitForSeconds(duration);
+    
+    // 다시 충돌을 켬
+    if (enemyCol != null && myCollider != null)
+        Physics2D.IgnoreCollision(myCollider, enemyCol, false);
+}
+
+// 2. 다이브 공격 성공 시 몸이 금색으로 반짝이는 효과
+IEnumerator FlashGoldEffect()
+{
+    if (sr != null)
+    {
+        sr.color = new Color(1f, 0.85f, 0f); // 금색
+        yield return new WaitForSeconds(0.1f);
+        sr.color = Color.white;
+        yield return new WaitForSeconds(0.1f);
+        sr.color = new Color(1f, 0.85f, 0f);
+        yield return new WaitForSeconds(0.1f);
+        sr.color = Color.white;
+    }
+}
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -303,33 +332,71 @@ public class BeetleController : MonoBehaviour
     IEnumerator PostDiveInvincibility(float duration) { yield return new WaitForSeconds(duration); isInvincible = false; }
 
     // ★ [수정] 중복 데미지 방지 (HashSet 사용)
-    void PerformAreaDamage(float addDamage, float knockback) { 
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, impactRadius, enemyLayers); 
-        HashSet<GameObject> hitSet = new HashSet<GameObject>();
-        foreach (Collider2D enemy in hitEnemies) { 
-            if(hitSet.Contains(enemy.gameObject)) continue; hitSet.Add(enemy.gameObject);
-            EnemyStats es = enemy.GetComponent<EnemyStats>(); float finalDmg = (myStats != null) ? myStats.TotalAttack + addDamage : 30f; if (es != null) es.TakeDamage(finalDmg); 
-            Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>(); if (enemyRb != null) { Vector2 dir = (enemy.transform.position - transform.position).normalized; if(knockback > 10f) dir += Vector2.up * 0.5f; enemyRb.linearVelocity = Vector2.zero; enemyRb.AddForce(dir.normalized * knockback, ForceMode2D.Impulse); StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>())); } } }
-    IEnumerator FlashGoldEffect() { sr.color = new Color(1f, 0.9f, 0.4f); yield return new WaitForSeconds(0.15f); sr.color = Color.white; }
-    IEnumerator IgnoreCollisionRoutine(Collider2D enemyCol, float duration = 0.5f) { if (enemyCol == null || myCollider == null) yield break; Physics2D.IgnoreCollision(myCollider, enemyCol, true); yield return new WaitForSeconds(duration); if (enemyCol != null && myCollider != null) Physics2D.IgnoreCollision(myCollider, enemyCol, false); }
-    
+    void PerformAreaDamage(float addDamage, float knockback) 
+{ 
+    Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, impactRadius, enemyLayers);
+    HashSet<GameObject> hitSet = new HashSet<GameObject>();
+
+    foreach (Collider2D enemy in hitEnemies) 
+    { 
+        if(hitSet.Contains(enemy.gameObject)) continue; 
+        hitSet.Add(enemy.gameObject);
+
+        // 1. 데미지 전달
+        EnemyStats es = enemy.GetComponent<EnemyStats>(); 
+        float finalDmg = (myStats != null) ? myStats.TotalAttack + addDamage : 30f; 
+        if (es != null) es.TakeDamage(finalDmg);
+        
+        // 2. ★ 넉백 처리 (거미 vs 일반 몹 분기)
+        SpiderAI spider = enemy.GetComponent<SpiderAI>();
+        if (spider != null)
+        {
+            // 거미줄에 매달린 거미에게도 충격 전달
+            spider.ApplyKnockback(new Vector2(knockback, 0)); 
+        }
+        else
+        {
+            // 일반 몹 넉백 처리
+            Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>(); 
+            if (enemyRb != null) 
+            { 
+                Vector2 dir = (enemy.transform.position - transform.position).normalized; 
+                if(knockback > 10f) dir += Vector2.up * 0.5f; 
+                enemyRb.linearVelocity = Vector2.zero; 
+                enemyRb.AddForce(dir.normalized * knockback, ForceMode2D.Impulse); 
+                StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>()));
+            } 
+        }
+    } 
+}
     // ★ [수정] 중복 데미지 방지
     void ApplyDamage(Vector2 point, float range, float multiplier, float knockbackForce) 
+{ 
+    Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(point, range, enemyLayers);
+    float baseDmg = (myStats != null) ? myStats.TotalAttack : attackDamage;
+    float finalDmg = baseDmg * multiplier; 
+    
+    HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
+
+    foreach (Collider2D enemy in hitEnemies) 
     { 
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(point, range, enemyLayers); 
-        float baseDmg = (myStats != null) ? myStats.TotalAttack : attackDamage; 
-        float finalDmg = baseDmg * multiplier; 
+        if (damagedEnemies.Contains(enemy.gameObject)) continue;
+        damagedEnemies.Add(enemy.gameObject);
+
+        // 1. 데미지 전달
+        EnemyStats es = enemy.GetComponent<EnemyStats>(); 
+        if (es != null) es.TakeDamage(finalDmg);
         
-        HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
-
-        foreach (Collider2D enemy in hitEnemies) 
-        { 
-            if (damagedEnemies.Contains(enemy.gameObject)) continue;
-            damagedEnemies.Add(enemy.gameObject);
-
-            EnemyStats es = enemy.GetComponent<EnemyStats>(); 
-            if (es != null) es.TakeDamage(finalDmg); 
-            
+        // 2. ★ 넉백 처리 (거미 vs 일반 몹 분기)
+        SpiderAI spider = enemy.GetComponent<SpiderAI>();
+        if (spider != null)
+        {
+            // 거미라면 흔들림 효과 호출
+            spider.ApplyKnockback(new Vector2(knockbackForce, 0)); 
+        }
+        else
+        {
+            // 일반 몹이라면 물리적인 힘을 가함
             Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>(); 
             if (enemyRb != null) 
             { 
@@ -337,9 +404,10 @@ public class BeetleController : MonoBehaviour
                 Vector2 knockbackDir = new Vector2(dirX, 0.5f).normalized; 
                 enemyRb.linearVelocity = Vector2.zero; 
                 enemyRb.AddForce(knockbackDir * knockbackForce, ForceMode2D.Impulse); 
-                StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>())); 
+                StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>()));
             } 
-        } 
-    }
+        }
+    } 
+}
     void OnDrawGizmos() { if (isGrounded) Gizmos.color = Color.green; else Gizmos.color = Color.red; Vector2 boxOrigin = (Vector2)transform.position + Vector2.up * 0.4f; Gizmos.DrawWireCube(boxOrigin + Vector2.down * (castDistance + 0.3f), boxSize); if (attackPoint != null) { Gizmos.color = Color.blue; Gizmos.DrawWireSphere(attackPoint.position, attackRange); } if (holdPoint != null) { Gizmos.color = Color.yellow; Gizmos.DrawWireSphere(holdPoint.position, 0.3f); } }
 }

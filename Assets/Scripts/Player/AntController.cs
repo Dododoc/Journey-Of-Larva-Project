@@ -307,19 +307,24 @@ public class AntController : MonoBehaviour
         foreach (Collider2D enemy in nearbyEnemies) StartCoroutine(IgnoreCollisionRoutine(enemy, 2.0f));
     }
 
-    void ApplyDamage(Vector2 point, float range, float multiplier, bool isLeech, float knockbackForce)
-    {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(point, range, enemyLayers);
-        float baseDmg = (myStats != null) ? myStats.TotalAttack : attackDamage;
-        float finalDmg = baseDmg * multiplier;
-        float totalHeal = 0f;
+    // AntController.cs의 ApplyDamage 부분 수정
+void ApplyDamage(Vector2 point, float range, float multiplier, bool isLeech, float knockbackForce)
+{
+    Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(point, range, enemyLayers);
+    float finalDmg = ((myStats != null) ? myStats.TotalAttack : attackDamage) * multiplier;
 
-        foreach (Collider2D enemy in hitEnemies) {
-            EnemyStats es = enemy.GetComponent<EnemyStats>();
-            if (es != null) es.TakeDamage(finalDmg);
+    foreach (Collider2D enemy in hitEnemies) {
+        EnemyStats es = enemy.GetComponent<EnemyStats>();
+        if (es != null) es.TakeDamage(finalDmg);
 
-            if (isLeech && myStats != null) totalHeal += finalDmg * lifestealRatio;
-
+        // ★ [추가] 넉백 처리 (거미 vs 일반 몹)
+        SpiderAI spider = enemy.GetComponent<SpiderAI>();
+        if (spider != null)
+        {
+            spider.ApplyKnockback(new Vector2(knockbackForce, 0)); //
+        }
+        else
+        {
             Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>();
             if (enemyRb != null)
             {
@@ -330,8 +335,8 @@ public class AntController : MonoBehaviour
                 StartCoroutine(IgnoreCollisionRoutine(enemy.GetComponent<Collider2D>()));
             }
         }
-        if (isLeech && totalHeal > 0 && myStats != null) myStats.Heal(totalHeal);
     }
+}
 
     void OnCollisionEnter2D(Collision2D collision) { if (isUnderground || isDiggingAnim || isInvincible) return; if (collision.gameObject.CompareTag("Enemy")) HandleCollisionDamage(collision.gameObject); }
     void OnCollisionStay2D(Collision2D collision) { if (isUnderground || isDiggingAnim || isInvincible) return; if (collision.gameObject.CompareTag("Enemy")) HandleCollisionDamage(collision.gameObject); }

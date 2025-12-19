@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class MantisAI : BaseEnemyAI
+public class ChasingEnemyAI : BaseEnemyAI
 {
-    [Header("Mantis Specific")]
-    public Transform groundCheck;     
-    public float checkDistance = 1f;  
-    public LayerMask groundLayer;     
+    [Header("Behavior Settings")]
+    public bool hasAttackAnimation = false; 
+    public float attackCooldown = 2f;
+    private float lastAttackTime;
 
     protected override void Update()
     {
@@ -15,10 +15,11 @@ public class MantisAI : BaseEnemyAI
 
         if (dist <= detectRange)
         {
-            LookAt(player.position.x);
-            if (dist <= attackRange)
+            LookAt(player.position.x); 
+
+            if (dist <= attackRange && hasAttackAnimation)
             {
-                StartAttack();
+                if (Time.time >= lastAttackTime + attackCooldown) StartAttack();
             }
             else
             {
@@ -35,18 +36,12 @@ public class MantisAI : BaseEnemyAI
     {
         if(anim != null) anim.SetBool("IsWalking", true);
         
-        float currentDistFromStart = transform.position.x - startPos.x;
+        // 현재 위치와 시작점 사이의 거리 체크
+        float currentDist = transform.position.x - startPos.x;
 
-        bool isCliff = false;
-        if (groundCheck != null)
+        if (Mathf.Abs(currentDist) >= patrolDistance)
         {
-            RaycastHit2D groundInfo = Physics2D.Raycast(groundCheck.position, Vector2.down, checkDistance, groundLayer);
-            if (groundInfo.collider == null) isCliff = true;
-        }
-
-        if (Mathf.Abs(currentDistFromStart) >= patrolDistance || isCliff)
-        {
-            patrolDir *= -1;
+            patrolDir *= -1; // 방향 전환
             LookAt(transform.position.x + patrolDir);
         }
 
@@ -65,6 +60,7 @@ public class MantisAI : BaseEnemyAI
         isAttacking = true;
         rb.linearVelocity = Vector2.zero;
         if(anim != null) anim.SetTrigger("Attack");
+        lastAttackTime = Time.time;
         Invoke("EndAttack", 1.0f);
     }
 

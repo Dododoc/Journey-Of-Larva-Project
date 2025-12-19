@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: d3e3bf99c9f152e419ee3aaf8d9e8795
+guid: 3c77309aee9bed742866ec891c298498
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -946624359672607065
-    second: Gemini_Generated_Image_kb82jukb82jukb82_0
+      213: 857896185839556718
+    second: Spider_Attack_0
   - first:
-      213: 6276706634418708914
-    second: Gemini_Generated_Image_kb82jukb82jukb82_1
+      213: 2398538015460877697
+    second: Spider_Attack_1
   - first:
-      213: 5231574563710504137
-    second: Gemini_Generated_Image_kb82jukb82jukb82_2
+      213: 7684751393892299153
+    second: Spider_Attack_2
   - first:
-      213: -6925199596535166514
-    second: Gemini_Generated_Image_kb82jukb82jukb82_3
+      213: 603225945861213092
+    second: Spider_Attack_3
   - first:
-      213: 8587469575568772735
-    second: Gemini_Generated_Image_kb82jukb82jukb82_4
+      213: -1588523883212844327
+    second: Spider_Attack_4
   - first:
-      213: 504133765522363226
-    second: Gemini_Generated_Image_kb82jukb82jukb82_5
+      213: 5577301503908604631
+    second: Spider_Attack_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -66,7 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 40
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -111,17 +111,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gemini_Generated_Image_kb82jukb82jukb82_0
+      name: Spider_Attack_0
       rect:
         serializedVersion: 2
-        x: 105
-        y: 965
-        width: 670
-        height: 661
+        x: 52
+        y: 501
+        width: 265
+        height: 233
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,20 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7ae8bf9092aecd2f0800000000000000
-      internalID: -946624359672607065
+      spriteID: e681123290cd7eb00800000000000000
+      internalID: 857896185839556718
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gemini_Generated_Image_kb82jukb82jukb82_1
+      name: Spider_Attack_1
       rect:
         serializedVersion: 2
-        x: 828
-        y: 985
-        width: 681
-        height: 647
+        x: 443
+        y: 503
+        width: 300
+        height: 234
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,20 +165,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2b16dd7bd675b1750800000000000000
-      internalID: 6276706634418708914
+      spriteID: 185e0d7fd91594120800000000000000
+      internalID: 2398538015460877697
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gemini_Generated_Image_kb82jukb82jukb82_2
+      name: Spider_Attack_2
       rect:
         serializedVersion: 2
-        x: 1573
-        y: 1004
-        width: 713
-        height: 632
+        x: 850
+        y: 504
+        width: 303
+        height: 237
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,20 +187,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9cc0fedf8594a9840800000000000000
-      internalID: 5231574563710504137
+      spriteID: 191732c5da8b5aa60800000000000000
+      internalID: 7684751393892299153
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gemini_Generated_Image_kb82jukb82jukb82_3
+      name: Spider_Attack_3
       rect:
         serializedVersion: 2
-        x: 106
-        y: 208
-        width: 701
-        height: 617
+        x: 51
+        y: 146
+        width: 289
+        height: 239
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -196,20 +209,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ec9c7d188afb4ef90800000000000000
-      internalID: -6925199596535166514
+      spriteID: 4ab4b5e3dc61f5800800000000000000
+      internalID: 603225945861213092
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gemini_Generated_Image_kb82jukb82jukb82_4
+      name: Spider_Attack_4
       rect:
         serializedVersion: 2
-        x: 870
-        y: 211
-        width: 740
-        height: 615
+        x: 453
+        y: 152
+        width: 288
+        height: 233
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,20 +231,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f7e4043a412dc2770800000000000000
-      internalID: 8587469575568772735
+      spriteID: 9d2dfdfc1fd64f9e0800000000000000
+      internalID: -1588523883212844327
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gemini_Generated_Image_kb82jukb82jukb82_5
+      name: Spider_Attack_5
       rect:
         serializedVersion: 2
-        x: 1628
-        y: 196
-        width: 669
-        height: 660
+        x: 887
+        y: 151
+        width: 264
+        height: 231
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -240,8 +253,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a539d3d1dfa0ff600800000000000000
-      internalID: 504133765522363226
+      spriteID: 7da69b10b2e866d40800000000000000
+      internalID: 5577301503908604631
       vertices: []
       indices: 
       edges: []
@@ -250,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 226637ab559479f46b1da8cfbaf86f78
+    spriteID: 7c864872649add74ca9faba67e3b94bd
     internalID: 0
     vertices: []
     indices: 
@@ -258,14 +271,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Gemini_Generated_Image_kb82jukb82jukb82_0: -946624359672607065
-      Gemini_Generated_Image_kb82jukb82jukb82_1: 6276706634418708914
-      Gemini_Generated_Image_kb82jukb82jukb82_2: 5231574563710504137
-      Gemini_Generated_Image_kb82jukb82jukb82_3: -6925199596535166514
-      Gemini_Generated_Image_kb82jukb82jukb82_4: 8587469575568772735
-      Gemini_Generated_Image_kb82jukb82jukb82_5: 504133765522363226
+      Spider_Attack_0: 857896185839556718
+      Spider_Attack_1: 2398538015460877697
+      Spider_Attack_2: 7684751393892299153
+      Spider_Attack_3: 603225945861213092
+      Spider_Attack_4: -1588523883212844327
+      Spider_Attack_5: 5577301503908604631
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

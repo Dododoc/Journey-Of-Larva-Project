@@ -117,6 +117,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -124,12 +137,12 @@ TextureImporter:
       name: Spider_Idle_0
       rect:
         serializedVersion: 2
-        x: 87
-        y: 846
-        width: 448
-        height: 397
+        x: 88
+        y: 847
+        width: 446
+        height: 395
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -146,12 +159,12 @@ TextureImporter:
       name: Spider_Idle_1
       rect:
         serializedVersion: 2
-        x: 556
-        y: 846
-        width: 447
-        height: 398
+        x: 557
+        y: 847
+        width: 445
+        height: 396
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -168,12 +181,12 @@ TextureImporter:
       name: Spider_Idle_2
       rect:
         serializedVersion: 2
-        x: 1025
-        y: 846
-        width: 448
-        height: 398
+        x: 1026
+        y: 847
+        width: 446
+        height: 396
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -190,12 +203,12 @@ TextureImporter:
       name: Spider_Idle_3
       rect:
         serializedVersion: 2
-        x: 1493
-        y: 846
-        width: 448
-        height: 399
+        x: 1494
+        y: 847
+        width: 446
+        height: 397
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -212,12 +225,12 @@ TextureImporter:
       name: Spider_Idle_4
       rect:
         serializedVersion: 2
-        x: 88
-        y: 255
-        width: 447
-        height: 397
+        x: 89
+        y: 256
+        width: 445
+        height: 395
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -234,12 +247,12 @@ TextureImporter:
       name: Spider_Idle_5
       rect:
         serializedVersion: 2
-        x: 556
-        y: 255
-        width: 447
-        height: 398
+        x: 557
+        y: 256
+        width: 445
+        height: 396
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -256,12 +269,12 @@ TextureImporter:
       name: Spider_Idle_6
       rect:
         serializedVersion: 2
-        x: 1027
-        y: 256
-        width: 445
-        height: 396
+        x: 1028
+        y: 257
+        width: 443
+        height: 394
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -278,12 +291,12 @@ TextureImporter:
       name: Spider_Idle_7
       rect:
         serializedVersion: 2
-        x: 1496
-        y: 256
-        width: 444
-        height: 396
+        x: 1497
+        y: 257
+        width: 442
+        height: 394
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -300,7 +313,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7f8404fd0f954e64d992aeafa9182ccd
     internalID: 0
     vertices: []
     indices: 
@@ -308,7 +321,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Spider_Idle_0: 1974895838090585116
       Spider_Idle_1: 1829324309001267361

@@ -11,33 +11,53 @@ public class SpecialTree : MonoBehaviour
     public GameObject greenLeafPrefab;
     public GameObject goldLeafPrefab;
     
-    // ★ [수정] 랜덤 드롭 범위를 위한 설정
+    // 랜덤 드롭 범위를 위한 설정
     public Vector2 dropAreaCenter; // 나무 중심으로부터의 상대적 중심점
     public Vector2 dropAreaSize;   // 드롭 구역의 가로, 세로 크기
     
-    [Range(0, 100)] public float goldChance = 30f;
+    [Range(0, 100)] public float goldChance = 30f; // 골드 나뭇잎 확률 30%
 
     [Header("Tree Stats")]
-    public int maxHits = 4;
+    public int maxHits = 4; // 4번 맞으면 쓰러짐
+    public float hitCooldown = 0.5f; // 타격 간격 제한 (연타 방지)
+    
     private int currentHits = 0;
     private bool isCollapsed = false;
-    void Awake()
-    {
-        // ★ 추가: 인스펙터에서 깜빡하고 연결 안 했을 때를 대비해 자동으로 컴포넌트를 가져옵니다.
-        if (anim == null)
-        {
-            anim = GetComponent<Animator>();
-        }
+    private float lastHitTime; // 마지막으로 맞은 시간 기록
 
-        // SpriteRenderer도 마찬가지로 자동 할당하면 안전합니다.
-        if (sr == null)
-        {
-            sr = GetComponent<SpriteRenderer>();
-        }
+    void Awake()
+{
+    // 1. 애니메이터 할당
+    if (anim == null) anim = GetComponent<Animator>();
+
+    // 2. SpriteRenderer를 먼저 할당 (순서 중요!)
+    if (sr == null) sr = GetComponent<SpriteRenderer>();
+
+    // 3. sr이 정상적으로 할당되었는지 확인 후 머티리얼 인스턴스화 진행
+    if (sr != null) 
+    {
+        sr.material = new Material(sr.material); 
+    }
+    else 
+    {
+        Debug.LogError("SpecialTree: SpriteRenderer를 찾을 수 없습니다!");
+    }
+}
+
+    // 처음 부딪혔을 때
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        HandleHitCheck(collision);
     }
 
-        // SpecialTree.cs의 OnCollisionEnter2D 수정
-    void OnCollisionEnter2D(Collision2D collision)
+    // 이미 붙어 있는 상태에서 대시를 눌렀을 때를 위해 추가
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        HandleHitCheck(collision);
+    }
+
+    // 타격 가능 여부를 확인하는 공통 로직
+    private void HandleHitCheck(Collision2D collision)
     {
         if (isCollapsed) return;
 
@@ -45,10 +65,14 @@ public class SpecialTree : MonoBehaviour
         {
             Larva_PlayerController player = collision.gameObject.GetComponent<Larva_PlayerController>();
             
-            // ★ 핵심: 플레이어의 IsDashing 프로퍼티가 true일 때만 타격으로 인정
+            // 플레이어가 대시 중(IsDashing)이고, 쿨다운 시간이 지났는지 확인
             if (player != null && player.IsDashing)
             {
-                TakeHit();
+                if (Time.time - lastHitTime >= hitCooldown)
+                {
+                    lastHitTime = Time.time;
+                    TakeHit();
+                }
             }
         }
     }
@@ -59,22 +83,25 @@ public class SpecialTree : MonoBehaviour
         
         if (currentHits < maxHits)
         {
-            anim.SetTrigger("DoHit");
+            // 흔들리는 애니메이션 재생 및 나뭇잎 드롭
+            if (anim != null) anim.SetTrigger("DoHit");
             DropLeaf();
         }
         else
         {
+            // 4번째 타격 시 쓰러짐 코루틴 시작
             StartCoroutine(CollapseRoutine());
         }
     }
 
     void DropLeaf()
     {
+        // 확률에 따라 그린/골드 나뭇잎 결정
         GameObject prefab = (Random.value * 100f <= goldChance) ? goldLeafPrefab : greenLeafPrefab;
         
         if (prefab != null)
         {
-            // ★ [핵심] 랜덤 위치 계산
+            // 설정된 dropArea 범위 내 랜덤 위치 계산
             Vector3 randomPos = new Vector3(
                 transform.position.x + dropAreaCenter.x + Random.Range(-dropAreaSize.x / 2, dropAreaSize.x / 2),
                 transform.position.y + dropAreaCenter.y + Random.Range(-dropAreaSize.y / 2, dropAreaSize.y / 2),
@@ -86,53 +113,42 @@ public class SpecialTree : MonoBehaviour
     }
 
     IEnumerator CollapseRoutine()
-{
-    isCollapsed = true;
-
-    // 1. 플레이어 위치 확인 (반대 방향 계산)
-    // Larva_PlayerController가 이미 충돌 시점에 확인되었다고 가정합니다.
-    GameObject player = GameObject.FindWithTag("Player"); 
-    if (player != null)
     {
-        float playerX = player.transform.position.x;
-        float treeX = transform.position.x;
+        isCollapsed = true;
 
-        // 플레이어가 나무보다 오른쪽에 있으면
-        if (playerX > treeX)
+        // 플레이어 위치 확인하여 반대 방향으로 쓰러지게 반전
+        GameObject player = GameObject.FindWithTag("Player"); 
+        if (player != null)
         {
-            // 나무를 좌우 반전시켜 왼쪽으로 쓰러지게 함
-            sr.flipX = true;
+            float playerX = player.transform.position.x;
+            float treeX = transform.position.x;
+
+            // 플레이어가 나무 오른쪽에 있으면 왼쪽으로 쓰러짐 (flipX)
+            sr.flipX = (playerX > treeX);
         }
-        else
+
+        // 쓰러지는 애니메이션 실행 및 보너스 드롭
+        if (anim != null) anim.SetTrigger("DoFall"); 
+        for(int i = 0; i < 3; i++) DropLeaf();
+
+        // 애니메이션 재생 시간 대기 (약 2초)
+        yield return new WaitForSeconds(2.0f); 
+
+        // 페이드 아웃으로 사라짐
+        float fadeTime = 2.0f;
+        float timer = 0f;
+        while (timer < fadeTime)
         {
-            // 플레이어가 왼쪽에 있으면 기본 방향(오른쪽)으로 쓰러짐
-            sr.flipX = false;
+            timer += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, timer / fadeTime);
+            if (sr != null) sr.color = new Color(1, 1, 1, alpha);
+            yield return null;
         }
+
+        Destroy(gameObject);
     }
 
-    // 2. 애니메이션 실행
-    anim.SetTrigger("DoFall"); 
-    
-    // 쓰러질 때 보너스 나뭇잎 드롭
-    for(int i = 0; i < 3; i++) DropLeaf();
-
-    yield return new WaitForSeconds(2.0f); 
-
-    // 3. 페이드 아웃
-    float fadeTime = 2.0f;
-    float timer = 0f;
-    while (timer < fadeTime)
-    {
-        timer += Time.deltaTime;
-        float alpha = Mathf.Lerp(1f, 0f, timer / fadeTime);
-        if (sr != null) sr.color = new Color(1, 1, 1, alpha);
-        yield return null;
-    }
-
-    Destroy(gameObject);
-}
-
-    // ★ [추가] 에디터에서 드롭 범위를 시각적으로 표시 (초록색 사각형)
+    // 에디터 씬 뷰에서 드롭 범위를 시각적으로 표시
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;

@@ -95,6 +95,15 @@ public class EvolutionItem : MonoBehaviour
 
             var cineCam = FindObjectOfType<CinemachineCamera>();
             if (cineCam != null) cineCam.Follow = newPlayer.transform;
+            if (GameManager.instance != null) 
+            {
+                // 1. 캐릭터 타입 변경
+                GameManager.instance.currentCharacter = typeToChange;
+                
+                // 2. ★ 경험치와 레벨 강제 초기화 호출 ★
+                // 이걸 해야 새로 태어난 플레이어가 0부터 시작합니다.
+                GameManager.instance.ResetGlobalStats();
+            }
             
             if (GameManager.instance != null) GameManager.instance.currentCharacter = typeToChange;
         }

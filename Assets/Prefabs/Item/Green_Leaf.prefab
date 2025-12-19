@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd94f2c6de8674243abd7de0743d1e60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeafItem
-  expAmount: 20
+  expAmount: 5
   highlightColor: {r: 25.992073, g: 4.5627832, b: 0, a: 1}
   maxOutlineWidth: 7
   detectionRange: 3

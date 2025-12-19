@@ -13,11 +13,27 @@ public class GameManager : MonoBehaviour
     public int globalMaxXP = 100;
     public int globalLevel = 1;
 
+    [Header("Game Info")]
+    public float playTime = 0f;
+    private bool isGameRunning = true;
+
     void Awake()
     {
         if (instance == null) { instance = this; DontDestroyOnLoad(gameObject); }
         else { Destroy(gameObject); }
     }
+    void Update()
+    {
+        if (isGameRunning)
+        {
+            playTime += Time.deltaTime;
+        }
+    }
+    public void StopGameTimer()
+    {
+        isGameRunning = false;
+    }
+
 
     public void ChangeCharacter(CharacterType newCharacter)
     {

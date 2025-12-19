@@ -71,9 +71,10 @@ public class PlayerStats : MonoBehaviour
         }
 
         UpdateUI(); 
-        
-        UIManager uiManager = FindObjectOfType<UIManager>();
-        if (uiManager != null) uiManager.UpdateEvolutionUI(0); 
+        if (UIManager.instance != null && GameManager.instance != null)
+        {
+            UIManager.instance.UpdateEvolutionUI((int)GameManager.instance.currentCharacter);
+        }
     }
 
     void Update()

@@ -55,6 +55,10 @@ public class BossAntlion : MonoBehaviour
     public float vortexMinDamage = 2f;  
     public float vortexMaxDamage = 10f; 
 
+    [Header("엔딩 설정")]
+    public GameObject endingPortalPrefab; // ★ [추가] 엔딩 포탈 프리팹 연결하는 칸
+    public Vector3 portalSpawnOffset = new Vector3(0, 2f, 0); // ★ [추가] 포탈이 나타날 위치 (보스 위치 기준)
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -270,11 +274,50 @@ public class BossAntlion : MonoBehaviour
     public void OnHit() { StopCoroutine("HitActionRoutine"); StartCoroutine("HitActionRoutine"); }
     IEnumerator HitActionRoutine() { float currentScaleX = Mathf.Sign(transform.localScale.x); transform.localScale = new Vector3(currentScaleX * 1.1f, 1.1f, 1f); if (sr != null) sr.color = new Color(1f, 0.4f, 0.4f); yield return new WaitForSeconds(0.05f); if (sr != null) sr.color = Color.white; transform.localScale = new Vector3(currentScaleX * 1.0f, 1.0f, 1f); }
     private void OnTriggerEnter2D(Collider2D collision) { if (isDead) return; if (collision.CompareTag("Player")) { PlayerStats ps = collision.GetComponent<PlayerStats>(); if (ps != null) ps.TakeDamage(touchDamage); } }
+<<<<<<< HEAD
     public void StartDeathSequence() { if (isDead) return; isDead = true; StopAllCoroutines(); anim.SetTrigger("DoDie"); GetComponent<Collider2D>().enabled = false; if(sr != null) sr.color = Color.white; // ★★★ [여기 추가!] 엔딩 매니저에게 "엔딩 시작해!" 라고 신호 보내기 ★★★
         if (GameEndingManager.instance != null)
         {
             GameEndingManager.instance.TriggerEnding();
         } Destroy(gameObject, 3.0f); }
+=======
+    public void StartDeathSequence()
+    {
+        if (isDead) return;
+        isDead = true;
+        StopAllCoroutines();
+        anim.SetTrigger("DoDie");
+        GetComponent<Collider2D>().enabled = false;
+        if(sr != null) sr.color = Color.white;
+        
+        // ★ [추가] 2초 뒤에 포탈 생성 코루틴 시작
+        StartCoroutine(SpawnPortalRoutine());
+        
+        Destroy(gameObject, 3.0f);
+    }
+
+    // ★ [추가] 포탈 생성 코루틴
+    IEnumerator SpawnPortalRoutine()
+    {
+        // 보스 사망 애니메이션이 어느 정도 재생된 후 포탈 생성
+        yield return new WaitForSeconds(2.0f); 
+
+        if (endingPortalPrefab != null)
+        {
+            // 보스 위치보다 약간 위에 포탈 생성
+            Instantiate(endingPortalPrefab, transform.position + portalSpawnOffset, Quaternion.identity);
+            Debug.Log("보스 사망! 엔딩 포탈이 생성되었습니다.");
+        }
+        else
+        {
+            Debug.LogError("엔딩 포탈 프리팹이 연결되지 않았습니다!");
+        }
+    }
+        
+    
+
+
+>>>>>>> 3af38861f8e43197c32a6576f845799e2b4d9d92
 
     // ★ [추가] 맵 제한 구역을 눈으로 확인하는 기능
     // 인스펙터에서 Map Min X, Map Max X를 조절하면 초록색 선이 움직입니다.

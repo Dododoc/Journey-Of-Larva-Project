@@ -1,11 +1,15 @@
 using UnityEngine;
-using System.Collections; // ★ 이 줄이 있어야 IEnumerator 에러가 사라집니다.
+using System.Collections; 
 
 public class SpiderAI : MonoBehaviour
 {
     [Header("Detection & Attack")]
     public float detectionRange = 10f;
     public float fireRate = 2f;
+    
+    // ★ [추가] 침 투사체만의 데미지를 따로 설정 (기본값 15)
+    public float projectileDamage = 15f; 
+
     private float nextFireTime;
 
     [Header("References")]
@@ -18,9 +22,8 @@ public class SpiderAI : MonoBehaviour
     private Transform player;
     private SpriteRenderer sr;
     private Animator anim;
-    private EnemyStats stats; //
+    private EnemyStats stats; 
 
-    // 넉백 연출을 위한 변수
     private bool isKnockedBack = false;
     private Vector3 originalPos;
 
@@ -29,19 +32,19 @@ public class SpiderAI : MonoBehaviour
         player = GameObject.FindWithTag("Player")?.transform;
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-        stats = GetComponent<EnemyStats>(); //
+        stats = GetComponent<EnemyStats>(); 
         originalPos = transform.position;
 
         if (webLine != null)
         {
             webLine.positionCount = 2;
-            webLine.useWorldSpace = false; //
+            webLine.useWorldSpace = false; 
         }
     }
 
     void Update()
     {
-        if (isKnockedBack) return; // 넉백 중에는 공격/추적 중지
+        if (isKnockedBack) return; 
 
         UpdateSpiderweb();
 
@@ -62,29 +65,26 @@ public class SpiderAI : MonoBehaviour
         if (webLine != null)
         {
             webLine.SetPosition(0, new Vector3(0, webTopY, 0));
-            webLine.SetPosition(1, Vector3.zero); //
+            webLine.SetPosition(1, Vector3.zero); 
         }
     }
 
-    // ★ 거미 전용 넉백 함수
     public void ApplyKnockback(Vector2 force)
     {
         StopCoroutine("SwingRoutine");
         StartCoroutine(SwingRoutine(force.x));
     }
 
-    // ★ IEnumerator 에러가 났던 부분
     IEnumerator SwingRoutine(float pushForce)
     {
         isKnockedBack = true;
         float elapsed = 0f;
         float duration = 0.5f;
-        float swingMagnitude = pushForce * 0.05f; // 흔들림 강도 조절
+        float swingMagnitude = pushForce * 0.05f; 
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            // 사인파를 이용해 좌우로 감쇄하며 흔들리는 연출
             float xOffset = Mathf.Sin(elapsed * 20f) * swingMagnitude * (1 - (elapsed / duration));
             transform.position = originalPos + new Vector3(xOffset, 0, 0);
             yield return null;
@@ -110,7 +110,9 @@ public class SpiderAI : MonoBehaviour
         if (projectileScript != null)
         {
             Vector2 direction = (player.position - firePoint.position).normalized;
-            projectileScript.Setup(direction, stats.attackDamage); //
+            
+            // ★ [수정] stats.attackDamage 대신, 위에서 설정한 projectileDamage 사용
+            projectileScript.Setup(direction, projectileDamage); 
         }
     }
 }

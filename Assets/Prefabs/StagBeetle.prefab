@@ -102,6 +102,84 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &1147352925398956310
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 175734569427825296}
+  - component: {fileID: 556563714443097623}
+  m_Layer: 9
+  m_Name: PhysicalBody
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &175734569427825296
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147352925398956310}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 23.239393, y: 3.6098082, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7629097480704725251}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &556563714443097623
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147352925398956310}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -23.306862, y: -1.7613719}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 7.750879, y: 6.33}
+    newSize: {x: 7.750879, y: 6.33}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 5.101145, y: 3.4801989}
+  m_EdgeRadius: 0
 --- !u!1 &2160683246194694240
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,8 +269,8 @@ GameObject:
   - component: {fileID: 3482232857606708099}
   - component: {fileID: 5278042872634148488}
   - component: {fileID: 8061046964486787770}
-  - component: {fileID: 8211396490078217578}
-  m_Layer: 9
+  - component: {fileID: 7772908772233411802}
+  m_Layer: 13
   m_Name: StagBeetle
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -213,6 +291,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6328841876793824386}
+  - {fileID: 175734569427825296}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7865424948695922245
@@ -352,11 +431,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.18897247, y: 1.86588}
+  m_Offset: {x: -0.043973923, y: 1.86588}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -366,7 +445,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.523819, y: 3.575142}
+  m_Size: {x: 4.968483, y: 3.575142}
   m_EdgeRadius: 0
 --- !u!114 &8061046964486787770
 MonoBehaviour:
@@ -382,13 +461,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   maxHp: 300
   currentHp: 0
-  attackDamage: 40
-  expReward: 70
+  attackDamage: 25
+  expReward: 80
   hpBarFill: {fileID: 1910476021297516196}
   hpCanvas: {fileID: 1079063821107652019}
   bossScreenHPBar: {fileID: 0}
   bossUIFrame: {fileID: 0}
---- !u!114 &8211396490078217578
+--- !u!114 &7772908772233411802
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -397,15 +476,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 4095857957331292786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df18f431245f64d4099d326162d12a36, type: 3}
+  m_Script: {fileID: 11500000, guid: cbbfd70cdb6d3f347b1d699583a797dc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ChasingEnemyAI
+  m_EditorClassIdentifier: Assembly-CSharp::StagBeetleAI
   detectRange: 15
   moveSpeed: 3
   chaseSpeed: 4
   attackRange: 1.5
-  hasAttackAnimation: 0
-  attackCooldown: 2
+  patrolDistance: 5
+  stopDistance: 4.5
+  damage: 15
+  attackRate: 2
+  attackRangeCheck: 3
 --- !u!1 &6535812531403781473
 GameObject:
   m_ObjectHideFlags: 0

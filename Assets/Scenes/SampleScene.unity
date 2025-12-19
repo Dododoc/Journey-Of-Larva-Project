@@ -220,7 +220,7 @@ Transform:
   m_GameObject: {fileID: 148318282}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.8, y: 0.004000187, z: -10}
+  m_LocalPosition: {x: -38.5, y: 0.004000187, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -234,21 +234,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1144203991694457206, guid: d331dec7c5b2f4808acec64375b5c642, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 2888646692998219095, guid: d331dec7c5b2f4808acec64375b5c642, type: 3}
       propertyPath: m_Name
       value: Spider
       objectReference: {fileID: 0}
-    - target: {fileID: 5091074965282545095, guid: d331dec7c5b2f4808acec64375b5c642, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6787066636562175972, guid: d331dec7c5b2f4808acec64375b5c642, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 56.74189
+      value: 52.2
       objectReference: {fileID: 0}
     - target: {fileID: 6787066636562175972, guid: d331dec7c5b2f4808acec64375b5c642, type: 3}
       propertyPath: m_LocalPosition.y
@@ -310,13 +302,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 121028750947435247, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
+      propertyPath: expReward
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 1133158917890505474, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
       propertyPath: m_Name
       value: Cricket
       objectReference: {fileID: 0}
     - target: {fileID: 5326524360730249405, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 47.69915
+      value: 3.2
       objectReference: {fileID: 0}
     - target: {fileID: 5326524360730249405, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
       propertyPath: m_LocalPosition.y
@@ -353,10 +349,6 @@ PrefabInstance:
     - target: {fileID: 5326524360730249405, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7816790170457650660, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -495,7 +487,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.8, y: 0.004000187, z: -10}
+  m_LocalPosition: {x: -38.5, y: 0.004000187, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -642,13 +634,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: StagBeetle
       objectReference: {fileID: 0}
-    - target: {fileID: 5278042872634148488, guid: cf60db8d670db40789097aad34c50709, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7629097480704725251, guid: cf60db8d670db40789097aad34c50709, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.260607
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 7629097480704725251, guid: cf60db8d670db40789097aad34c50709, type: 3}
       propertyPath: m_LocalPosition.y
@@ -707,9 +695,13 @@ PrefabInstance:
       propertyPath: playerHUD
       value: 
       objectReference: {fileID: 1565639521}
+    - target: {fileID: 4352357347262095426, guid: 3c8e5f0801f734b139638f5a869c0c21, type: 3}
+      propertyPath: expToNextLevel
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 4416716137714222903, guid: 3c8e5f0801f734b139638f5a869c0c21, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.8
+      value: -38.5
       objectReference: {fileID: 0}
     - target: {fileID: 4416716137714222903, guid: 3c8e5f0801f734b139638f5a869c0c21, type: 3}
       propertyPath: m_LocalPosition.y
@@ -842,11 +834,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1174512637 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6329621345220916430, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-  m_PrefabInstance: {fileID: 1600752171}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1202750163 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1189090254074900129, guid: 502e660bdc2329947b411de5172e2bbe, type: 3}
@@ -960,21 +947,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2450132989418105864, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
-      propertyPath: m_GravityScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4289670311379358685, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
       propertyPath: m_Name
       value: Ladybug
       objectReference: {fileID: 0}
-    - target: {fileID: 7427227966443891696, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
+    - target: {fileID: 4851599988211334987, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
+      propertyPath: expReward
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7798674915663724985, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.891651
+      value: -18.7
       objectReference: {fileID: 0}
     - target: {fileID: 7798674915663724985, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1049,15 +1032,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 503514158930610623, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
       propertyPath: m_Name
-      value: MantisA
+      value: Mantis
       objectReference: {fileID: 0}
     - target: {fileID: 1167752012788346352, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 36.612278
+      value: -10.2
       objectReference: {fileID: 0}
     - target: {fileID: 1167752012788346352, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8239628
+      value: -1.1
       objectReference: {fileID: 0}
     - target: {fileID: 1167752012788346352, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1091,26 +1074,47 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6329621345220916430, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.02
+    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: attackRange
+      value: 4.23
       objectReference: {fileID: 0}
-    - target: {fileID: 6329621345220916430, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.99
+    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: detectRange
+      value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 8912353691135799014, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: m_IsTrigger
+    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: attackCooldown
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: attackHitDelay
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2338267592540771351, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-    m_RemovedGameObjects: []
+    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: attackHitRange
+      value: 3.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: patrolDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: attackFullDuration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: mantisAttackDamage
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183255080575465575, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+      propertyPath: attackDamage
+      value: 30
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects:
+    - {fileID: 1912670148207568004, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 503514158930610623, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1973175714}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
 --- !u!1001 &1761851081
 PrefabInstance:
@@ -1124,13 +1128,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bee
       objectReference: {fileID: 0}
+    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
+      propertyPath: flyWidth
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
+      propertyPath: flyHeight
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
+      propertyPath: chaseSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
+      propertyPath: attackRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
+      propertyPath: stopDistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
+      propertyPath: stingHitDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
+      propertyPath: poisonDuration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5460953823439721556, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 67.69763
+      value: -25.8
       objectReference: {fileID: 0}
     - target: {fileID: 5460953823439721556, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.7534876
+      value: -2.6
       objectReference: {fileID: 0}
     - target: {fileID: 5460953823439721556, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1164,46 +1196,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7967357362881922624, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8296987953383779092, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
+    - target: {fileID: 5786646178505565980, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
+      propertyPath: expReward
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
---- !u!1 &1973175706 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 503514158930610623, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-  m_PrefabInstance: {fileID: 1600752171}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1973175714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1973175706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14f600bf785f945aea871dff305585bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MantisAI
-  detectRange: 13
-  moveSpeed: 2
-  chaseSpeed: 3
-  attackRange: 1.5
-  patrolDistance: 5
-  groundCheck: {fileID: 1174512637}
-  checkDistance: 1
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 4160
 --- !u!1 &1989217239 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1515049413461492295, guid: 502e660bdc2329947b411de5172e2bbe, type: 3}
@@ -1300,10 +1301,6 @@ PrefabInstance:
     - target: {fileID: 7440945380517573119, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
       propertyPath: m_Name
       value: Boss_Mantis_HUD
-      objectReference: {fileID: 0}
-    - target: {fileID: 7440945380517573119, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1658,6 +1655,10 @@ PrefabInstance:
     - target: {fileID: 2535654659165878847, guid: c88fc134a5e5ed74c8369c80e8e8592a, type: 3}
       propertyPath: m_Name
       value: Boss_Mantis
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535654659165878847, guid: c88fc134a5e5ed74c8369c80e8e8592a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8667783248819578818, guid: c88fc134a5e5ed74c8369c80e8e8592a, type: 3}
       propertyPath: bossUIFrame

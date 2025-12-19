@@ -1,12 +1,10 @@
 using UnityEngine;
-using System.Collections; // 코루틴 사용을 위해 필수
+using System.Collections; 
 
 public class PlayerStats : MonoBehaviour
 {
     [Header("References")]
     public PlayerHUD playerHUD; 
-    
-    // ★ [추가] 플레이어가 맞았을 때 터질 이펙트 (피 튀기는 효과 등)
     public GameObject hitEffectPrefab; 
 
     [Header("Level Info")]
@@ -26,7 +24,7 @@ public class PlayerStats : MonoBehaviour
     public float bonusMaxHp = 0f;
 
     private Vector3 startPosition;
-    private SpriteRenderer sr; // ★ 색상 변경을 위해 추가
+    private SpriteRenderer sr; 
 
     public float TotalAttack => (baseAttack * currentLevel) + bonusAttack;
     public float TotalDefense => (baseDefense * currentLevel) + bonusDefense;
@@ -35,27 +33,17 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         if (playerHUD == null) playerHUD = FindObjectOfType<PlayerHUD>();
-        sr = GetComponent<SpriteRenderer>(); // ★ 컴포넌트 가져오기
+        sr = GetComponent<SpriteRenderer>(); 
 
         startPosition = transform.position;
 
-        currentHp = TotalMaxHp;
-        CalculateNextLevelExp();
-        UpdateUI(); 
-
-        
-        UIManager uiManager = FindObjectOfType<UIManager>();
-        if (uiManager != null) uiManager.UpdateEvolutionUI(0);
-
-
-        // ★ [데이터 로드 및 초기화 로직]
+        // ★ [데이터 로드 로직]
         if (GameManager.instance != null)
         {
-            // 1. 매니저 데이터 로드
             currentLevel = GameManager.instance.globalLevel;
             currentExp = GameManager.instance.globalXP;
 
-            // 2. [방어 코드] 진화 상태인데 1레벨 경험치가 남아있다면 초기화
+            // [방어 코드] 진화 상태인데 1레벨 경험치 잔존 시 초기화
             if (GameManager.instance.currentCharacter != GameManager.CharacterType.Larva)
             {
                 if (currentLevel == 1 && currentExp > 0)
@@ -66,11 +54,10 @@ public class PlayerStats : MonoBehaviour
                 }
             }
             
-            // 3. 스탯 세팅
             CalculateNextLevelExp();
             currentHp = TotalMaxHp; 
             
-            Debug.Log($"[PlayerStats] 최종 로드 완료: Lv.{currentLevel}, XP.{currentExp}");
+            Debug.Log($"[PlayerStats] 로드 완료: Lv.{currentLevel}, XP.{currentExp}");
         }
         else
         {
@@ -80,13 +67,10 @@ public class PlayerStats : MonoBehaviour
 
         UpdateUI(); 
 
-        // ★ [통합] 팀원 코드의 로직 채택 (저장된 캐릭터 타입에 맞춰 UI 갱신)
-
         if (UIManager.instance != null && GameManager.instance != null)
         {
             UIManager.instance.UpdateEvolutionUI((int)GameManager.instance.currentCharacter);
         }
-
     }
 
     void Update()
@@ -106,6 +90,8 @@ public class PlayerStats : MonoBehaviour
     {
         currentExp += amount;
         if (currentExp >= expToNextLevel) LevelUp();
+        
+        SaveStatsToManager(); // ★ [추가] 경험치 얻으면 저장!
         UpdateUI(); 
     }
 
@@ -115,7 +101,20 @@ public class PlayerStats : MonoBehaviour
         currentExp -= expToNextLevel; 
         CalculateNextLevelExp(); 
         currentHp = TotalMaxHp;  
+        
+        SaveStatsToManager(); // ★ [추가] 레벨업하면 저장!
+
         if(currentExp >= expToNextLevel) LevelUp();
+    }
+
+    // ★ [추가] 중요: 매니저에 현재 상태를 저장하는 함수
+    void SaveStatsToManager()
+    {
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.globalLevel = currentLevel;
+            GameManager.instance.globalXP = currentExp;
+        }
     }
 
     void CalculateNextLevelExp()
@@ -152,6 +151,7 @@ public class PlayerStats : MonoBehaviour
         CalculateNextLevelExp();
         currentHp = TotalMaxHp;
 
+        SaveStatsToManager(); // ★ 진화 후 초기화된 정보 저장
         UpdateUI();
 
         UIManager uiManager = FindObjectOfType<UIManager>();
@@ -162,19 +162,14 @@ public class PlayerStats : MonoBehaviour
         }
     }
     
-
-    // ★ [핵심] 데미지 입는 함수 수정
-
     public void TakeDamage(float damage)
     {
-        // 1. 데미지 계산
         float defenseFactor = 100f / (100f + TotalDefense);
         float finalDamage = damage * defenseFactor;
         finalDamage = Mathf.Max(1f, finalDamage);
         
         currentHp -= finalDamage;
 
-        // 2. ★ 피격 연출 (빨간맛 + 이펙트) 자동 실행!
         StartCoroutine(HitFlashRoutine());
         if (hitEffectPrefab != null)
         {
@@ -187,14 +182,13 @@ public class PlayerStats : MonoBehaviour
         if (currentHp <= 0) Die();
     }
 
-    // ★ [신규] 빨갛게 깜빡이는 코루틴
     IEnumerator HitFlashRoutine()
     {
         if (sr != null)
         {
-            sr.color = new Color(1f, 0.4f, 0.4f); // 붉은색
+            sr.color = new Color(1f, 0.4f, 0.4f); 
             yield return new WaitForSeconds(0.1f);
-            sr.color = Color.white; // 원래대로
+            sr.color = Color.white; 
         }
     }
 
@@ -209,34 +203,30 @@ public class PlayerStats : MonoBehaviour
     {
         currentLevel = 1;
         currentExp = 0;
+        
+        SaveStatsToManager(); // ★ 부활 시 초기화 정보 저장
+
         CalculateNextLevelExp();
         currentHp = TotalMaxHp;
         transform.position = startPosition;
         
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-
-        if(rb != null) rb.linearVelocity = Vector2.zero;
-
-        // 부활 시 색상 초기화
-
-        if(rb != null) rb.linearVelocity = Vector2.zero; // Unity 6+ (구버전은 rb.velocity)
+        // ★ [수정] 중복된 코드 삭제 및 Unity 버전 호환성 유지
+        if(rb != null) rb.linearVelocity = Vector2.zero; 
 
         if (sr != null) sr.color = Color.white;
 
         UpdateUI();
     }
 
-    // ★ [통합] 독 데미지 관련 로직 추가 (내 코드 유지)
     public void ApplyPoison(float totalDamage, float duration)
     {
-        // 이미 독에 걸려있다면 새로 갱신
         StopCoroutine("PoisonRoutine");
         StartCoroutine(PoisonRoutine(totalDamage, duration));
     }
 
     IEnumerator PoisonRoutine(float totalDamage, float duration)
     {
-        // 예: 3초 동안 10데미지 -> 0.5초마다 나눠서 데미지
         float tickInterval = 0.5f; 
         int ticks = Mathf.FloorToInt(duration / tickInterval);
         float damagePerTick = totalDamage / ticks;
@@ -246,10 +236,10 @@ public class PlayerStats : MonoBehaviour
 
         for (int i = 0; i < ticks; i++)
         {
-            if (playerSr != null) playerSr.color = new Color(0.4f, 1f, 0.4f); // 초록색 티닝
+            if (playerSr != null) playerSr.color = new Color(0.4f, 1f, 0.4f); 
             TakeDamage(damagePerTick); 
             yield return new WaitForSeconds(0.1f);
-            if (playerSr != null) playerSr.color = originalColor; // 색 복구
+            if (playerSr != null) playerSr.color = originalColor; 
             yield return new WaitForSeconds(tickInterval - 0.1f);
         }
     }

@@ -68,11 +68,7 @@ public class PlayerStats : MonoBehaviour
         }
 
         UpdateUI(); 
-<<<<<<< Updated upstream
-=======
 
-        // ★ [통합] 팀원 코드의 로직 채택 (저장된 캐릭터 타입에 맞춰 UI 갱신)
->>>>>>> Stashed changes
         if (UIManager.instance != null && GameManager.instance != null)
         {
             UIManager.instance.UpdateEvolutionUI((int)GameManager.instance.currentCharacter);

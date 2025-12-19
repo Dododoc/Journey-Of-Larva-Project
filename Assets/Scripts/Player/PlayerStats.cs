@@ -37,25 +37,28 @@ public class PlayerStats : MonoBehaviour
 
         startPosition = transform.position;
 
-        // ★ [데이터 로드 및 초기화 로직]
+        // ★ [수정 핵심] 데이터 로드 및 "진화 직후 초기화" 로직
         if (GameManager.instance != null)
         {
-            // 1. 매니저 데이터 로드
+            // 1. 일단 매니저의 데이터를 가져옵니다.
             currentLevel = GameManager.instance.globalLevel;
             currentExp = GameManager.instance.globalXP;
 
-            // 2. [방어 코드] 진화 상태인데 1레벨 경험치가 남아있다면 초기화
+            // 2. [방어 코드] 만약 캐릭터가 'Larva(애벌레)'가 아닌데(진화했음),
+            //    레벨은 1이고, 경험치가 남아있다면? -> 이건 라바 시절 경험치다! 삭제하자.
             if (GameManager.instance.currentCharacter != GameManager.CharacterType.Larva)
             {
                 if (currentLevel == 1 && currentExp > 0)
                 {
                     Debug.LogWarning("⚠️ 진화 직후 잔여 경험치 감지! 강제로 0으로 초기화합니다.");
                     currentExp = 0;
+                    
+                    // 매니저에도 즉시 반영 (중요)
                     GameManager.instance.globalXP = 0;
                 }
             }
             
-            // 3. 스탯 세팅
+            // 3. 정리된 데이터로 세팅
             CalculateNextLevelExp();
             currentHp = TotalMaxHp; 
             
@@ -68,8 +71,6 @@ public class PlayerStats : MonoBehaviour
         }
 
         UpdateUI(); 
-
-
         if (UIManager.instance != null && GameManager.instance != null)
         {
             UIManager.instance.UpdateEvolutionUI((int)GameManager.instance.currentCharacter);
@@ -134,6 +135,7 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    // 이 함수는 혹시 버튼으로 호출될 때를 대비해 유지합니다.
     public void Evolve(int selectedPathIndex)
     {
         float bonusMultiplier = currentLevel * 0.5f; 
@@ -166,6 +168,7 @@ public class PlayerStats : MonoBehaviour
         }
     }
     
+    // ... (이하 데미지, 사망 관련 코드는 기존과 동일) ...
     public void TakeDamage(float damage)
     {
         float defenseFactor = 100f / (100f + TotalDefense);
@@ -209,36 +212,8 @@ public class PlayerStats : MonoBehaviour
         currentHp = TotalMaxHp;
         transform.position = startPosition;
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if(rb != null) rb.linearVelocity = Vector2.zero; // Unity 6+ (구버전은 rb.velocity)
+        if(rb != null) rb.linearVelocity = Vector2.zero;
         if (sr != null) sr.color = Color.white;
         UpdateUI();
-    }
-
-    // ★ [통합] 독 데미지 관련 로직 추가 (내 코드 유지)
-    public void ApplyPoison(float totalDamage, float duration)
-    {
-        // 이미 독에 걸려있다면 새로 갱신
-        StopCoroutine("PoisonRoutine");
-        StartCoroutine(PoisonRoutine(totalDamage, duration));
-    }
-
-    IEnumerator PoisonRoutine(float totalDamage, float duration)
-    {
-        // 예: 3초 동안 10데미지 -> 0.5초마다 나눠서 데미지
-        float tickInterval = 0.5f; 
-        int ticks = Mathf.FloorToInt(duration / tickInterval);
-        float damagePerTick = totalDamage / ticks;
-        
-        SpriteRenderer playerSr = GetComponent<SpriteRenderer>();
-        Color originalColor = (playerSr != null) ? playerSr.color : Color.white;
-
-        for (int i = 0; i < ticks; i++)
-        {
-            if (playerSr != null) playerSr.color = new Color(0.4f, 1f, 0.4f); // 초록색 티닝
-            TakeDamage(damagePerTick); 
-            yield return new WaitForSeconds(0.1f);
-            if (playerSr != null) playerSr.color = originalColor; // 색 복구
-            yield return new WaitForSeconds(tickInterval - 0.1f);
-        }
     }
 }

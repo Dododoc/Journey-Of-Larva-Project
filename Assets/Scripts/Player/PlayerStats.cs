@@ -69,6 +69,7 @@ public class PlayerStats : MonoBehaviour
 
         UpdateUI(); 
 
+
         if (UIManager.instance != null && GameManager.instance != null)
         {
             UIManager.instance.UpdateEvolutionUI((int)GameManager.instance.currentCharacter);

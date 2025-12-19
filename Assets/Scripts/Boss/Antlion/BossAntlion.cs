@@ -270,7 +270,11 @@ public class BossAntlion : MonoBehaviour
     public void OnHit() { StopCoroutine("HitActionRoutine"); StartCoroutine("HitActionRoutine"); }
     IEnumerator HitActionRoutine() { float currentScaleX = Mathf.Sign(transform.localScale.x); transform.localScale = new Vector3(currentScaleX * 1.1f, 1.1f, 1f); if (sr != null) sr.color = new Color(1f, 0.4f, 0.4f); yield return new WaitForSeconds(0.05f); if (sr != null) sr.color = Color.white; transform.localScale = new Vector3(currentScaleX * 1.0f, 1.0f, 1f); }
     private void OnTriggerEnter2D(Collider2D collision) { if (isDead) return; if (collision.CompareTag("Player")) { PlayerStats ps = collision.GetComponent<PlayerStats>(); if (ps != null) ps.TakeDamage(touchDamage); } }
-    public void StartDeathSequence() { if (isDead) return; isDead = true; StopAllCoroutines(); anim.SetTrigger("DoDie"); GetComponent<Collider2D>().enabled = false; if(sr != null) sr.color = Color.white; Destroy(gameObject, 3.0f); }
+    public void StartDeathSequence() { if (isDead) return; isDead = true; StopAllCoroutines(); anim.SetTrigger("DoDie"); GetComponent<Collider2D>().enabled = false; if(sr != null) sr.color = Color.white; // ★★★ [여기 추가!] 엔딩 매니저에게 "엔딩 시작해!" 라고 신호 보내기 ★★★
+        if (GameEndingManager.instance != null)
+        {
+            GameEndingManager.instance.TriggerEnding();
+        } Destroy(gameObject, 3.0f); }
 
     // ★ [추가] 맵 제한 구역을 눈으로 확인하는 기능
     // 인스펙터에서 Map Min X, Map Max X를 조절하면 초록색 선이 움직입니다.

@@ -214,30 +214,43 @@ public class PlayerStats : MonoBehaviour
     }
 
     // ★ [통합] 독 데미지 관련 로직 추가 (내 코드 유지)
+    private Coroutine currentPoisonCoroutine;
     public void ApplyPoison(float totalDamage, float duration)
     {
-        // 이미 독에 걸려있다면 새로 갱신
-        StopCoroutine("PoisonRoutine");
-        StartCoroutine(PoisonRoutine(totalDamage, duration));
+        // 이미 독에 걸려있다면 기존 독 코루틴을 멈추고 새로 갱신
+        if (currentPoisonCoroutine != null)
+        {
+            StopCoroutine(currentPoisonCoroutine);
+        }
+        currentPoisonCoroutine = StartCoroutine(PoisonRoutine(totalDamage, duration));
     }
 
     IEnumerator PoisonRoutine(float totalDamage, float duration)
     {
-        // 예: 3초 동안 10데미지 -> 0.5초마다 나눠서 데미지
         float tickInterval = 0.5f; 
         int ticks = Mathf.FloorToInt(duration / tickInterval);
         float damagePerTick = totalDamage / ticks;
         
-        SpriteRenderer playerSr = GetComponent<SpriteRenderer>();
-        Color originalColor = (playerSr != null) ? playerSr.color : Color.white;
+        // ★ 맹독 느낌의 짙은 보라색 설정
+        Color poisonColor = new Color(0.6f, 0f, 0.8f);
 
         for (int i = 0; i < ticks; i++)
         {
-            if (playerSr != null) playerSr.color = new Color(0.4f, 1f, 0.4f); // 초록색 티닝
+            // 1. 보라색으로 변하며 데미지 입음
+            if (sr != null) sr.color = poisonColor; 
             TakeDamage(damagePerTick); 
-            yield return new WaitForSeconds(0.1f);
-            if (playerSr != null) playerSr.color = originalColor; // 색 복구
-            yield return new WaitForSeconds(tickInterval - 0.1f);
+            
+            // 2. 0.15초 동안 보라색 유지
+            yield return new WaitForSeconds(0.15f);
+            
+            // 3. 다시 원래 색상(흰색)으로 복구
+            if (sr != null) sr.color = Color.white; 
+            
+            // 4. 남은 시간(0.35초) 대기 후 반복
+            yield return new WaitForSeconds(tickInterval - 0.15f);
         }
+
+        // 독이 모두 끝나면 코루틴 변수 비우기
+        currentPoisonCoroutine = null;
     }
 }

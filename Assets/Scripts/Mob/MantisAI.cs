@@ -16,37 +16,25 @@ public class MantisAI : BaseEnemyAI
 
     protected override void Update()
     {
-        if (player == null || isAttacking || isKnockedBack || isGrabbed) 
+        if (player == null || isKnockedBack || isGrabbed) 
         {
             if (isGrabbed && rb != null) rb.linearVelocity = Vector2.zero;
             return;
         }
 
         float dist = Vector2.Distance(transform.position, player.position);
-        float xDiff = player.position.x - transform.position.x;
 
-        // 1. 감지 범위 안
-        if (dist <= detectRange) //
+        if (dist <= detectRange) 
         {
-            // 플레이어 바라보기
-            if (Mathf.Abs(xDiff) > stopThreshold) LookAt(player.position.x);
+            LookAt(player.position.x);
 
-            if (dist <= attackRange) 
+            // ★ 사거리 안이고, 공격 중이 아니고, 쿨타임이 지났을 때만 칼 휘두르기 시작
+            if (dist <= attackRange && !isAttacking && Time.time >= lastAttackTime + attackCooldown)
             {
-                if (Time.time >= lastAttackTime + attackCooldown)
-                {
-                    StartCoroutine(AttackRoutine());
-                }
-                else
-                {
-                    // 쿨타임 중일 때는 가만히 서있거나(공격 대기), 
-                    // 원한다면 여기서 천천히 배회하게 할 수도 있음.
-                    // 지금은 그냥 노려보며 대기하도록 설정:
-                    rb.linearVelocity = Vector2.zero;
-                    if(anim != null) anim.SetBool("IsWalking", false);
-                }
+                StartCoroutine(AttackRoutine());
             }
-            else 
+            // ★ 핵심: 공격 중만 아니라면 (쿨타임이 안 지났어도) 가만히 서 있지 말고 계속 다가감!
+            else if (!isAttacking)
             {
                 MoveTo(player.position.x, chaseSpeed);
             }
@@ -54,15 +42,8 @@ public class MantisAI : BaseEnemyAI
         else 
         {
             float distFromStart = Vector2.Distance(transform.position, startPos);
-            if (distFromStart > patrolDistance + 1f) 
-            {
-                LookAt(startPos.x);
-                MoveTo(startPos.x, moveSpeed);
-            }
-            else 
-            {
-                Patrol();
-            }
+            if (distFromStart > patrolDistance + 1f) { LookAt(startPos.x); MoveTo(startPos.x, moveSpeed); }
+            else { Patrol(); }
         }
     }
 

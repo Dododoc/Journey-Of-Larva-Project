@@ -24,15 +24,48 @@ public class BaseEnemyAI : MonoBehaviour
     
     protected bool isKnockedBack = false;
     protected bool isGrabbed = false; 
-    // 던져졌을 때 호출될 함수 (자식에서 오버라이드 가능)
+    // 던져졌을 때 호출될 함수
     public virtual void OnThrown(Vector2 force)
     {
         if (rb != null)
         {
             rb.bodyType = RigidbodyType2D.Dynamic;
-            rb.gravityScale = 1f; // 기본적으로 중력 켜기
+            // rb.gravityScale = 1f; // (이전 단계에서 지운 부분 유지)
             rb.AddForce(force, ForceMode2D.Impulse);
+            
+            // ★ 공중에 있는 동안 AI를 멈추게 하는 코루틴 실행
+            StartCoroutine(AirborneStunRoutine());
         }
+    }
+
+    // ★ 새로 추가된 코루틴: 공중 체공 및 착지 감지
+    protected IEnumerator AirborneStunRoutine()
+    {
+        // 기존 넉백 타이머를 취소하고, 던져짐 전용 기절 상태로 돌입
+        StopCoroutine("KnockbackRoutine"); 
+        isKnockedBack = true; // AI 이동 정지
+        isAttacking = false;
+
+        // 물리적인 힘이 적용될 때까지 딱 한 프레임 대기
+        yield return new WaitForFixedUpdate();
+
+        // 1. 위로 솟구치는 중이라면, 최고점을 지날 때까지 기다림
+        while (rb != null && rb.linearVelocity.y > 0.1f)
+        {
+            yield return null;
+        }
+
+        // 2. 아래로 떨어지는 중이라면, 바닥에 닿아 멈출 때까지 기다림
+        while (rb != null && rb.linearVelocity.y < -0.1f)
+        {
+            yield return null;
+        }
+
+        // 3. 땅에 쾅! 착지한 후 비틀거리는(스턴) 시간 0.3초 부여
+        yield return new WaitForSeconds(0.3f);
+
+        // 다시 AI 정상화 (플레이어 추적 재시작)
+        isKnockedBack = false; 
     }
 
     protected virtual void Awake()

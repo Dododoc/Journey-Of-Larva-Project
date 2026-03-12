@@ -177,7 +177,7 @@ MonoBehaviour:
   liftRange: 2.5
   liftCatchDelay: 0.05
   liftThrowDelay: 0.25
-  liftThrowForce: 30
+  liftThrowForce: 15
   liftCooldown: 5
   diveSpeed: 30
   diveCooldown: 3
@@ -218,7 +218,7 @@ MonoBehaviour:
   hitEffectPrefab: {fileID: 0}
   currentLevel: 1
   currentExp: 0
-  expToNextLevel: 0
+  expToNextLevel: 80
   baseAttack: 10
   baseDefense: 5
   maxHp: 100

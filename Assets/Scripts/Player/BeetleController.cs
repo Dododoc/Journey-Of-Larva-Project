@@ -371,16 +371,16 @@ IEnumerator FlashGoldEffect()
     Vector2 throwDir = new Vector2(throwDirX, 1.0f).normalized; 
     Vector2 finalForce = throwDir * liftThrowForce;
 
-    // ★ [수정] 직접 AddForce 하는 대신, 적의 AI에게 "너 던져졌어!"라고 알림
+    // ★ [수정] AI 여부와 상관없이 무조건 물리 엔진(Dynamic)을 다시 켜줍니다.
+    targetRb.bodyType = RigidbodyType2D.Dynamic;
+
     BaseEnemyAI enemyAI = targetRb.GetComponent<BaseEnemyAI>();
     if (enemyAI != null)
     {
-        enemyAI.OnThrown(finalForce); // 여기서 벌은 중력이 켜짐!
+        enemyAI.OnThrown(finalForce); 
     }
     else
     {
-        // AI 스크립트가 없는 물체라면 그냥 물리력만 적용
-        targetRb.bodyType = RigidbodyType2D.Dynamic; 
         targetRb.AddForce(finalForce, ForceMode2D.Impulse); 
     }
     

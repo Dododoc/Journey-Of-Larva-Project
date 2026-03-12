@@ -302,10 +302,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 121028750947435247, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
-      propertyPath: expReward
-      value: 40
-      objectReference: {fileID: 0}
     - target: {fileID: 1133158917890505474, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
       propertyPath: m_Name
       value: Cricket
@@ -695,10 +691,6 @@ PrefabInstance:
       propertyPath: playerHUD
       value: 
       objectReference: {fileID: 1565639521}
-    - target: {fileID: 4352357347262095426, guid: 3c8e5f0801f734b139638f5a869c0c21, type: 3}
-      propertyPath: expToNextLevel
-      value: 80
-      objectReference: {fileID: 0}
     - target: {fileID: 4416716137714222903, guid: 3c8e5f0801f734b139638f5a869c0c21, type: 3}
       propertyPath: m_LocalPosition.x
       value: -38.5
@@ -951,10 +943,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ladybug
       objectReference: {fileID: 0}
-    - target: {fileID: 4851599988211334987, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
-      propertyPath: expReward
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 7798674915663724985, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
       propertyPath: m_LocalPosition.x
       value: -18.7
@@ -1074,45 +1062,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: attackRange
-      value: 4.23
-      objectReference: {fileID: 0}
-    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: detectRange
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: attackCooldown
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: attackHitDelay
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: attackHitRange
-      value: 3.74
-      objectReference: {fileID: 0}
-    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: patrolDistance
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: attackFullDuration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4711002132231557232, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: mantisAttackDamage
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 7183255080575465575, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: attackDamage
-      value: 30
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 1912670148207568004, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
@@ -1128,33 +1079,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bee
       objectReference: {fileID: 0}
-    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: flyWidth
-      value: 4
+    - target: {fileID: 1375341827131381907, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
+      propertyPath: m_Size.x
+      value: 3.471552
       objectReference: {fileID: 0}
-    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: flyHeight
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: chaseSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: attackRange
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: stopDistance
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: stingHitDelay
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3867065134965459507, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: poisonDuration
-      value: 2
+    - target: {fileID: 1375341827131381907, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
+      propertyPath: m_Offset.x
+      value: 22.186493
       objectReference: {fileID: 0}
     - target: {fileID: 5460953823439721556, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1196,9 +1127,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5786646178505565980, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: expReward
-      value: 60
+    - target: {fileID: 8296987953383779092, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
+      propertyPath: m_Size.x
+      value: 3.4883232
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296987953383779092, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.0014286041
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1655,10 +1590,6 @@ PrefabInstance:
     - target: {fileID: 2535654659165878847, guid: c88fc134a5e5ed74c8369c80e8e8592a, type: 3}
       propertyPath: m_Name
       value: Boss_Mantis
-      objectReference: {fileID: 0}
-    - target: {fileID: 2535654659165878847, guid: c88fc134a5e5ed74c8369c80e8e8592a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8667783248819578818, guid: c88fc134a5e5ed74c8369c80e8e8592a, type: 3}
       propertyPath: bossUIFrame

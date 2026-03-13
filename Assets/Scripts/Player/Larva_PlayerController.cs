@@ -65,7 +65,8 @@ public class Larva_PlayerController : MonoBehaviour
         }
     }
 
-    // ★ 핵심 수정: 부모 오브젝트의 컴포넌트 참조
+
+    // ★ 핵심 수정: 코루틴 순서 변경
     void HandleEnemyCollision(GameObject enemyObj)
     {
         EnemyStats es = enemyObj.GetComponentInParent<EnemyStats>();
@@ -74,20 +75,27 @@ public class Larva_PlayerController : MonoBehaviour
 
         if (isDashing)
         {
+            // 1. 데미지 적용
             if (es != null) es.TakeDamage(myStats.TotalAttack);
             
+            // 2. 적에게 넉백 적용
             if (erb != null) {
-                // ★ 수정: 대시 타격 시 적의 AI를 멈추고 넉백 적용
                 BaseEnemyAI enemyAI = enemyObj.GetComponentInParent<BaseEnemyAI>();
                 if (enemyAI != null)
                 {
                     enemyAI.ApplyKnockback(dirToEnemy * recoilPower, 0.4f);
                 }
-                StartCoroutine(IgnoreCollisionRoutine(enemyObj.GetComponent<Collider2D>()));
             }
 
-            Vector2 recoilDir = -dirToEnemy + Vector2.up * 0.5f;
-            ApplyRecoil(recoilDir.normalized * recoilPower);
+            // 3. 나에게 반동 적용 (여기서 StopAllCoroutines가 발동되어 청소됨)
+            float recoilPushX = (transform.position.x < enemyObj.transform.position.x) ? -1f : 1f;
+            Vector2 recoilDir = new Vector2(recoilPushX, 0f).normalized; 
+            ApplyRecoil(recoilDir * recoilPower);
+
+            // 4. ★ 청소가 끝난 '후에' 충돌 무시 코루틴을 실행! (그래야 안 죽음)
+            if (erb != null) {
+                StartCoroutine(IgnoreCollisionRoutine(enemyObj.GetComponent<Collider2D>()));
+            }
         }
         else if (!isInvincible)
         {
@@ -105,8 +113,43 @@ public class Larva_PlayerController : MonoBehaviour
     void ProcessInput() { if (Input.GetKeyDown(KeyCode.Z) && canDash) { StartCoroutine(DashRoutine()); return; } float moveInput = Input.GetAxisRaw("Horizontal"); if (Input.GetButtonDown("Jump") && isGrounded) { jumpCooldown = 0.2f; isGrounded = false; rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce); anim.SetTrigger("DoJump"); return; } rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y); if (moveInput > 0) sr.flipX = false; else if (moveInput < 0) sr.flipX = true; }
     void UpdateAnimation() { anim.SetFloat("Speed", rb.linearVelocity.magnitude > 0.1f ? rb.linearVelocity.magnitude : 0f); anim.SetBool("IsGrounded", isGrounded); anim.SetFloat("VerticalSpeed", rb.linearVelocity.y); }
     IEnumerator DashRoutine() { canDash = false; isDashing = true; float origGrav = rb.gravityScale; rb.gravityScale = 0f; float dashDir = sr.flipX ? -1f : 1f; rb.linearVelocity = new Vector2(dashDir * dashSpeed, 0f); anim.SetBool("IsDashing", true); anim.SetTrigger("DoAttack"); yield return new WaitForSeconds(dashDuration); isDashing = false; rb.gravityScale = origGrav; anim.SetBool("IsDashing", false); yield return new WaitForSeconds(dashCooldown); canDash = true; }
-    public void ApplyKnockback(Vector2 f) { StopAllCoroutines(); isDashing = false; anim.SetBool("IsDashing", false); isKnockedBack = true; rb.linearVelocity = Vector2.zero; rb.AddForce(f, ForceMode2D.Impulse); StartCoroutine(KnockbackRoutine(hitInvincibilityDuration)); }
-    public void ApplyRecoil(Vector2 f) { StopAllCoroutines(); isDashing = false; anim.SetBool("IsDashing", false); isKnockedBack = true; rb.linearVelocity = Vector2.zero; rb.AddForce(f, ForceMode2D.Impulse); StartCoroutine(RecoilRoutine(attackInvincibilityDuration)); }
+    public void ApplyKnockback(Vector2 f) 
+    { 
+        StopAllCoroutines(); 
+        
+        // ★ [핵심 추가] 코루틴이 강제 종료되면서 변수가 고장나는 현상 방지
+        canDash = true;           // 대시 다시 가능하게 초기화
+        isInvincible = false;     // 영구 무적 버그 방지
+        if (sr != null) sr.color = Color.white; // 투명해진 채로 굳는 현상 방지
+
+        isDashing = false; 
+        anim.SetBool("IsDashing", false); 
+        rb.gravityScale = defaultGravity;
+
+        isKnockedBack = true; 
+        rb.linearVelocity = Vector2.zero; 
+        rb.AddForce(f, ForceMode2D.Impulse); 
+        StartCoroutine(KnockbackRoutine(hitInvincibilityDuration)); 
+    }
+
+    public void ApplyRecoil(Vector2 f) 
+    { 
+        StopAllCoroutines(); 
+        
+        // ★ [핵심 추가] 코루틴이 강제 종료되면서 변수가 고장나는 현상 방지
+        canDash = true;           
+        isInvincible = false;     
+        if (sr != null) sr.color = Color.white; 
+
+        isDashing = false; 
+        anim.SetBool("IsDashing", false); 
+        rb.gravityScale = defaultGravity;
+
+        isKnockedBack = true; 
+        rb.linearVelocity = Vector2.zero; 
+        rb.AddForce(f, ForceMode2D.Impulse); 
+        StartCoroutine(RecoilRoutine(attackInvincibilityDuration)); 
+    }
     IEnumerator KnockbackRoutine(float d) { isInvincible = true; yield return new WaitForSeconds(0.3f); isKnockedBack = false; float blink = Time.time + (d - 0.3f); while (Time.time < blink) { sr.color = new Color(1, 1, 1, 0.4f); yield return new WaitForSeconds(0.1f); sr.color = Color.white; yield return new WaitForSeconds(0.1f); } isInvincible = false; }
     IEnumerator RecoilRoutine(float d) { isInvincible = true; yield return new WaitForSeconds(0.1f); isKnockedBack = false; yield return new WaitForSeconds(d); isInvincible = false; sr.color = Color.white; }
     void TryCollectLeaf() { float r = 2.5f; Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, r); foreach (var hit in hits) { LeafItem leaf = hit.GetComponent<LeafItem>(); if (leaf != null) leaf.Collect(myStats); } }

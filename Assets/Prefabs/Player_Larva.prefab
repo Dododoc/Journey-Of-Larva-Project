@@ -115,7 +115,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1831104673
-  m_SortingLayer: 3
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3a9ec066d0f50444fa1c6b922a6fca70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -174,7 +174,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!61 &9104978390521464749
@@ -240,6 +240,11 @@ MonoBehaviour:
   dashSpeed: 15
   dashDuration: 0.2
   dashCooldown: 1
+  knockbackPower: 10
+  recoilPower: 5
+  hitInvincibilityDuration: 1.5
+  attackInvincibilityDuration: 0.2
+  isInvincible: 0
   boxSize: {x: 4, y: 0.51}
   castDistance: 0.1
   groundLayer:
@@ -252,16 +257,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7069903468197304612}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a837fc5ddffc4b5e8a43700f73c29fc, type: 3}
+  m_Script: {fileID: 11500000, guid: c10bbd63137865c41b98736d0489a342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 4
-  currentHealth: 0
-  frontHealthBar: {fileID: 0}
-  backHealthBar: {fileID: 0}
-  chipSpeed: 2
+  hpFillImage: {fileID: 0}
+  hpText: {fileID: 0}
+  xpFillImage: {fileID: 0}
+  xpText: {fileID: 0}
+  levelText: {fileID: 0}
 --- !u!114 &4600972623636143870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,7 +279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e79fa02971c6f146aa821e989437eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  playerHUD: {fileID: 0}
+  playerHUD: {fileID: 8428160254218063514}
+  hitEffectPrefab: {fileID: 0}
   currentLevel: 1
   currentExp: 0
   expToNextLevel: 0

@@ -398,7 +398,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &5278042872634148488
@@ -484,10 +484,6 @@ MonoBehaviour:
   chaseSpeed: 4
   attackRange: 1.5
   patrolDistance: 5
-  stopDistance: 4.5
-  damage: 15
-  attackRate: 2
-  attackRangeCheck: 3
 --- !u!1 &6535812531403781473
 GameObject:
   m_ObjectHideFlags: 0

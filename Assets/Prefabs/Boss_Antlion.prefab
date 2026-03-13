@@ -214,6 +214,8 @@ MonoBehaviour:
   vortexDamageRange: 10
   vortexMinDamage: 10
   vortexMaxDamage: 20
+  endingPortalPrefab: {fileID: 0}
+  portalSpawnOffset: {x: 0, y: 2, z: 0}
 --- !u!50 &5188841977601333618
 Rigidbody2D:
   serializedVersion: 5
@@ -238,7 +240,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!61 &936220973726954832

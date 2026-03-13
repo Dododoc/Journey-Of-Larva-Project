@@ -74,6 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpiderAI
   detectionRange: 20
   fireRate: 4
+  projectileDamage: 15
   toxicPrefab: {fileID: 2712602170654562102, guid: 97e6edd98640d2e40b9de21aabb49f86, type: 3}
   firePoint: {fileID: 3494279372227722191}
   webLine: {fileID: 5481839875640005440}
@@ -341,7 +342,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!1 &3136276283632825584

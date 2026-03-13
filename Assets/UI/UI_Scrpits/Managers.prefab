@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1920735920245244864}
   - component: {fileID: 4013422956870383353}
+  - component: {fileID: 3614185261471376605}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -50,3 +51,40 @@ MonoBehaviour:
   - {fileID: -896485310630103726, guid: 74bd908e2515303439cbb1ca594f7562, type: 3}
   - {fileID: 8874230132645447920, guid: 31ebc1f80c4fdc0479151e9f12bb8162, type: 3}
   gameOverPanel: {fileID: 0}
+  endingPanel: {fileID: 0}
+  playTimeText: {fileID: 0}
+  totalXPText: {fileID: 0}
+--- !u!114 &3614185261471376605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7118373590955795007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29cb22e4592bf545836ed0751a8741c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
+  questPanel: {fileID: 0}
+  slideSpeed: 8
+  visiblePosX: -20
+  hiddenPosX: 300
+  quests:
+  - questObject: {fileID: 0}
+    checkbox: {fileID: 0}
+    questText: {fileID: 0}
+  - questObject: {fileID: 0}
+    checkbox: {fileID: 0}
+    questText: {fileID: 0}
+  - questObject: {fileID: 0}
+    checkbox: {fileID: 0}
+    questText: {fileID: 0}
+  - questObject: {fileID: 0}
+    checkbox: {fileID: 0}
+    questText: {fileID: 0}
+  - questObject: {fileID: 0}
+    checkbox: {fileID: 0}
+    questText: {fileID: 0}
+  emptyBoxSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  checkedBoxSprite: {fileID: 5371412345509669250, guid: ed6e6751beee326448b631915c84702e, type: 3}

@@ -99,6 +99,23 @@ public class EnemyStats : MonoBehaviour
         if (bossUIFrame != null) bossUIFrame.SetActive(false);
         if (hpCanvas != null) hpCanvas.SetActive(false);
 
+        // ★ [추가] 죽은 몬스터가 누구인지 확인하고 퀘스트 완료!
+        // ===================================================
+        if (QuestManager.instance != null)
+        {
+            // 1. 무당벌레인지 확인 (0번 퀘스트)
+            if (GetComponent<LadybugAI>() != null) 
+                QuestManager.instance.CompleteQuest(0);
+            
+            // 2. 귀뚜라미인지 확인 (2번 퀘스트)
+            else if (GetComponent<CricketAI>() != null) 
+                QuestManager.instance.CompleteQuest(2);
+            // 3. 전갈 미니보스인지 확인 (4번 퀘스트)
+            // 망토든 투구든 둘 다 ScorpionAI를 달고 있으니 하나만 체크하면 됩니다!
+            else if (GetComponent<ScorpionAI>() != null) 
+                QuestManager.instance.CompleteQuest(4);
+        }
+
         // 보스별 사망 연출 호출
         if (antlionScript != null) antlionScript.StartDeathSequence();
         else if (mantisScript != null) mantisScript.StartDeathSequence();

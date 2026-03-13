@@ -63,6 +63,9 @@ public class LeafItem : MonoBehaviour
         if (stats != null)
         {
             stats.GainExp(expAmount); // 경험치 획득
+            // ★ [추가] 1번 퀘스트(나뭇잎 먹기) 완료!
+            if (QuestManager.instance != null)
+                QuestManager.instance.CompleteQuest(1);
             Destroy(gameObject);
         }
     }

@@ -290,8 +290,19 @@ IEnumerator FlashGoldEffect()
         isInvincible = false; canLift = true; canDive = true;
     }
 
-    IEnumerator BasicAttackRoutine() { isBasicAttacking = true; anim.SetTrigger("DoAttack"); yield return new WaitForSeconds(attackDelay); ApplyDamage(attackPoint.position, attackRange, 1f, basicKnockback); yield return new WaitForSeconds(attackCooldown); isBasicAttacking = false; }
-    
+    // ★ [수정됨] 일반 공격 루틴: basicKnockback 변수 대신 0f를 강제로 전달하여 넉백 무시
+    IEnumerator BasicAttackRoutine() 
+    { 
+        isBasicAttacking = true; 
+        anim.SetTrigger("DoAttack"); 
+        yield return new WaitForSeconds(attackDelay); 
+        
+        // 여기에 0f를 넣어서 일반 공격은 넉백 힘이 0이 되도록 만듭니다.
+        ApplyDamage(attackPoint.position, attackRange, 1f, 0f); 
+        
+        yield return new WaitForSeconds(attackCooldown); 
+        isBasicAttacking = false; 
+    }
     // ★ [수정] 들어 넘기기 스킬 (시작 즉시 무적 + 종료 후 3초 무적)
     IEnumerator LiftSkillRoutine() 
     { 
@@ -433,7 +444,7 @@ IEnumerator FlashGoldEffect()
             }
         } 
     }
-    // ★ [수정] 중복 데미지 방지
+    // ★ [수정됨] 중복 데미지 방지 및 넉백 조건 추가
     void ApplyDamage(Vector2 point, float range, float multiplier, float knockbackForce) 
     { 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(point, range, enemyLayers);
@@ -448,17 +459,22 @@ IEnumerator FlashGoldEffect()
             if (damagedEnemies.Contains(parentObj)) continue;
             damagedEnemies.Add(parentObj);
 
+            // 1. 데미지는 무조건 적용
             EnemyStats es = enemy.GetComponentInParent<EnemyStats>();
             if (es != null) es.TakeDamage(finalDmg);
             
-            SpiderAI spider = enemy.GetComponentInParent<SpiderAI>();
-            if (spider != null) spider.ApplyKnockback(new Vector2(knockbackForce, 0)); 
-            // BeetleController.cs의 ApplyDamage 함수 안에서 수정
-            BaseEnemyAI enemyAI = enemy.GetComponentInParent<BaseEnemyAI>();
-            if (enemyAI != null) {
-                float dirX = (enemy.transform.position.x - transform.position.x) > 0 ? 1f : -1f;
-                Vector2 kDir = new Vector2(dirX, 0.1f).normalized; // 0.5f를 더해 살짝 위로 띄움
-                enemyAI.ApplyKnockback(kDir * knockbackForce, 1f); // 힘과 정지 시간(0.4초) 전달
+            // 2. ★ 넉백 힘(knockbackForce)이 0보다 클 때만 밀어내고 경직(Stun) 상태를 줍니다!
+            if (knockbackForce > 0f)
+            {
+                SpiderAI spider = enemy.GetComponentInParent<SpiderAI>();
+                if (spider != null) spider.ApplyKnockback(new Vector2(knockbackForce, 0)); 
+                
+                BaseEnemyAI enemyAI = enemy.GetComponentInParent<BaseEnemyAI>();
+                if (enemyAI != null) {
+                    float dirX = (enemy.transform.position.x - transform.position.x) > 0 ? 1f : -1f;
+                    Vector2 kDir = new Vector2(dirX, 0.1f).normalized; 
+                    enemyAI.ApplyKnockback(kDir * knockbackForce, 1f); 
+                }
             }
         } 
     }

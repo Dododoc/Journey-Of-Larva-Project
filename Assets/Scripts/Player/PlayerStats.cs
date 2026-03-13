@@ -106,6 +106,12 @@ public class PlayerStats : MonoBehaviour
         
         SaveStatsToManager();
 
+        // ★ [추가] 3번 퀘스트(3레벨 달성) 완료!
+        if (currentLevel >= 3 && QuestManager.instance != null)
+        {
+            QuestManager.instance.CompleteQuest(3);
+        }
+
         if(currentExp >= expToNextLevel) LevelUp();
     }
 

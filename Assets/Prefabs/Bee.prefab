@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5460953823439721556
 Transform:
   m_ObjectHideFlags: 0
@@ -229,6 +229,10 @@ MonoBehaviour:
   chaseSpeed: 5
   attackRange: 5
   patrolDistance: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  ledgeCheckLength: 1
   flyWidth: 4
   flyHeight: 3
   loopSpeed: 2

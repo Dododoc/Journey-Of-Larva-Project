@@ -92,7 +92,7 @@ public class EnemyStats : MonoBehaviour
     void Die()
     {
         // 플레이어에게 경험치 지급
-        PlayerStats player = FindObjectOfType<PlayerStats>();
+        PlayerStats player = FindFirstObjectByType<PlayerStats>();
         if (player != null) player.GainExp(expReward);
 
         // UI 끄기

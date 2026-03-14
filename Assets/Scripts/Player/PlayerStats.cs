@@ -32,7 +32,7 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
-        if (playerHUD == null) playerHUD = FindObjectOfType<PlayerHUD>();
+        if (playerHUD == null) playerHUD = FindFirstObjectByType<PlayerHUD>();
         sr = GetComponent<SpriteRenderer>();
 
         startPosition = transform.position;
@@ -163,7 +163,7 @@ public class PlayerStats : MonoBehaviour
 
         UpdateUI();
 
-        UIManager uiManager = FindObjectOfType<UIManager>();
+        UIManager uiManager = FindFirstObjectByType<UIManager>();
         if (uiManager != null)
         {
             uiManager.UpdateEvolutionUI(selectedPathIndex + 1);
@@ -201,7 +201,7 @@ public class PlayerStats : MonoBehaviour
     void Die()
     {
         Debug.Log("플레이어 사망!");
-        UIManager uiManager = FindObjectOfType<UIManager>();
+        UIManager uiManager = FindFirstObjectByType<UIManager>();
         if (uiManager != null) uiManager.ShowGameOver();
     }
 

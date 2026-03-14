@@ -333,6 +333,10 @@ MonoBehaviour:
   chaseSpeed: 5
   attackRange: 4
   patrolDistance: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  ledgeCheckLength: 1
   walkTime: 2
   pauseTime: 2
   attackAnimationDuration: 1

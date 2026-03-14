@@ -93,7 +93,7 @@ public class EvolutionItem : MonoBehaviour
             GameObject newPlayer = Instantiate(nextCharacterPrefab, spawnPos, spawnRot);
             newPlayer.tag = "Player";
 
-            var cineCam = FindObjectOfType<CinemachineCamera>();
+            var cineCam = FindFirstObjectByType<CinemachineCamera>();
             if (cineCam != null) cineCam.Follow = newPlayer.transform;
             if (GameManager.instance != null) 
             {

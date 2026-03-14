@@ -24,6 +24,11 @@ public class BaseEnemyAI : MonoBehaviour
     
     protected bool isKnockedBack = false;
     protected bool isGrabbed = false; 
+
+    [Header("Ledge Detection")]
+    public LayerMask groundLayer;         // 바닥으로 인식할 레이어
+    public float ledgeCheckLength = 1.0f; // 낭떠러지 감지 레이저의 길이
+    protected Collider2D myCollider;      // 몹의 콜라이더
     // 던져졌을 때 호출될 함수
     public virtual void OnThrown(Vector2 force)
     {
@@ -74,6 +79,9 @@ public class BaseEnemyAI : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         stats = GetComponent<EnemyStats>();
+
+        // ★ 추가: 내 콜라이더 가져오기
+        myCollider = GetComponent<Collider2D>();
     }
 
     protected virtual void Start()
@@ -132,5 +140,55 @@ public class BaseEnemyAI : MonoBehaviour
         isFacingRight = !isFacingRight;
         transform.eulerAngles = isFacingRight ? new Vector3(0, 0, 0) : new Vector3(0, 180, 0);
         if (stats != null && stats.hpCanvas != null) stats.hpCanvas.transform.rotation = Quaternion.identity;
+    }
+    // ★ 낭떠러지 감지 센서 (이동하려는 방향의 X값을 넣으면 검사해 줍니다)
+    // ★ 낭떠러지 감지 센서 (오작동 완벽 해결 버전)
+    protected bool IsLedgeAhead(float moveDirX)
+    {
+        // 콜라이더가 없거나 넉백 상태면 낭떠러지 무시
+        if (myCollider == null || isKnockedBack) return false;
+
+        float dirSign = Mathf.Sign(moveDirX);
+        if (dirSign == 0) return false;
+
+        // ★ [핵심 1] 몸통 맨 앞쪽 끝이 아니라, '안쪽으로 아주 살짝(0.1f)' 들어온 위치에서 쏩니다.
+        // (경사면이나 타일 가장자리에 살짝만 걸쳐도 낭떠러지로 오해하는 현상 방지)
+        float checkX = myCollider.bounds.center.x + (dirSign * (myCollider.bounds.extents.x - 0.1f));
+        
+        // 발바닥(min.y)에서 위로 0.1f 올린 지점
+        float checkY = myCollider.bounds.min.y + 0.1f; 
+        Vector2 checkPos = new Vector2(checkX, checkY);
+
+        // ★ [핵심 2] 레이저 길이를 '0.8f'로 넉넉하게 늘려서 땅에 확실히 닿게 만듭니다.
+        float rayLength = 0.8f;
+        RaycastHit2D hit = Physics2D.Raycast(checkPos, Vector2.down, rayLength, groundLayer);
+
+        // ★ 씬(Scene) 뷰에서 눈으로 확인하기 위한 레이저 그리기
+        // 초록색 선 = "땅 감지 완료!" / 빨간색 선 = "땅 없음! 낭떠러지다!"
+        Debug.DrawRay(checkPos, Vector2.down * rayLength, hit.collider == null ? Color.red : Color.green);
+
+        // 부딪힌 땅이 없으면(null) 낭떠러지이므로 true 반환
+        return hit.collider == null; 
+    }
+    // ★ 벽 감지 센서 (진행 방향 앞쪽에 벽이 있는지 확인)
+    // ★ 벽 감지 센서 (수정됨: 바닥 긁힘 완벽 방지)
+    protected bool IsWallAhead(float moveDirX)
+    {
+        if (myCollider == null || isKnockedBack) return false;
+
+        float dirSign = Mathf.Sign(moveDirX);
+        if (dirSign == 0) return false; // 방향이 없으면 검사 안 함
+
+        // ★ [핵심 수정 1] 발밑이 아니라 몹의 '정확한 허리(중간) 높이'에서 레이저를 쏩니다.
+        float centerY = myCollider.bounds.min.y + (myCollider.bounds.size.y / 2f);
+        Vector2 checkPos = new Vector2(myCollider.bounds.center.x, centerY);
+        
+        // ★ [핵심 수정 2] 몸통 바깥으로 아주 살짝(0.1f)만 튀어나가게 거리를 확 줄입니다.
+        float checkDist = myCollider.bounds.extents.x + 0.1f;
+
+        // 수평으로만 정확하게 레이저 발사
+        RaycastHit2D hit = Physics2D.Raycast(checkPos, Vector2.right * dirSign, checkDist, groundLayer);
+
+        return hit.collider != null; 
     }
 }

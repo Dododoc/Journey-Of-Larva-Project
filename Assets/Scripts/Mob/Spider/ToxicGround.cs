@@ -4,16 +4,16 @@ public class ToxicGround : MonoBehaviour
 {
     [Header("Toxic Settings")]
     public float duration = 4f;        // 장판 지속 시간
-    public float damageInterval = 0.5f;// 데미지 입는 간격 (0.5초마다)
+    public float damageInterval = 0.5f;// 데미지를 입히는 주기 (0.5초마다 독 갱신)
     
-    // ★ [수정] public으로 변경하여 인스펙터에서 조절 가능하게 함
-    public float poisonDamage = 5f;    
+    // ★ [수정] 장판의 총 독 데미지와 지속 시간
+    public float poisonTotalDamage = 15f;    
+    public float poisonDuration = 3.0f;
 
     private float timer;
 
     void Start()
     {
-        // 기존에 damage = 5f; 라고 적혀있던 하드코딩 제거함
         Destroy(gameObject, duration);
     }
 
@@ -22,13 +22,14 @@ public class ToxicGround : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             timer += Time.deltaTime;
+            // 0.5초(damageInterval)마다 독을 새롭게 갱신
             if (timer >= damageInterval)
             {
                 PlayerStats playerStats = other.GetComponent<PlayerStats>();
                 if (playerStats != null)
                 {
-                    // ★ 설정한 poisonDamage 변수 사용
-                    playerStats.TakeDamage(poisonDamage);
+                    // ★ [수정] 밟고 있는 동안 계속해서 독(ApplyPoison) 상태를 부여
+                    playerStats.ApplyPoison(poisonTotalDamage, poisonDuration);
                 }
                 timer = 0f;
             }

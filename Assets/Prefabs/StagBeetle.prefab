@@ -484,6 +484,10 @@ MonoBehaviour:
   chaseSpeed: 4
   attackRange: 1.5
   patrolDistance: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  ledgeCheckLength: 1
 --- !u!1 &6535812531403781473
 GameObject:
   m_ObjectHideFlags: 0

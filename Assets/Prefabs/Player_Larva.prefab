@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7870559371970085935}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,9 +45,8 @@ GameObject:
   - component: {fileID: 2262467069051125506}
   - component: {fileID: 9104978390521464749}
   - component: {fileID: 7817664784865366410}
-  - component: {fileID: 8428160254218063514}
   - component: {fileID: 4600972623636143870}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Player_Larva
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -235,10 +234,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5fd31674d4d1264da063598669279f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 10
+  moveSpeed: 8
   jumpForce: 15
   dashSpeed: 15
-  dashDuration: 0.2
+  dashDuration: 0.4
   dashCooldown: 1
   knockbackPower: 10
   recoilPower: 5
@@ -250,23 +249,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &8428160254218063514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7069903468197304612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c10bbd63137865c41b98736d0489a342, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  hpFillImage: {fileID: 0}
-  hpText: {fileID: 0}
-  xpFillImage: {fileID: 0}
-  xpText: {fileID: 0}
-  levelText: {fileID: 0}
 --- !u!114 &4600972623636143870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,7 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e79fa02971c6f146aa821e989437eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  playerHUD: {fileID: 8428160254218063514}
+  playerHUD: {fileID: 0}
   hitEffectPrefab: {fileID: 0}
   currentLevel: 1
   currentExp: 0

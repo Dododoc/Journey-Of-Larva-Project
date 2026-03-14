@@ -172,7 +172,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7798674915663724985
 Transform:
   m_ObjectHideFlags: 0
@@ -292,6 +292,10 @@ MonoBehaviour:
   chaseSpeed: 5
   attackRange: 1.5
   patrolDistance: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  ledgeCheckLength: 1
 --- !u!95 &5835579117361875314
 Animator:
   serializedVersion: 7

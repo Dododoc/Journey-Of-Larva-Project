@@ -229,12 +229,16 @@ MonoBehaviour:
   chaseSpeed: 5
   attackRange: 1.5
   patrolDistance: 5
-  hopForce: 6
-  moveForce: 6
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  ledgeCheckLength: 1
+  hopForce: 8
+  moveForce: 8
   jumpIntervalMin: 1
-  jumpIntervalMax: 2.5
+  jumpIntervalMax: 1
   jumpPreDelay: 0.5
-  patrolRadius: 15
+  patrolRadius: 20
 --- !u!1 &1338799039219208833
 GameObject:
   m_ObjectHideFlags: 0

@@ -229,6 +229,10 @@ MonoBehaviour:
   chaseSpeed: 3
   attackRange: 4.23
   patrolDistance: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  ledgeCheckLength: 1
   mantisAttackDamage: 40
   attackHitDelay: 1
   attackFullDuration: 2

@@ -154,9 +154,49 @@ public class AntController : MonoBehaviour
     IEnumerator StrongAttackRoutine() { /* 기존 순간이동 및 공격 로직 유지하며 ApplyDamage 호출 */ canStrongAttack = false; isStrongAttacking = true; isInvincible = true; yield return new WaitForSeconds(0.1f); Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, teleportRange, enemyLayers); Transform target = null; float closestDist = Mathf.Infinity; foreach (var hit in hits) { float d = Vector2.Distance(transform.position, hit.transform.position); if (d < closestDist) { closestDist = d; target = hit.transform; } } if (target != null) { float dirToEnemy = target.position.x - transform.position.x; if (dirToEnemy > 0 && !isFacingRight) Flip(); else if (dirToEnemy < 0 && isFacingRight) Flip(); if (Vector2.Distance(transform.position, target.position) > attackRange * 1.2f) { sr.color = new Color(1f, 1f, 1f, 0.5f); float dirSign = Mathf.Sign(target.position.x - transform.position.x); transform.position = target.position + new Vector3(dirSign * teleportOffset, 0, 0); } } anim.SetTrigger("DoStrongAttack"); yield return new WaitForSeconds(strongAttackDelay); ApplyDamage(attackPoint.position, attackRange * 1.5f, strongDamageMultiplier, strongEnemyKnockback); sr.color = Color.white; isStrongAttacking = false; StartCoroutine(SkillInvincibilityRoutine(1.5f)); yield return new WaitForSeconds(strongCooldown); canStrongAttack = true; }
     IEnumerator DigRoutine() { canDig = false; isDiggingAnim = true; anim.SetTrigger("DoDig"); rb.gravityScale = 0f; rb.linearVelocity = Vector2.zero; myCollider.enabled = false; yield return new WaitForSeconds(0.5f); isDiggingAnim = false; isUnderground = true; float timer = 0f; while (timer < digDuration) { timer += Time.deltaTime; if (Input.GetKeyDown(KeyCode.C)) break; yield return null; } isUnderground = false; isDiggingAnim = true; anim.SetTrigger("DoEmerge"); rb.gravityScale = defaultGravity; myCollider.enabled = true; yield return new WaitForSeconds(emergeDamageDelay); EmergeAttack(); yield return new WaitForSeconds(emergeAnimDuration - emergeDamageDelay); isDiggingAnim = false; StartCoroutine(SkillInvincibilityRoutine(2.0f)); yield return new WaitForSeconds(digCooldown); canDig = true; }
     void CheckGround() { if (jumpCooldown > 0) { isGrounded = false; return; } Vector2 boxOrigin = (Vector2)transform.position + Vector2.up * 0.3f; RaycastHit2D hit = Physics2D.BoxCast(boxOrigin, boxSize, 0f, Vector2.down, castDistance + 0.3f, groundLayer); isGrounded = hit.collider != null; if (isGrounded) surfaceNormal = hit.normal; else surfaceNormal = Vector2.up; }
-    void ProcessInput() { float m = Input.GetAxisRaw("Horizontal"); rb.linearVelocity = new Vector2(m * moveSpeed, rb.linearVelocity.y); if (Input.GetButtonDown("Jump") && isGrounded) { rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce); anim.SetTrigger("DoJump"); } if (m > 0 && !isFacingRight) Flip(); else if (m < 0 && isFacingRight) Flip(); }
+    void ProcessInput() 
+    { 
+        // 1. 평타 (Z키) - 공중 사용을 위해 isGrounded 조건 삭제
+        if (Input.GetKeyDown(KeyCode.Z) && !isBasicAttacking) 
+        {
+            StartCoroutine(BasicAttackRoutine());
+        }
+
+        // 2. 강공격 (X키) - 공중 사용을 위해 isGrounded 조건 삭제
+        if (Input.GetKeyDown(KeyCode.X) && canStrongAttack) 
+        {
+            StartCoroutine(StrongAttackRoutine());
+        }
+
+        // 3. 땅파기 (아래 방향키 누른 상태에서 C키) - 땅파기는 무조건 바닥에서만 써야 하므로 isGrounded 유지
+        if (Input.GetKeyDown(KeyCode.C) && Input.GetAxisRaw("Vertical") < 0f && canDig && isGrounded) 
+        {
+            StartCoroutine(DigRoutine());
+        }
+
+        // 이동 및 점프 로직
+        float m = Input.GetAxisRaw("Horizontal"); 
+        rb.linearVelocity = new Vector2(m * moveSpeed, rb.linearVelocity.y); 
+        
+        if (Input.GetButtonDown("Jump") && isGrounded) 
+        { 
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce); 
+            anim.SetTrigger("DoJump"); 
+        } 
+        
+        if (m > 0 && !isFacingRight) Flip(); 
+        else if (m < 0 && isFacingRight) Flip(); 
+    }
     void Flip() { isFacingRight = !isFacingRight; Vector3 s = transform.localScale; s.x *= -1; transform.localScale = s; }
-    void UpdateAnimation() { anim.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x)); anim.SetBool("IsGrounded", isGrounded); anim.SetFloat("VerticalSpeed", rb.linearVelocity.y); }
+    void UpdateAnimation() 
+    { 
+        anim.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x)); 
+        anim.SetBool("IsGrounded", isGrounded); 
+        anim.SetFloat("VerticalSpeed", rb.linearVelocity.y); 
+        
+        // ★ [추가] 평타, 강공격, 땅파기 등 스킬을 쓰고 있다면 true를 전달!
+        anim.SetBool("IsAttacking", isBasicAttacking || isStrongAttacking || isDiggingAnim);
+    }
     public void ApplyKnockback(Vector2 f) { isKnockedBack = true; rb.linearVelocity = Vector2.zero; rb.AddForce(f, ForceMode2D.Impulse); StartCoroutine(KnockbackRoutine()); }
     IEnumerator KnockbackRoutine() { isInvincible = true; yield return new WaitForSeconds(0.3f); isKnockedBack = false; float blink = Time.time + (hitInvincibilityDuration - 0.3f); while (Time.time < blink) { sr.color = new Color(1,1,1,0.4f); yield return new WaitForSeconds(0.1f); sr.color = Color.white; yield return new WaitForSeconds(0.1f); } isInvincible = false; }
     IEnumerator SkillInvincibilityRoutine(float d) { isInvincible = true; yield return new WaitForSeconds(d); isInvincible = false; }

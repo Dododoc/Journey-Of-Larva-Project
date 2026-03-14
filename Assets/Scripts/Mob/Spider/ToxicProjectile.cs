@@ -4,6 +4,10 @@ public class ToxicProjectile : MonoBehaviour
 {
     public float speed = 12f;
     public GameObject groundEffectPrefab;
+    
+    // ★ [추가] 독 지속 시간 (인스펙터에서 조절 가능)
+    public float poisonDuration = 3.0f; 
+    
     private Vector2 moveDirection;
     private float damage;
 
@@ -23,7 +27,6 @@ public class ToxicProjectile : MonoBehaviour
         transform.Translate(Vector3.left * speed * Time.deltaTime);
     }
 
-    // ★ 핵심: 무언가에 부딪혔을 때 실행
     void OnTriggerEnter2D(Collider2D other)
     {
         // 1. 지면(Ground)에 닿았을 때 장판 생성
@@ -31,13 +34,16 @@ public class ToxicProjectile : MonoBehaviour
         {
             Explode(transform.position);
         }
-        // 2. 지면에 닿기 전 플레이어에게 직격했을 때 (선택 사항)
+        // 2. 플레이어에게 직격했을 때
         else if (other.CompareTag("Player"))
         {
             PlayerStats pStats = other.GetComponent<PlayerStats>();
-            if (pStats != null) pStats.TakeDamage(damage);
+            if (pStats != null) 
+            {
+                // ★ [수정] TakeDamage 대신 ApplyPoison을 호출하여 도트 딜 부여!
+                pStats.ApplyPoison(damage, poisonDuration);
+            }
             
-            // 직격 시에도 바닥에 장판을 깔고 싶다면 지면을 찾는 로직 추가 가능
             Destroy(gameObject); 
         }
     }
@@ -46,7 +52,7 @@ public class ToxicProjectile : MonoBehaviour
     {
         if (groundEffectPrefab != null)
         {
-            Instantiate(groundEffectPrefab, spawnPos, Quaternion.identity); //
+            Instantiate(groundEffectPrefab, spawnPos, Quaternion.identity); 
         }
         Destroy(gameObject);
     }

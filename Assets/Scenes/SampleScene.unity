@@ -239,10 +239,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1144203991694457206, guid: d331dec7c5b2f4808acec64375b5c642, type: 3}
-      propertyPath: m_SleepingMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2888646692998219095, guid: d331dec7c5b2f4808acec64375b5c642, type: 3}
       propertyPath: m_Name
       value: Spider
@@ -314,10 +310,6 @@ PrefabInstance:
     - target: {fileID: 1133158917890505474, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
       propertyPath: m_Name
       value: Cricket
-      objectReference: {fileID: 0}
-    - target: {fileID: 2843690498040878992, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
-      propertyPath: m_SleepingMode
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5326524360730249405, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
       propertyPath: m_LocalPosition.x
@@ -760,10 +752,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3482232857606708099, guid: cf60db8d670db40789097aad34c50709, type: 3}
-      propertyPath: m_SleepingMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4095857957331292786, guid: cf60db8d670db40789097aad34c50709, type: 3}
       propertyPath: m_Name
       value: StagBeetle
@@ -867,10 +855,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4416716137714222903, guid: 3c8e5f0801f734b139638f5a869c0c21, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6464880761573251279, guid: 3c8e5f0801f734b139638f5a869c0c21, type: 3}
-      propertyPath: m_SleepingMode
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1157,17 +1141,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2450132989418105864, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
-      propertyPath: m_SleepingMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4289670311379358685, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
       propertyPath: m_Name
       value: Ladybug
-      objectReference: {fileID: 0}
-    - target: {fileID: 4289670311379358685, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7798674915663724985, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1288,10 +1264,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2509245917664155865, guid: 7f96eb8ef94574b96b90dfc994be9a3b, type: 3}
-      propertyPath: m_SleepingMode
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1319,18 +1291,6 @@ PrefabInstance:
     - target: {fileID: 419765064029973505, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
       propertyPath: m_Name
       value: Bee
-      objectReference: {fileID: 0}
-    - target: {fileID: 419765064029973505, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1375341827131381907, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: m_Size.x
-      value: 3.471552
-      objectReference: {fileID: 0}
-    - target: {fileID: 1375341827131381907, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: m_Offset.x
-      value: 22.186493
       objectReference: {fileID: 0}
     - target: {fileID: 5460953823439721556, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1371,18 +1331,6 @@ PrefabInstance:
     - target: {fileID: 5460953823439721556, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7967357362881922624, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: m_SleepingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8296987953383779092, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: m_Size.x
-      value: 3.4883232
-      objectReference: {fileID: 0}
-    - target: {fileID: 8296987953383779092, guid: b1468a82086f9472ebcb8f38ef07ad8a, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.0014286041
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1982,10 +1930,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 217988157864808069, guid: c88fc134a5e5ed74c8369c80e8e8592a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1746885116239551728, guid: c88fc134a5e5ed74c8369c80e8e8592a, type: 3}
-      propertyPath: m_SleepingMode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2535654659165878847, guid: c88fc134a5e5ed74c8369c80e8e8592a, type: 3}

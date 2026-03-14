@@ -96,14 +96,22 @@ public class BaseEnemyAI : MonoBehaviour
     public void SetGrabbed(bool grabbed)
     {
         isGrabbed = grabbed;
+        Collider2D triggerCol = GetComponent<Collider2D>(); // 몹의 데미지 판정(트리거) 콜라이더
+
         if (grabbed)
         {
             if (rb != null) { rb.linearVelocity = Vector2.zero; rb.bodyType = RigidbodyType2D.Kinematic; }
             if (anim != null) anim.SetBool("IsWalking", false);
+            
+            // ★ [추가] 잡혀있는 동안에는 데미지 판정을 완전히 꺼버림 (닿아도 안 아픔!)
+            if (triggerCol != null) triggerCol.enabled = false; 
         }
         else
         {
             if (rb != null) rb.bodyType = RigidbodyType2D.Dynamic;
+            
+            // ★ [추가] 풀려나면 데미지 판정 다시 켜짐
+            if (triggerCol != null) triggerCol.enabled = true; 
         }
     }
 
@@ -118,15 +126,21 @@ public class BaseEnemyAI : MonoBehaviour
     {
         isKnockedBack = true;
         isAttacking = false; 
+        
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero; 
             rb.AddForce(force, ForceMode2D.Impulse); 
         }
-        yield return new WaitForSeconds(duration);
+
+        // ★ [추가] 기절(경직) 시간 동안 몹의 색상을 어둡게(회색) 만들어서 기절했음을 표현
+        if (sr != null) sr.color = Color.gray;
+
+        yield return new WaitForSeconds(duration); // 전달받은 시간(2초) 동안 완벽하게 정지!
+
+        if (sr != null) sr.color = Color.white; // 기절이 풀리면 원래 색상으로 복구
         isKnockedBack = false;
     }
-
     protected void LookAt(float targetX)
     {
         if (isKnockedBack || isGrabbed) return;

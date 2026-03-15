@@ -57,7 +57,9 @@ public class BeetleController : MonoBehaviour
     public float ultLiftAnimTime = 0.4f;   // 쳐올리기 모션을 끝까지 보여줄 시간
     public float ultJumpAnimTime = 0.3f;   // 숙이고 점프하는 모션을 보여줄 시간
     public float ultRecoveryTime = 0.8f;   // 바닥에 꽂고 튕겨 오른 뒤, 무적을 유지하며 일어나는 시간
-
+    // ★ [새로 추가] 상승 속도 조절 (숫자가 작을수록 엄청 빨리 올라감)
+    public float ultMobLiftDuration = 0.5f;    // 몹이 하늘로 올라가는 데 걸리는 시간
+    public float ultPlayerRiseDuration = 0.25f; // 풍뎅이가 하늘로 솟구치는 데 걸리는 시간
     [Header("5. 피격 및 넉백")]
     public float hitKnockbackPower = 3f; 
     // ★ [수정] 무적 시간 2초로 증가 (인스펙터에서 확인 필요)
@@ -111,7 +113,14 @@ public class BeetleController : MonoBehaviour
     void Update()
     {
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
-        if (isKnockedBack || isDiving || isLifting || isGrabbedByBoss) { UpdateAnimation(); return; }
+        
+        // ★ [핵심 1] isAttacking(궁극기 시전 중) 조건을 추가했습니다!
+        // 이제 궁극기를 쓰는 동안에는 이동, 점프, 바닥 감지 등 모든 키보드 조작과 물리 연산이 완벽하게 '정지'됩니다.
+        if (isKnockedBack || isDiving || isLifting || isGrabbedByBoss || isAttacking) 
+        { 
+            UpdateAnimation(); 
+            return; 
+        }
 
         CheckGround();
         
@@ -143,10 +152,13 @@ public class BeetleController : MonoBehaviour
 
     void ProcessInput()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && !isBasicAttacking && isGrounded) StartCoroutine(BasicAttackRoutine());
+        // ★ [수정] isGrounded 조건을 빼서 점프 중이나 낙하 중(공중)에도 Z 공격이 가능해집니다!
+        if (Input.GetKeyDown(KeyCode.Z) && !isBasicAttacking) StartCoroutine(BasicAttackRoutine());
+        
         if (Input.GetKeyDown(KeyCode.X) && canLift && isGrounded) { StartCoroutine(LiftSkillRoutine()); return; }
         if (Input.GetKeyDown(KeyCode.C) && canDive && !isGrounded) { StartCoroutine(DiveSkillRoutine()); return; }
-         // 4. 궁극기 (V키)
+        
+        // 4. 궁극기 (V키)
         if (Input.GetKeyDown(KeyCode.V) && canUltimate && isGrounded && !isAttacking) 
         {
             StartCoroutine(UltimateSkillRoutine());
@@ -191,10 +203,20 @@ public class BeetleController : MonoBehaviour
 
     void UpdateAnimation()
     {
-        if (isDiving || isLifting || isKnockedBack || isGrabbedByBoss)
+        // 공중 공격, 궁극기, 스킬 사용 중인지 통합 확인
+        bool isCurrentlyAttacking = isAttacking || isBasicAttacking || isLifting || isDiving;
+        
+        // 애니메이터에 공격 상태를 넘겨줌 (Any State -> Fly 조건에 사용!)
+        anim.SetBool("IsAttacking", isCurrentlyAttacking);
+
+        // 공격/스킬 중이면 일반 걷기, 점프, 낙하 모션으로 절대 바뀌지 않음
+        if (isCurrentlyAttacking) return; 
+
+        if (isKnockedBack || isGrabbedByBoss)
         {
             anim.SetBool("IsGrounded", true); anim.SetFloat("Speed", 0f); return;
         }
+        
         anim.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
         anim.SetBool("IsGrounded", isGrounded);
         anim.SetFloat("VerticalSpeed", rb.linearVelocity.y);
@@ -435,182 +457,179 @@ IEnumerator FlashGoldEffect()
     {
         canUltimate = false;
         isAttacking = true;
-        isInvincible = true; // 시전 중 무적
+        isInvincible = true; 
         
-        // 중력을 끄고 이동을 멈춤
-        rb.linearVelocity = Vector2.zero;
         float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0f; 
+        float baseY = transform.position.y; // 스킬을 시전한 땅의 정확한 높이
 
         // ==================================================
-        // [1단계] 돌진 (Ult_Charge)
+        // [1] 돌진 및 실패 처리
         // ==================================================
-        anim.SetTrigger("Ult_Charge");
+        // ★ [버그 수정 1] 돌진할 때는 바닥을 제대로 밟고 가도록 Dynamic 유지
+        rb.bodyType = RigidbodyType2D.Dynamic; 
+        rb.gravityScale = originalGravity;
+        anim.SetTrigger("Ult_Charge"); 
         
         float dashTimer = 0f;
         Collider2D caughtEnemy = null;
         BaseEnemyAI caughtAI = null;
         float faceDir = isFacingRight ? 1f : -1f;
 
-        // 최대 0.6초 동안 앞으로 빠르게 돌진하며 적을 찾음
         while(dashTimer < 0.6f)
         {
-            rb.linearVelocity = new Vector2(faceDir * ultDashSpeed, 0);
+            // Y축 속도를 유지해서 경사로나 땅에서 파묻히지 않게 함
+            rb.linearVelocity = new Vector2(faceDir * ultDashSpeed, rb.linearVelocity.y);
             
-            // 내 앞의 적 감지
             Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
             foreach(var hit in hits) 
             {
                 BaseEnemyAI ai = hit.GetComponentInParent<BaseEnemyAI>();
-                if(ai != null) 
-                {
-                    caughtEnemy = hit;
-                    caughtAI = ai;
-                    break;
-                }
+                if(ai != null) { caughtEnemy = hit; caughtAI = ai; break; }
             }
-
-            if(caughtAI != null) break; // 적을 잡았으면 돌진 종료
-
+            if(caughtAI != null) break; 
             dashTimer += Time.deltaTime;
             yield return null;
         }
 
         rb.linearVelocity = Vector2.zero;
 
-        // 만약 아무도 못 맞췄다면? 뻘쭘하게 스킬 취소
         if(caughtAI == null) 
         {
-            rb.gravityScale = originalGravity;
             isAttacking = false;
             isInvincible = false;
+            anim.Play("Beetle_Idle"); 
             yield return new WaitForSeconds(ultCooldown);
             canUltimate = true;
             yield break;
         }
 
         // ==================================================
-        // [2단계] 쳐올리기 (Ult_Lift) 및 점프 대기
+        // [2] 들어올리기 대기 (1.2초)
         // ==================================================
         caughtAI.SetGrabbed(true); 
-        anim.SetTrigger("Ult_Lift");
         
-        // ★ [핵심 1] 쳐올리는(Lift) 애니메이션이 멋지게 재생될 시간을 벌어줍니다.
-        yield return new WaitForSeconds(ultLiftAnimTime);
+        // ★ [버그 수정 2] 몹을 잡은 순간부터 유령화(Kinematic) 및 중력 끄기!
+        rb.bodyType = RigidbodyType2D.Kinematic; 
+        rb.gravityScale = 0f;
+        // Y좌표를 억지로 baseY로 고정시켜서 들어올릴 때 땅 밑으로 꺼지는 현상 원천 차단
+        transform.position = new Vector3(transform.position.x, baseY, transform.position.z);
 
-        // (애니메이터에서 Has Exit Time으로 인해 자동으로 Jump 모션으로 넘어갑니다)
-        
-        // ★ [핵심 2] 숙이고 점프(Jump)하며 땅을 박차는 모션이 나올 때까지 대기합니다.
-        yield return new WaitForSeconds(ultJumpAnimTime);
+        anim.SetTrigger("Ult_Lift"); 
+        yield return new WaitForSeconds(1.2f); 
 
-        Vector3 startPos = transform.position;
-        Vector3 targetPos = startPos + new Vector3(0, ultLiftHeight, 0);
-        
-        // 대기가 끝났으니 풍뎅이와 적이 동시에 하늘로 솟아오름!
-        float liftTimer = 0f;
-        while(liftTimer < 0.4f) 
+        // ==================================================
+        // [3] 몹 50 상승 (0.5초)
+        // ==================================================
+        Vector3 enemyStartPos = caughtEnemy.transform.parent.position;
+        Vector3 enemyTargetPos = new Vector3(enemyStartPos.x, baseY + 50f, enemyStartPos.z);
+
+        float liftT = 0f;
+        while(liftT < 0.5f) 
         {
-            liftTimer += Time.deltaTime;
-            float t = liftTimer / 0.4f;
-            transform.position = Vector3.Lerp(startPos, targetPos, t);
-            
-            if(caughtEnemy != null) 
-                caughtEnemy.transform.parent.position = transform.position + new Vector3(faceDir * 1.5f, 1f, 0); 
-            
+            liftT += Time.deltaTime;
+            caughtEnemy.transform.parent.position = Vector3.Lerp(enemyStartPos, enemyTargetPos, liftT / 0.5f);
             yield return null;
         }
 
         // ==================================================
-        // [3단계] 공중 솟구침 - 앞면 (Ult_Up)
+        // [4] 점프 대기 (1.3초)
         // ==================================================
-        anim.SetTrigger("Ult_Up");
-        
-        // 적의 뒤통수, 살짝 위쪽으로 순식간에 휙! 순간이동
-        if (caughtEnemy != null) 
-        {
-            transform.position = caughtEnemy.transform.parent.position + new Vector3(-faceDir * 1f, 2.5f, 0);
-            // 풍뎅이가 적을 바라보도록 뱡향 전환
-            Flip(); 
-        }
-        
-        // 공중에서 날개를 파닥거리며 위엄있게 잠시 체공
-        yield return new WaitForSeconds(0.5f); 
+        anim.SetTrigger("Ult_Jump"); 
+        yield return new WaitForSeconds(1.3f); 
 
         // ==================================================
-        // [4단계] 하강 뿔 꽂기 - 뒷모습 (Ult_Down)
+        // [5] 높이 100으로 즉시 순간이동 후 2초 대기
         // ==================================================
-        anim.SetTrigger("Ult_Down");
-        yield return new WaitForSeconds(0.2f); // 내리꽂기 직전 딜레이
+        sr.enabled = false; 
+        yield return new WaitForSeconds(0.1f); 
+
+        anim.SetTrigger("Ult_Up"); // 체공 중인 자세 유지
+        
+        // ★ [수정] 몹과 같은 X 위치, 높이는 100으로 '단번에' 순간이동!
+        transform.position = new Vector3(caughtEnemy.transform.parent.position.x, baseY + 100f, 0);
+        Flip(); 
+        sr.enabled = true; 
+
+        // ★ [수정] 올라가는 연출 없이 그 자리에서 2초 동안 압도적인 공중 체공!
+        yield return new WaitForSeconds(2.0f); 
+
+        // ==================================================
+        // [6] 100에서 땅에 닿을 때까지 미친 듯이 하강!
+        // ==================================================
+        anim.SetTrigger("Ult_Down"); 
+
+        bool hasCaughtEnemyInAir = false;
+        float currentPlungeSpeed = 120f; 
 
         while(true) 
         {
-            // 한 프레임당 떨어질 거리 계산
-            float dropStep = ultPlungeSpeed * Time.deltaTime;
+            float dropStep = currentPlungeSpeed * Time.deltaTime;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, dropStep + 0.5f, groundLayer);
             
-            // ★ [수정 1] 낙하 속도가 아무리 빨라도 땅을 뚫지 못하도록 레이저 길이를 '이동할 거리'만큼 길게 늘림
-            RaycastHit2D groundHit = Physics2D.Raycast(transform.position, Vector2.down, dropStep + 1.0f, groundLayer);
-            
-            if(groundHit.collider != null) 
+            if(hit.collider != null) 
             {
-                // 땅을 발견하면 뚫고 들어가지 않고, 바닥 높이에 정확히 주차함!
-                transform.position = new Vector3(transform.position.x, groundHit.point.y + 0.5f, transform.position.z);
+                transform.position = new Vector3(transform.position.x, hit.point.y + 0.5f, transform.position.z);
                 break;
             }
 
             transform.Translate(Vector3.down * dropStep);
-            
-            if(caughtEnemy != null) 
-                caughtEnemy.transform.parent.position = transform.position + new Vector3(0, -1.5f, 0);
 
+            if(caughtEnemy != null) 
+            {
+                // 높이 50에 있는 몹을 낚아채서 바닥까지 끌고 감
+                if (!hasCaughtEnemyInAir && transform.position.y <= caughtEnemy.transform.parent.position.y + 1.5f) 
+                {
+                    hasCaughtEnemyInAir = true; 
+                }
+
+                if (hasCaughtEnemyInAir)
+                {
+                    caughtEnemy.transform.parent.position = transform.position + new Vector3(0, -1.5f, 0);
+                }
+            }
             yield return null;
         }
 
         // ==================================================
-        // [5단계] 바닥 강타 및 광역 데미지
+        // [7] 바닥 강타 및 데미지
         // ==================================================
+        anim.Play("Beetle_Idle"); 
 
         Collider2D[] aoeHits = Physics2D.OverlapCircleAll(transform.position, ultAoeRadius, enemyLayers);
         foreach(var hit in aoeHits) 
         {
-            EnemyStats es = hit.GetComponentInParent<EnemyStats>();
-            if(es != null) es.TakeDamage(ultDamage);
-            
+            if (hit == null || hit.transform.parent == null) continue;
             BaseEnemyAI ai = hit.GetComponentInParent<BaseEnemyAI>();
+            EnemyStats es = hit.GetComponentInParent<EnemyStats>();
+
             if(ai != null && ai != caughtAI) 
             {
                  float dirX = (hit.transform.position.x - transform.position.x) > 0 ? 1f : -1f;
-                 ai.ApplyKnockback(new Vector2(dirX, 1f).normalized * 15f, 2.0f); // 주변 몹 넉백 및 2초 기절
+                 ai.ApplyKnockback(new Vector2(dirX, 1f).normalized * 15f, 2.0f);
             }
+            if(es != null) es.TakeDamage(ultDamage);
         }
 
-        // 메인 타겟(잡힌 몹) 처리
         if(caughtAI != null) 
         {
             caughtAI.SetGrabbed(false);
+            caughtAI.ApplyKnockback(new Vector2(-faceDir, 0.5f).normalized * 8f, 2.0f);
             
-            // ★ [수정 2] 잡혀있던 몹에게도 확실하게 데미지를 입힘
             EnemyStats caughtStats = caughtEnemy.GetComponentInParent<EnemyStats>();
             if(caughtStats != null) caughtStats.TakeDamage(ultDamage);
-            
-            // 몹은 2초 동안 기절하며 바닥에 튕김
-            caughtAI.ApplyKnockback(new Vector2(-faceDir, 0.5f).normalized * 8f, 2.0f);
         }
 
         // ==================================================
-        // [마무리] 스킬 종료 및 뒷수습 (무적 시간 연장)
+        // [8] 시전 후 반동 및 스킬 종료 
         // ==================================================
+        rb.bodyType = RigidbodyType2D.Dynamic; // 충돌 다시 정상화
         rb.gravityScale = originalGravity; 
         rb.linearVelocity = Vector2.zero;
-        
-        float recoilForceX = 8f;  
-        float recoilForceY = 15f; 
-        rb.AddForce(new Vector2(faceDir * recoilForceX, recoilForceY), ForceMode2D.Impulse); 
+        rb.AddForce(new Vector2(faceDir * 8f, 15f), ForceMode2D.Impulse); 
 
-        // ★ [핵심 3] 튕겨 올라갔다가 착지하고 정신 차릴 때까지 대기 (이때까지 계속 무적!)
         yield return new WaitForSeconds(ultRecoveryTime); 
         
-        // 대기 시간이 모두 끝나면 스킬 상태와 무적을 해제
-        isAttacking = false;
+        isAttacking = false; 
         isInvincible = false;
 
         yield return new WaitForSeconds(ultCooldown);

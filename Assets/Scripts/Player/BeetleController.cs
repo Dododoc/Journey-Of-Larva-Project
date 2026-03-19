@@ -504,8 +504,14 @@ IEnumerator FlashGoldEffect()
         // ★ [여기로 이동!] 돌진을 시작하는 순간 금빛 아우라 폭발!
         if (goldAuraPrefab != null)
         {
-            currentAura = Instantiate(goldAuraPrefab, transform.position, Quaternion.identity);
+            // ★ Quaternion.identity를 지우고, 프리팹의 원래 회전값(-90)을 그대로 가져오도록 수정합니다!
+            currentAura = Instantiate(goldAuraPrefab, transform.position, goldAuraPrefab.transform.rotation);
             currentAura.transform.parent = transform;
+            // ★ [안전 장치 추가] 엉뚱한 곳에서 켜지지 않게 풍뎅이 한가운데(0,0,0)로 좌표를 강제 고정합니다!
+            currentAura.transform.localPosition = new Vector3(0f, 1f, 0f);
+
+            // ★ [추가] 부모 크기에 짓눌린 아우라의 크기를 원래 크기(1,1,1)로 쫙 펴줍니다!
+            currentAura.transform.localScale = Vector3.one;
         }
 
         float dashTimer = 0f;
@@ -535,11 +541,27 @@ IEnumerator FlashGoldEffect()
             isInvincible = false;
             anim.Play("Beetle_Idle"); 
 
-            // ★ [추가] 헛쳤을 경우 뻘쭘하니까 아우라도 바로 꺼줍니다.
-            if (currentAura != null) Destroy(currentAura);
+            if (currentAura != null) 
+            {
+                ParticleSystem auraPS = currentAura.GetComponent<ParticleSystem>();
+                if (auraPS != null) 
+                {
+                    auraPS.Stop(); 
+                    currentAura.transform.parent = null; 
 
-            yield return new WaitForSeconds(ultCooldown);
-            canUltimate = true;
+                    // ★ [버그 수정] 왼쪽(-1)을 보다가 끊어져도 파티클이 찢어지지 않게 크기를 강제로 정상화(1) 시킵니다!
+                    currentAura.transform.localScale = Vector3.one; 
+                    currentAura.transform.rotation = Quaternion.Euler(-90f, 0f, 0f); // 하늘 방향 고정
+                    
+                    Destroy(currentAura, 1.5f); 
+                }
+                else 
+                {
+                    Destroy(currentAura);
+                }
+            }
+
+            Invoke("ResetUltCooldown", ultCooldown);
             yield break;
         }
 
@@ -583,10 +605,37 @@ IEnumerator FlashGoldEffect()
         // ==================================================
         // [4] 점프 대기
         // ==================================================
-        // ★ [여기로 이동!] 점프 모션으로 넘어가기 직전에 금빛 아우라를 끕니다.
-        if (currentAura != null) Destroy(currentAura);
+        
         anim.SetTrigger("Ult_Jump"); 
-        yield return new WaitForSeconds(1.3f); 
+        yield return new WaitForSeconds(1.3f);
+        // ==================================================
+        // ★ [새로운 연출] 기운을 사방으로 폭발시키며 점프!
+        // ==================================================
+        if (currentAura != null) 
+        {
+            ParticleSystem auraPS = currentAura.GetComponent<ParticleSystem>();
+            if (auraPS != null) 
+            {
+                currentAura.transform.parent = null; 
+                currentAura.transform.localScale = Vector3.one; // 찢어짐 방지
+
+                // 1. 파티클이 뿜어지는 모양을 콘(위쪽)에서 구(사방)로 순식간에 변경!
+                var shape = auraPS.shape;
+                shape.shapeType = ParticleSystemShapeType.Sphere; 
+                shape.radius = 30f; // 퍼지는 범위
+
+                // 2. 뿜어지는 속도를 엄청나게 빠르게(15) 올려서 폭발력을 줍니다!
+                var main = auraPS.main;
+                main.startSpeed = 30f; 
+
+                // 3. 사방으로 50개의 파티클을 강제로 쾅! 쏘아냅니다! (숫자를 올리면 더 화려해집니다)
+                auraPS.Emit(300); 
+                
+                // 4. 화려하게 터뜨린 후 스위치를 끕니다. (남은 잔해들은 스르륵 사라짐)
+                auraPS.Stop(); 
+                Destroy(currentAura, 1.5f); 
+            }
+        }
 
         // ==================================================
         // [5] 100으로 순간이동 후 2초 체공
@@ -699,13 +748,15 @@ IEnumerator FlashGoldEffect()
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(new Vector2(faceDir * 8f, 15f), ForceMode2D.Impulse); 
 
+        // ★ [수정] 반동 대기 시간 중에 맞아도 쿨타임이 안전하게 돌아가도록 미리 예약!
+        Invoke("ResetUltCooldown", ultRecoveryTime + ultCooldown);
+
         yield return new WaitForSeconds(ultRecoveryTime); 
         
         isAttacking = false; 
         isInvincible = false;
 
-        yield return new WaitForSeconds(ultCooldown);
-        canUltimate = true;
+        // (기존에 있던 yield return new WaitForSeconds(ultCooldown); 과 canUltimate = true; 는 지워주세요!)
     }
     // ★ [수정] 중복 데미지 방지 (HashSet 사용)
     void PerformAreaDamage(float addDamage, float knockback) 
@@ -736,6 +787,13 @@ IEnumerator FlashGoldEffect()
             }
         } 
     }
+
+    // ★ [추가] 넉백에도 절대 끊기지 않는 궁극기 쿨타임 회복 함수
+    private void ResetUltCooldown()
+    {
+        canUltimate = true;
+    }
+
     // ★ [수정됨] 중복 데미지 방지 및 넉백 조건 추가
     void ApplyDamage(Vector2 point, float range, float multiplier, float knockbackForce) 
     { 

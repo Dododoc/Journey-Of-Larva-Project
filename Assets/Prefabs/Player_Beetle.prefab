@@ -170,8 +170,8 @@ MonoBehaviour:
   isJumpDisabled: 0
   attackDamage: 7
   attackRange: 2.5
-  attackDelay: 0.2
-  attackCooldown: 0.5
+  attackDelay: 0.6
+  attackCooldown: 1
   basicKnockback: 8
   liftDamage: 10
   liftRange: 2.5
@@ -200,6 +200,9 @@ MonoBehaviour:
   ultRecoveryTime: 2
   ultMobLiftDuration: 0.5
   ultPlayerRiseDuration: 1.5
+  goldAuraPrefab: {fileID: 0}
+  jumpVFXPrefab: {fileID: 0}
+  impactVFXPrefab: {fileID: 0}
   hitKnockbackPower: 7
   hitInvincibilityDuration: 2
   isGrabbedByBoss: 0

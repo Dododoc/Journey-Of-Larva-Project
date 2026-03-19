@@ -189,17 +189,17 @@ MonoBehaviour:
   impactDamage2: 15
   impactDelay2: 0.1
   impactKnockback2: 15
-  ultDamage: 100
+  ultDamage: 50
   ultDashSpeed: 20
-  ultLiftHeight: 6
-  ultPlungeSpeed: 40
+  ultLiftHeight: 70
+  ultPlungeSpeed: 80
   ultAoeRadius: 5
-  ultCooldown: 15
-  ultLiftAnimTime: 0.4
-  ultJumpAnimTime: 0.3
-  ultRecoveryTime: 0.8
+  ultCooldown: 1
+  ultLiftAnimTime: 1.2
+  ultJumpAnimTime: 1.3
+  ultRecoveryTime: 2
   ultMobLiftDuration: 0.5
-  ultPlayerRiseDuration: 0.25
+  ultPlayerRiseDuration: 1.5
   hitKnockbackPower: 7
   hitInvincibilityDuration: 2
   isGrabbedByBoss: 0

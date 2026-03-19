@@ -826,6 +826,10 @@ PrefabInstance:
       value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 4043774668962679566, guid: 3c8e5f0801f734b139638f5a869c0c21, type: 3}
+      propertyPath: ultPlungeSpeed
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043774668962679566, guid: 3c8e5f0801f734b139638f5a869c0c21, type: 3}
       propertyPath: ultJumpAnimTime
       value: 1.3
       objectReference: {fileID: 0}

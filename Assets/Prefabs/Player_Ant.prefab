@@ -115,7 +115,7 @@ MonoBehaviour:
   attackDamage: 8
   attackRange: 1.5
   attackDelay: 0.1
-  attackCooldown: 0.3
+  attackCooldown: 1
   basicEnemyKnockback: 5
   strongDamageMultiplier: 2.5
   strongAttackDelay: 0.25

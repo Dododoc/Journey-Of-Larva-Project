@@ -355,7 +355,7 @@ IEnumerator FlashGoldEffect()
         yield return new WaitForSeconds(attackDelay); 
         
         // 여기에 0f를 넣어서 일반 공격은 넉백 힘이 0이 되도록 만듭니다.
-        ApplyDamage(attackPoint.position, attackRange, 1f, 0f); 
+        ApplyDamage(attackPoint.position, attackRange, 1f, basicKnockback); 
         
         yield return new WaitForSeconds(attackCooldown); 
         isBasicAttacking = false; 
@@ -581,7 +581,7 @@ IEnumerator FlashGoldEffect()
         anim.SetTrigger("Ult_Lift"); 
         
         // ★ 대기 시간 0.8초 반영 완료
-        yield return new WaitForSeconds(0.8f); 
+        yield return new WaitForSeconds(0.6f); 
 
         // ==================================================
         // [3] 몹 50 상승
@@ -708,6 +708,15 @@ IEnumerator FlashGoldEffect()
         if (myCollider != null) myCollider.enabled = true;
 
         anim.Play("Beetle_Idle"); 
+
+        // ==================================================
+        // ★ [추가할 부분] 실수로 지워졌던 돌덩이 폭발 이펙트 소환 코드를 여기에 다시 넣습니다!
+        // ==================================================
+        if (impactVFXPrefab != null)
+        {
+            Vector3 impactPos = transform.position + Vector3.down * 0.5f; // 풍뎅이 발밑 바닥 위치
+            Instantiate(impactVFXPrefab, impactPos, Quaternion.identity);
+        }
 
         Collider2D[] aoeHits = Physics2D.OverlapCircleAll(transform.position, ultAoeRadius, enemyLayers);
         HashSet<GameObject> hitSet = new HashSet<GameObject>(); 

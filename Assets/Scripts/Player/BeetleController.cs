@@ -63,10 +63,13 @@ public class BeetleController : MonoBehaviour
 
     [Header("Ultimate VFX (궁극기 이펙트)")]
     public GameObject goldAuraPrefab;    // 금빛 아우라
-    public GameObject jumpVFXPrefab;     // 점프 먼지
     public GameObject impactVFXPrefab;   // 땅 찍기 충격
     
     private GameObject currentAura;      // 생성된 아우라를 끄기 위해 기억해둘 변수
+    public UnityEngine.UI.Image slamFlashPanel; 
+    public TrailRenderer hornTrail;
+    public float shakeDuration = 0.2f;  // 흔들리는 시간 (0.2초면 쾅! 하기에 충분합니다)
+    public float shakeMagnitude = 0.5f; // 흔들리는 강도 (숫자가 클수록 격렬하게 흔들립니다)
 
     [Header("5. 피격 및 넉백")]
     public float hitKnockbackPower = 3f; 
@@ -492,7 +495,9 @@ IEnumerator FlashGoldEffect()
         
         float originalGravity = rb.gravityScale;
         float baseY = transform.position.y; 
-
+        // ★ [여기에 추가 1] 나중에 원상복구하기 위해 잔상의 원래 위치를 기억해둡니다!
+        Vector3 originalTrailPos = Vector3.zero;
+        if (hornTrail != null) originalTrailPos = hornTrail.transform.localPosition;
         // ==================================================
         // [1] 돌진 (땅을 밟고 달림)
         // ==================================================
@@ -501,6 +506,8 @@ IEnumerator FlashGoldEffect()
         if (myCollider != null) myCollider.enabled = true;
 
         anim.SetTrigger("Ult_Charge"); 
+        // ★ [여기에 추가 1] V키를 누르고 돌진을 시작할 때 잔상을 켭니다!
+        if (hornTrail != null) hornTrail.emitting = true;
         // ★ [여기로 이동!] 돌진을 시작하는 순간 금빛 아우라 폭발!
         if (goldAuraPrefab != null)
         {
@@ -607,7 +614,7 @@ IEnumerator FlashGoldEffect()
         // ==================================================
         
         anim.SetTrigger("Ult_Jump"); 
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(1.5f);
         // ==================================================
         // ★ [새로운 연출] 기운을 사방으로 폭발시키며 점프!
         // ==================================================
@@ -660,7 +667,11 @@ IEnumerator FlashGoldEffect()
         // [6] 100에서 강하 (★ 수직 뿔 꽂기 오프셋 복구!)
         // ==================================================
         anim.SetTrigger("Ult_Down"); 
-
+        // ★ [여기에 추가 2] 내리꽂는 모션에서는 뿔이 아래를 향하므로, 잔상의 위치도 아래(-1.5f)로 강제로 내립니다!
+        if (hornTrail != null) 
+        {
+            hornTrail.transform.localPosition = new Vector3(0f, -1.5f, 0f); // 뿔이 있는 발밑 위치
+        }
         bool hasCaughtEnemyInAir = false;
         float currentPlungeSpeed = ultPlungeSpeed; 
         
@@ -708,7 +719,9 @@ IEnumerator FlashGoldEffect()
         if (myCollider != null) myCollider.enabled = true;
 
         anim.Play("Beetle_Idle"); 
-
+        // ★ [여기에 추가] 바닥에 쾅! 찍히는 순간 화면 번쩍임과 동시에 지진을 일으킵니다!
+        if (slamFlashPanel != null) StartCoroutine(SlamFlashEffectRoutine());
+        StartCoroutine(CameraShakeRoutine(shakeDuration, shakeMagnitude)); // <--- 이 줄을 추가!
         // ==================================================
         // ★ [추가할 부분] 실수로 지워졌던 돌덩이 폭발 이펙트 소환 코드를 여기에 다시 넣습니다!
         // ==================================================
@@ -754,9 +767,16 @@ IEnumerator FlashGoldEffect()
         // ==================================================
         // [8] 시전 후 반동 및 스킬 종료 
         // ==================================================
+        // ★ [여기에 추가 3] 스킬이 끝났으니 잔상을 다시 꺼줍니다!
+        if (hornTrail != null) hornTrail.emitting = false;
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(new Vector2(faceDir * 8f, 15f), ForceMode2D.Impulse); 
-
+        // ★ [여기에 추가 3] 스킬이 끝났으니 잔상을 끄고, 위치도 맨 처음 기억해둔 원래 위치로 되돌립니다!
+        if (hornTrail != null) 
+        {
+            hornTrail.emitting = false; 
+            hornTrail.transform.localPosition = originalTrailPos; 
+        }
         // ★ [수정] 반동 대기 시간 중에 맞아도 쿨타임이 안전하게 돌아가도록 미리 예약!
         Invoke("ResetUltCooldown", ultRecoveryTime + ultCooldown);
 
@@ -802,7 +822,59 @@ IEnumerator FlashGoldEffect()
     {
         canUltimate = true;
     }
+    // ==================================================
+    // ★ [추가] 화면을 0.1초 만에 하얗게 번쩍이게 하는 기능
+    // ==================================================
+    IEnumerator SlamFlashEffectRoutine()
+    {
+        if (slamFlashPanel == null) yield break;
 
+        // 1. 순간적으로 하얗게(Alpha 1.0) 꽉 채웁니다.
+        slamFlashPanel.color = new Color(1f, 1f, 1f, 1f); 
+
+        // 2. 0.1초 동안 눈부신 상태를 유지 (타격감 극대화)
+        yield return new WaitForSeconds(0.1f);
+
+        // 3. 아주 빠르게 서서히 투명하게 만듭니다.
+        float flashFadeSpeed = 5f; 
+        while (slamFlashPanel.color.a > 0)
+        {
+            Color color = slamFlashPanel.color;
+            color.a -= Time.deltaTime * flashFadeSpeed;
+            slamFlashPanel.color = color;
+            yield return null;
+        }
+
+        // 4. 확실하게 투명하게 고정합니다.
+        slamFlashPanel.color = new Color(1f, 1f, 1f, 0f);
+    }
+    // ==================================================
+    // ★ [추가] 화면을 미친 듯이 흔들어주는 지진(카메라 쉐이크) 코루틴
+    // ==================================================
+    IEnumerator CameraShakeRoutine(float duration, float magnitude)
+    {
+        // 메인 카메라를 자동으로 찾아서 가져옵니다.
+        Transform camTransform = Camera.main.transform;
+        
+        // 흔들기 전의 원래 카메라 위치를 기억해둡니다.
+        Vector3 originalPos = camTransform.localPosition;
+        float elapsed = 0.0f;
+
+        while (elapsed < duration)
+        {
+            // X축, Y축으로 설정한 강도(magnitude)만큼 랜덤하게 덜덜덜 떱니다!
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+
+            camTransform.localPosition = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
+            
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // 지진이 끝나면 카메라를 원래 위치로 깔끔하게 원상복구 시킵니다.
+        camTransform.localPosition = originalPos;
+    }
     // ★ [수정됨] 중복 데미지 방지 및 넉백 조건 추가
     void ApplyDamage(Vector2 point, float range, float multiplier, float knockbackForce) 
     { 

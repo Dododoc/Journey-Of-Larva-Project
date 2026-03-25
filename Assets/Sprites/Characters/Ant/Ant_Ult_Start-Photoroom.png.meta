@@ -1,0 +1,416 @@
+fileFormatVersion: 2
+guid: 5d178c96196d5fa42b57f34e1866d886
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -687560732308934338
+    second: Ant_Ult_Start-Photoroom_0
+  - first:
+      213: 4691238982715885828
+    second: Ant_Ult_Start-Photoroom_1
+  - first:
+      213: -7350920233532329458
+    second: Ant_Ult_Start-Photoroom_2
+  - first:
+      213: -2033869758037215212
+    second: Ant_Ult_Start-Photoroom_3
+  - first:
+      213: 4148989031410690280
+    second: Ant_Ult_Start-Photoroom_4
+  - first:
+      213: 5954001145982303236
+    second: Ant_Ult_Start-Photoroom_5
+  - first:
+      213: 192319442347701988
+    second: Ant_Ult_Start-Photoroom_6
+  - first:
+      213: 1562219778190919221
+    second: Ant_Ult_Start-Photoroom_7
+  - first:
+      213: -6244358092820314519
+    second: Ant_Ult_Start-Photoroom_8
+  - first:
+      213: -7722482035061319494
+    second: Ant_Ult_Start-Photoroom_9
+  - first:
+      213: 3249030162634687355
+    second: Ant_Ult_Start-Photoroom_10
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Ant_Ult_Start-Photoroom_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 432
+        width: 292
+        height: 333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e31f735282b4576f0800000000000000
+      internalID: -687560732308934338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_Ult_Start-Photoroom_1
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 432
+        width: 195
+        height: 141
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 409ce31eff0aa1140800000000000000
+      internalID: 4691238982715885828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_Ult_Start-Photoroom_2
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 431
+        width: 189
+        height: 142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e02f2149ef84cf990800000000000000
+      internalID: -7350920233532329458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_Ult_Start-Photoroom_3
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 429
+        width: 255
+        height: 336
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41838c02b3e36c3e0800000000000000
+      internalID: -2033869758037215212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_Ult_Start-Photoroom_4
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 90
+        width: 194
+        height: 274
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e8e932ba8b249930800000000000000
+      internalID: 4148989031410690280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_Ult_Start-Photoroom_5
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 91
+        width: 222
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40c3b822f7cd0a250800000000000000
+      internalID: 5954001145982303236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_Ult_Start-Photoroom_6
+      rect:
+        serializedVersion: 2
+        x: 653
+        y: 100
+        width: 65
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e6398c83814ba200800000000000000
+      internalID: 192319442347701988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_Ult_Start-Photoroom_7
+      rect:
+        serializedVersion: 2
+        x: 703
+        y: 83
+        width: 232
+        height: 180
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 536c82c7c9e1ea510800000000000000
+      internalID: 1562219778190919221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_Ult_Start-Photoroom_8
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 81
+        width: 46
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9660c1b06659759a0800000000000000
+      internalID: -6244358092820314519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_Ult_Start-Photoroom_9
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 80
+        width: 34
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab895db218b34d490800000000000000
+      internalID: -7722482035061319494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_Ult_Start-Photoroom_10
+      rect:
+        serializedVersion: 2
+        x: 902
+        y: 89
+        width: 75
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b73ce5408bfd61d20800000000000000
+      internalID: 3249030162634687355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Ant_Ult_Start-Photoroom_0: -687560732308934338
+      Ant_Ult_Start-Photoroom_1: 4691238982715885828
+      Ant_Ult_Start-Photoroom_10: 3249030162634687355
+      Ant_Ult_Start-Photoroom_2: -7350920233532329458
+      Ant_Ult_Start-Photoroom_3: -2033869758037215212
+      Ant_Ult_Start-Photoroom_4: 4148989031410690280
+      Ant_Ult_Start-Photoroom_5: 5954001145982303236
+      Ant_Ult_Start-Photoroom_6: 192319442347701988
+      Ant_Ult_Start-Photoroom_7: 1562219778190919221
+      Ant_Ult_Start-Photoroom_8: -6244358092820314519
+      Ant_Ult_Start-Photoroom_9: -7722482035061319494
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AntController
   moveSpeed: 9
-  jumpForce: 13
+  jumpForce: 15
   mapMinX: 543.5
   mapMaxX: 700
   attackDamage: 8
@@ -121,7 +121,7 @@ MonoBehaviour:
   strongAttackDelay: 0.25
   strongCooldown: 3
   strongEnemyKnockback: 7
-  teleportRange: 10
+  teleportRange: 17
   teleportOffset: 1
   digDuration: 3
   digCooldown: 8

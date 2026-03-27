@@ -1,40 +1,28 @@
 fileFormatVersion: 2
-guid: 5d178c96196d5fa42b57f34e1866d886
+guid: 977e155b4b38a1c4082fabb615edec45
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -687560732308934338
-    second: Ant_Ult_Start-Photoroom_0
+      213: -7661716299073069685
+    second: Ant_Ult_2-Photoroom_0
   - first:
-      213: 4691238982715885828
-    second: Ant_Ult_Start-Photoroom_1
+      213: -715124134310020567
+    second: Ant_Ult_2-Photoroom_1
   - first:
-      213: -7350920233532329458
-    second: Ant_Ult_Start-Photoroom_2
+      213: -1728752781212446099
+    second: Ant_Ult_2-Photoroom_2
   - first:
-      213: -2033869758037215212
-    second: Ant_Ult_Start-Photoroom_3
+      213: 819726689450916755
+    second: Ant_Ult_2-Photoroom_3
   - first:
-      213: 4148989031410690280
-    second: Ant_Ult_Start-Photoroom_4
+      213: -957139948280175182
+    second: Ant_Ult_2-Photoroom_4
   - first:
-      213: 5954001145982303236
-    second: Ant_Ult_Start-Photoroom_5
+      213: -4872872432249426839
+    second: Ant_Ult_2-Photoroom_5
   - first:
-      213: 192319442347701988
-    second: Ant_Ult_Start-Photoroom_6
-  - first:
-      213: 1562219778190919221
-    second: Ant_Ult_Start-Photoroom_7
-  - first:
-      213: -6244358092820314519
-    second: Ant_Ult_Start-Photoroom_8
-  - first:
-      213: -7722482035061319494
-    second: Ant_Ult_Start-Photoroom_9
-  - first:
-      213: 3249030162634687355
-    second: Ant_Ult_Start-Photoroom_10
+      213: -2786768580218355507
+    second: Ant_Ult_2-Photoroom_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -143,155 +131,155 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ant_Ult_Start-Photoroom_0
+      name: Ant_Ult_2_0
       rect:
         serializedVersion: 2
-        x: 92
-        y: 433
-        width: 199
-        height: 154
+        x: 47
+        y: 434
+        width: 288
+        height: 137
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e31f735282b4576f0800000000000000
-      internalID: -687560732308934338
+      spriteID: 7e604d4bdb451ff4da3ff6c1053cff46
+      internalID: -1328937257
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Ult_Start-Photoroom_1
+      name: Ant_Ult_2_1
       rect:
         serializedVersion: 2
-        x: 326
-        y: 433
-        width: 193
-        height: 139
+        x: 340
+        y: 438
+        width: 172
+        height: 265
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 409ce31eff0aa1140800000000000000
-      internalID: 4691238982715885828
+      spriteID: f4c440434f9a3a54bbd8f497795bd352
+      internalID: 709496295
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Ult_Start-Photoroom_2
+      name: Ant_Ult_2_2
       rect:
         serializedVersion: 2
-        x: 551
-        y: 432
-        width: 187
-        height: 140
+        x: 558
+        y: 434
+        width: 144
+        height: 246
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e02f2149ef84cf990800000000000000
-      internalID: -7350920233532329458
+      spriteID: c9c65e684ea02534483bb5a8e1d87d55
+      internalID: 625073378
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Ult_Start-Photoroom_3
+      name: Ant_Ult_2_3
       rect:
         serializedVersion: 2
-        x: 770
-        y: 430
-        width: 189
-        height: 244
+        x: 742
+        y: 429
+        width: 239
+        height: 171
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 41838c02b3e36c3e0800000000000000
-      internalID: -2033869758037215212
+      spriteID: 33d6b8f1d831f0843842d7c93b6702d8
+      internalID: 677393454
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Ult_Start-Photoroom_4
+      name: Ant_Ult_2_4
       rect:
         serializedVersion: 2
-        x: 125
-        y: 91
-        width: 192
-        height: 272
+        x: 99
+        y: 102
+        width: 221
+        height: 211
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8e8e932ba8b249930800000000000000
-      internalID: 4148989031410690280
+      spriteID: 9de60c4d1a9d3d34eb4270cd1fd658a6
+      internalID: -211585133
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Ult_Start-Photoroom_5
+      name: Ant_Ult_2_5
       rect:
         serializedVersion: 2
-        x: 406
-        y: 92
-        width: 220
-        height: 212
+        x: 414
+        y: 103
+        width: 254
+        height: 223
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 40c3b822f7cd0a250800000000000000
-      internalID: 5954001145982303236
+      spriteID: b3b07ba4ee13ab647b910cf904b40af6
+      internalID: -712763102
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Ult_Start-Photoroom_7
+      name: Ant_Ult_2_6
       rect:
         serializedVersion: 2
-        x: 656
-        y: 84
-        width: 322
-        height: 178
+        x: 685
+        y: 93
+        width: 288
+        height: 133
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 536c82c7c9e1ea510800000000000000
-      internalID: 1562219778190919221
+      spriteID: 22910737745f98d4282c0fff7735798a
+      internalID: -1643752728
       vertices: []
       indices: 
       edges: []
@@ -300,7 +288,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: de275ac73d9cdbb49a95b27476f97625
+    spriteID: f4d53fec606fecd459357d595b0d2df4
     internalID: 0
     vertices: []
     indices: 
@@ -312,17 +300,13 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Ant_Ult_Start-Photoroom_0: -687560732308934338
-      Ant_Ult_Start-Photoroom_1: 4691238982715885828
-      Ant_Ult_Start-Photoroom_10: 3249030162634687355
-      Ant_Ult_Start-Photoroom_2: -7350920233532329458
-      Ant_Ult_Start-Photoroom_3: -2033869758037215212
-      Ant_Ult_Start-Photoroom_4: 4148989031410690280
-      Ant_Ult_Start-Photoroom_5: 5954001145982303236
-      Ant_Ult_Start-Photoroom_6: 192319442347701988
-      Ant_Ult_Start-Photoroom_7: 1562219778190919221
-      Ant_Ult_Start-Photoroom_8: -6244358092820314519
-      Ant_Ult_Start-Photoroom_9: -7722482035061319494
+      Ant_Ult_2_0: -1328937257
+      Ant_Ult_2_1: 709496295
+      Ant_Ult_2_2: 625073378
+      Ant_Ult_2_3: 677393454
+      Ant_Ult_2_4: -211585133
+      Ant_Ult_2_5: -712763102
+      Ant_Ult_2_6: -1643752728
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

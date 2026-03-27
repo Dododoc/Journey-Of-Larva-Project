@@ -69,7 +69,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 35
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -131,155 +131,145 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ant_Ult_4-Photoroom_0
+      name: Ant_Ult_4_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 432
-        width: 291
-        height: 333
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 216
+        y: 260
+        width: 151
+        height: 182
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 848f9057da45e5f70800000000000000
-      internalID: 9177866194597312584
+      spriteID: e516e5336bc610f4d869274d355c9f45
+      internalID: 1319612106
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Ult_4-Photoroom_1
+      name: Ant_Ult_4_1
       rect:
         serializedVersion: 2
-        x: 323
-        y: 432
-        width: 198
-        height: 154
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 377
+        y: 326
+        width: 147
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
-      outline: []
+      outline:
+      - - {x: -73.5, y: -118.5}
+        - {x: 73.5, y: -118.5}
+        - {x: 52.5, y: -49.5}
+        - {x: 73.5, y: 20.5}
+        - {x: 73.5, y: 118.5}
+        - {x: -73.5, y: 118.5}
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 95d4339e5535533a0800000000000000
-      internalID: -6686346443311854247
+      spriteID: fe864424ceaeb9b44a4b51c672db5242
+      internalID: -1326063780
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Ult_4-Photoroom_2
+      name: Ant_Ult_4_2
       rect:
         serializedVersion: 2
-        x: 544
-        y: 438
-        width: 203
-        height: 149
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 517
+        y: 329
+        width: 147
+        height: 233
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
-      outline: []
+      outline:
+      - - {x: -61.5, y: 38.5}
+        - {x: -73.5, y: -33.5}
+        - {x: -73.5, y: -116.5}
+        - {x: 73.5, y: -116.5}
+        - {x: 73.5, y: 116.5}
+        - {x: -73.5, y: 116.5}
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2598d935c548bfac0800000000000000
-      internalID: -3820314326819042990
+      spriteID: 1eff9e95456f08a45a392807f27a11c9
+      internalID: 1486656623
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Ult_4-Photoroom_3
+      name: Ant_Ult_4_3
       rect:
         serializedVersion: 2
-        x: 768
-        y: 434
-        width: 199
-        height: 149
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 669
+        y: 354
+        width: 158
+        height: 224
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9d88a766c2c7f4990800000000000000
-      internalID: -7399559132606723879
+      spriteID: 21187f61683c4b6489466f9ba2d424ed
+      internalID: -1548065090
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Ult_4-Photoroom_4
+      name: Ant_Ult_4_4
       rect:
         serializedVersion: 2
-        x: 128
-        y: 269
-        width: 198
-        height: 147
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 830
+        y: 428
+        width: 184
+        height: 174
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 85d43365492b75820800000000000000
-      internalID: 2906988434662051160
+      spriteID: 719381c68714bf548a0f7183ad7e276a
+      internalID: 1475441993
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ant_Ult_4-Photoroom_5
+      name: Ant_Ult_4_5
       rect:
         serializedVersion: 2
-        x: 435
-        y: 268
-        width: 200
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 26
+        y: 257
+        width: 183
+        height: 141
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: fe2286be430b412c0800000000000000
-      internalID: -4461747589483060497
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ant_Ult_4-Photoroom_6
-      rect:
-        serializedVersion: 2
-        x: 721
-        y: 267
-        width: 200
-        height: 143
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: eb7018a7f29db13a0800000000000000
-      internalID: -6693517623214143554
+      spriteID: 7ecdcec7034bf8c4eae2d3c9f57b7043
+      internalID: -1380146702
       vertices: []
       indices: 
       edges: []
@@ -288,7 +278,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1aeb521f7ed90364a8bcf6f3182371c6
     internalID: 0
     vertices: []
     indices: 
@@ -296,15 +286,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Ant_Ult_4-Photoroom_0: 9177866194597312584
-      Ant_Ult_4-Photoroom_1: -6686346443311854247
-      Ant_Ult_4-Photoroom_2: -3820314326819042990
-      Ant_Ult_4-Photoroom_3: -7399559132606723879
-      Ant_Ult_4-Photoroom_4: 2906988434662051160
-      Ant_Ult_4-Photoroom_5: -4461747589483060497
-      Ant_Ult_4-Photoroom_6: -6693517623214143554
+      Ant_Ult_4_0: 1319612106
+      Ant_Ult_4_1: -1326063780
+      Ant_Ult_4_2: 1486656623
+      Ant_Ult_4_3: -1548065090
+      Ant_Ult_4_4: 1475441993
+      Ant_Ult_4_5: -1380146702
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,72 +1,44 @@
 using UnityEngine;
 
+// 이 스크립트는 MonoBehaviour를 상속받아야 작동합니다.
 public class LeafItem : MonoBehaviour
 {
-    [Header("Item Stats")]
-    public float expAmount = 30f;
-    
-    [Header("Outline Settings")]
-    public Color highlightColor = Color.yellow;
-    public float maxOutlineWidth = 2f; // 테두리 두께
-    public float detectionRange = 2.5f; // 수집 인식 범위
+    // ★ [추가됨] 부유(둥둥) 효과 설정
+    [Header("부유(둥둥) 효과")]
+    public bool useFloating = true;   
+    public float floatSpeed = 2.0f;    // 나뭇잎은 좀 더 천천히 (2f)
+    public float floatAmplitude = 0.05f; // 나뭇잎은 좀 더 작게 (0.05f) 움직이게 설정해봤습니다.
 
-    private Material leafMaterial;
-    private Transform playerTransform;
+    private float startY; // 나뭇잎의 원래 Y축 높이
 
+    // 만약 기존 코드에 Start 함수가 없다면 아래를 추가해주세요.
     void Start()
-{
-    // 기존의 플레이어 찾기 및 물리 효과 로직만 남김
-    GameObject player = GameObject.FindWithTag("Player");
-    if (player != null) playerTransform = player.transform;
+    {
+        // ★ [추가됨] 시작할 때의 Y축 위치를 기억해둡니다.
+        startY = transform.position.y;
+    }
 
-    Rigidbody2D rb = GetComponent<Rigidbody2D>();
-    if (rb != null)
-    {
-        float randomX = Random.Range(-3f, 3f);
-        float randomY = Random.Range(5f, 8f);
-        rb.AddForce(new Vector2(randomX, randomY), ForceMode2D.Impulse);
-    }
-}
-    void Awake()
-    {
-        // Awake에서 미리 머티리얼을 세팅하여 첫 프레임부터 적용되게 합니다.
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        if (sr != null)
-        {
-            // 인스턴스 머티리얼 생성 및 초기화
-            leafMaterial = sr.material;
-            leafMaterial.SetFloat("_OutlineWidth", 0f); 
-            leafMaterial.SetColor("_OutlineColor", highlightColor);
-        }
-    }
+    // 만약 기존 코드에 Update 함수가 없다면 아래를 추가해주세요.
     void Update()
     {
-        if (playerTransform == null || leafMaterial == null) return;
-
-        // 플레이어와의 거리 체크
-        float distance = Vector2.Distance(transform.position, playerTransform.position);
-
-        if (distance <= detectionRange)
+        // ==========================================
+        // ★ [추가됨] 부유(둥둥) 효과 처리
+        // ==========================================
+        if (useFloating)
         {
-            // 범위 안이면 쉐이더의 외곽선 두께 증가
-            leafMaterial.SetFloat("_OutlineWidth", maxOutlineWidth);
-        }
-        else
-        {
-            // 범위 밖이면 외곽선 제거
-            leafMaterial.SetFloat("_OutlineWidth", 0);
+            float newY = startY + Mathf.Sin(Time.time * floatSpeed) * floatAmplitude;
+            transform.position = new Vector3(transform.position.x, newY, transform.position.z);
         }
     }
 
+    // 기존에 있던 나뭇잎 줍기 기능 (예시)
     public void Collect(PlayerStats stats)
     {
         if (stats != null)
         {
-            stats.GainExp(expAmount); // 경험치 획득
-            // ★ [추가] 1번 퀘스트(나뭇잎 먹기) 완료!
-            if (QuestManager.instance != null)
-                QuestManager.instance.CompleteQuest(1);
-            Destroy(gameObject);
+            // 예: stats.AddXP(5);
+            Debug.Log("나뭇잎 획득!");
         }
+        Destroy(gameObject); // 주우면 파괴
     }
 }

@@ -23,9 +23,9 @@ TagManager:
   - Enemy
   - Wall
   - Ceiling
-  - Leaf
+  - Item
   - EnemyTrigger
-  - 
+  - ItemSensor
   - 
   - 
   - 

@@ -12,8 +12,14 @@ public class Larva_PlayerController : MonoBehaviour
     public float dashDuration = 0.4f; 
     public float dashCooldown = 1f;   
     private bool isDashing = false;   
-    private bool canDash = true;      
+    
+    // ★ [핵심 1] 꼬이기 쉬운 canDash 변수를 아예 지워버리고, 
+    // 오직 이 변수 하나로만 쿨타임을 완벽하게 통제합니다!
+    private float currentDashTimer = 0f; 
+    
     public bool IsDashing => isDashing;
+    [Header("Skill UI")]
+    public SkillSlotUI zSkillUI; // 유니티 에디터에서 애벌레 Z 슬롯을 드래그해서 넣습니다.
 
     [Header("Knockback & Invincibility")]
     public float knockbackPower = 10f;      
@@ -38,7 +44,6 @@ public class Larva_PlayerController : MonoBehaviour
     private bool isKnockedBack; 
     private float defaultGravity;
 
-    // ★ [추가됨] 억울하게 다른 코루틴이 꺼지지 않도록, 대시와 상태이상 전용 보관함을 만듭니다.
     private Coroutine dashCoroutine;
     private Coroutine stateCoroutine;
 
@@ -54,10 +59,13 @@ public class Larva_PlayerController : MonoBehaviour
     void Update()
     {
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
+        
+        // ★ [핵심 2] 매 프레임마다 절대적으로 쿨타임을 줄여나갑니다. 유령 타이머가 낄 틈이 없습니다!
+        if (currentDashTimer > 0) currentDashTimer -= Time.deltaTime;
+
         CheckGround();
         if (!isKnockedBack && !isDashing) ProcessInput();
         UpdateAnimation();
-        if (Input.GetKeyDown(KeyCode.X)) TryCollectLeaf();
     }
 
     void OnTriggerStay2D(Collider2D other)
@@ -109,13 +117,17 @@ public class Larva_PlayerController : MonoBehaviour
     
     void ProcessInput() 
     { 
-        if (Input.GetKeyDown(KeyCode.Z) && canDash) 
-        { 
-            // ★ [수정됨] 대시를 시작할 때 보관함에 담아서 실행합니다.
-            if (dashCoroutine != null) StopCoroutine(dashCoroutine);
-            dashCoroutine = StartCoroutine(DashRoutine()); 
-            return; 
-        } 
+        if (Input.GetKeyDown(KeyCode.Z) && currentDashTimer <= 0f) 
+    { 
+        currentDashTimer = dashDuration + dashCooldown; 
+
+        // ★ [여기에 한 줄 추가!] 스킬을 쓰는 순간 UI에 쿨타임 돌라고 명령!
+        if (zSkillUI != null) zSkillUI.StartCooldown(currentDashTimer); 
+
+        if (dashCoroutine != null) StopCoroutine(dashCoroutine);
+        dashCoroutine = StartCoroutine(DashRoutine()); 
+        return; 
+    }
         float moveInput = Input.GetAxisRaw("Horizontal"); 
         if (Input.GetButtonDown("Jump") && isGrounded) { jumpCooldown = 0.2f; isGrounded = false; rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce); anim.SetTrigger("DoJump"); return; } 
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y); 
@@ -123,11 +135,27 @@ public class Larva_PlayerController : MonoBehaviour
     }
 
     void UpdateAnimation() { anim.SetFloat("Speed", rb.linearVelocity.magnitude > 0.1f ? rb.linearVelocity.magnitude : 0f); anim.SetBool("IsGrounded", isGrounded); anim.SetFloat("VerticalSpeed", rb.linearVelocity.y); }
-    IEnumerator DashRoutine() { canDash = false; isDashing = true; float origGrav = rb.gravityScale; rb.gravityScale = 0f; float dashDir = sr.flipX ? -1f : 1f; rb.linearVelocity = new Vector2(dashDir * dashSpeed, 0f); anim.SetBool("IsDashing", true); anim.SetTrigger("DoAttack"); yield return new WaitForSeconds(dashDuration); isDashing = false; rb.gravityScale = origGrav; anim.SetBool("IsDashing", false); yield return new WaitForSeconds(dashCooldown); canDash = true; }
+    
+    // ★ [핵심 4] 코루틴은 오직 '대시 이동' 자체만 담당하게 만듭니다. (쿨타임 관련 내용 싹 제거)
+    IEnumerator DashRoutine() 
+    { 
+        isDashing = true; 
+        float origGrav = rb.gravityScale; 
+        rb.gravityScale = 0f; 
+        float dashDir = sr.flipX ? -1f : 1f; 
+        rb.linearVelocity = new Vector2(dashDir * dashSpeed, 0f); 
+        anim.SetBool("IsDashing", true); 
+        anim.SetTrigger("DoAttack"); 
+        
+        yield return new WaitForSeconds(dashDuration); 
+        
+        isDashing = false; 
+        rb.gravityScale = origGrav; 
+        anim.SetBool("IsDashing", false); 
+    }
     
     public void ApplyKnockback(Vector2 f) 
     { 
-        // ★ [핵심 수정] 무식한 StopAllCoroutines() 삭제! 대시와 상태이상만 콕 집어서 끕니다.
         if (dashCoroutine != null) StopCoroutine(dashCoroutine);
         if (stateCoroutine != null) StopCoroutine(stateCoroutine);
         
@@ -142,14 +170,12 @@ public class Larva_PlayerController : MonoBehaviour
         rb.linearVelocity = Vector2.zero; 
         rb.AddForce(f, ForceMode2D.Impulse); 
         
-        // ★ 넉백 코루틴을 보관함에 담아서 실행
         stateCoroutine = StartCoroutine(KnockbackRoutine(hitInvincibilityDuration)); 
-        StartCoroutine(DashCooldownTimer()); 
+        // ★ 유령 타이머를 소환하던 StartCoroutine(DashCooldownTimer()); 삭제 완료!
     }
 
     public void ApplyRecoil(Vector2 f) 
     { 
-        // ★ [핵심 수정] 여기도 똑같이 선택적 종료 적용!
         if (dashCoroutine != null) StopCoroutine(dashCoroutine);
         if (stateCoroutine != null) StopCoroutine(stateCoroutine);
         
@@ -164,13 +190,11 @@ public class Larva_PlayerController : MonoBehaviour
         rb.linearVelocity = Vector2.zero; 
         rb.AddForce(f, ForceMode2D.Impulse); 
         
-        // ★ 반동 코루틴을 보관함에 담아서 실행
         stateCoroutine = StartCoroutine(RecoilRoutine(attackInvincibilityDuration)); 
-        StartCoroutine(DashCooldownTimer()); 
+        // ★ 유령 타이머를 소환하던 StartCoroutine(DashCooldownTimer()); 삭제 완료!
     }
 
-    IEnumerator DashCooldownTimer() { yield return new WaitForSeconds(dashCooldown); canDash = true; }
+    // ★ DashCooldownTimer 코루틴 자체를 완전히 삭제했습니다.
     IEnumerator KnockbackRoutine(float d) { isInvincible = true; yield return new WaitForSeconds(0.3f); isKnockedBack = false; float blink = Time.time + (d - 0.3f); while (Time.time < blink) { sr.color = new Color(1, 1, 1, 0.4f); yield return new WaitForSeconds(0.1f); sr.color = Color.white; yield return new WaitForSeconds(0.1f); } isInvincible = false; }
     IEnumerator RecoilRoutine(float d) { isInvincible = true; yield return new WaitForSeconds(0.1f); isKnockedBack = false; yield return new WaitForSeconds(d); isInvincible = false; sr.color = Color.white; }
-    void TryCollectLeaf() { float r = 2.5f; Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, r); foreach (var hit in hits) { LeafItem leaf = hit.GetComponent<LeafItem>(); if (leaf != null) leaf.Collect(myStats); } }
 }

@@ -334,6 +334,10 @@ MonoBehaviour:
   attackDelay: 0.6
   attackCooldown: 1
   basicKnockback: 5
+  xSkillUI: {fileID: 0}
+  cSkillUI: {fileID: 0}
+  vSkillUI: {fileID: 0}
+  isUltUnlocked: 0
   liftDamage: 10
   liftRange: 2.5
   liftCatchDelay: 0.05
@@ -363,7 +367,6 @@ MonoBehaviour:
   ultPlayerRiseDuration: 1.5
   goldAuraPrefab: {fileID: 6305451573910318683, guid: 5e031a3c5b5846f4f9e90689941cb5e7, type: 3}
   impactVFXPrefab: {fileID: 6489759666945512121, guid: 9c577ed0bdd9b4a4b83b9c4ac9fcc127, type: 3}
-  slamFlashPanel: {fileID: 0}
   hornTrail: {fileID: 621880091478232444}
   shakeDuration: 0.2
   shakeMagnitude: 0.5
@@ -392,7 +395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e79fa02971c6f146aa821e989437eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  playerHUD: {fileID: 0}
   hitEffectPrefab: {fileID: 0}
   currentLevel: 1
   currentExp: 0
@@ -404,6 +406,8 @@ MonoBehaviour:
   bonusAttack: 0
   bonusDefense: 0
   bonusMaxHp: 0
+  interactPrompt: {fileID: 0}
+  fallDeathY: -20
 --- !u!50 &6464880761573251279
 Rigidbody2D:
   serializedVersion: 5

@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerStats : MonoBehaviour
 {
     [Header("References")]
-    public PlayerHUD playerHUD; 
+    private PlayerHUD playerHUD; 
     public GameObject hitEffectPrefab; 
 
     [Header("Level Info")]
@@ -29,7 +29,13 @@ public class PlayerStats : MonoBehaviour
     public float TotalAttack => (baseAttack * currentLevel) + bonusAttack;
     public float TotalDefense => (baseDefense * currentLevel) + bonusDefense;
     public float TotalMaxHp => (maxHp * currentLevel) + bonusMaxHp;
-
+    [Header("Interaction UI")]
+    public GameObject interactPrompt; // ★ 플레이어 머리 위에 뜰 "Press X" 텍스트
+    // ★ [새로 추가] 주변 아이템 개수를 세는 카운터
+    private int nearbyItemCount = 0;
+    // ★ [새로 추가] 낙사 기준선 (이 높이보다 아래로 떨어지면 사망)
+    [Header("Death Setting")]
+    public float fallDeathY = -20f;
     void Start()
     {
         if (playerHUD == null) playerHUD = FindFirstObjectByType<PlayerHUD>();
@@ -79,8 +85,18 @@ public class PlayerStats : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J)) GainExp(50); 
         if (Input.GetKeyDown(KeyCode.K)) TakeDamage(10);
-    }
 
+        // ==========================================
+        // ★ [새로 추가] 낙사 체크 로직
+        // ==========================================
+        if (transform.position.y <= fallDeathY && currentHp > 0)
+        {
+            Debug.Log("으아악! 떨어졌다!");
+            currentHp = 0;
+            UpdateUI();
+            Die();
+        }
+    }
     public void Heal(float amount)
     {
         currentHp += amount;
@@ -258,5 +274,22 @@ public class PlayerStats : MonoBehaviour
 
         // 독이 모두 끝나면 코루틴 변수 비우기
         currentPoisonCoroutine = null;
+    }
+    // 아이템 근처에 가면 숫자를 +1 하고 글자를 켭니다.
+    public void AddNearbyItem()
+    {
+        nearbyItemCount++;
+        if (interactPrompt != null) interactPrompt.SetActive(true);
+    }
+
+    // 아이템에서 멀어지거나 먹으면 숫자를 -1 하고, 0개가 되면 글자를 끕니다.
+    public void RemoveNearbyItem()
+    {
+        nearbyItemCount--;
+        if (nearbyItemCount <= 0)
+        {
+            nearbyItemCount = 0;
+            if (interactPrompt != null) interactPrompt.SetActive(false);
+        }
     }
 }

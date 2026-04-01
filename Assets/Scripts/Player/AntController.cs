@@ -36,6 +36,19 @@ public class AntController : MonoBehaviour
     public float emergeAnimDuration = 0.6f; 
     public float emergeDamageDelay = 0.3f;  
     private bool canDig = true;
+
+    // ===================================
+    // ★ [새로 추가] 스킬 UI 및 궁극기 쿨타임 변수
+    // ===================================
+    [Header("Skill UI")]
+    public SkillSlotUI xSkillUI; // 깨불어부수기
+    public SkillSlotUI cSkillUI; // 땅파기
+    public SkillSlotUI vSkillUI; // 궁극기
+
+    public float ultCooldown = 15f;      // 궁극기 쿨타임
+    private bool canUltimate = true;     // 궁극기 사용 가능 여부
+    public bool isUltUnlocked = false; // ★ 궁극기 해금 여부 (기본 false)
+    // ===================================
     [Header("Ultimate Skill (모래폭풍 절단)")]
     public float ultRadius = 8f;         // 폭풍에 빨려 들어갈 범위
     public float ultTeleportOffset = 2f; // 적과 떨어질 거리
@@ -99,7 +112,11 @@ public class AntController : MonoBehaviour
         if (isDiggingAnim) { if (rb.gravityScale == 0) rb.linearVelocity = Vector2.zero; UpdateAnimation(); return; }
         if (isUnderground) { HandleUndergroundMove(); UpdateAnimation(); return; }
         if (isStrongAttacking) { rb.linearVelocity = Vector2.zero; return; }
-        
+        // ★ [임시 해금 키] L키를 누르면 궁극기가 해금됩니다.
+        if (Input.GetKeyDown(KeyCode.L) && !isUltUnlocked)
+        {
+            UnlockUltimate();
+        }
         // ==========================================================
         // ★ [여기에 딱 한 줄 추가!] 궁극기 시전 중에는 멈춰있게 만듭니다.
         // ==========================================================
@@ -177,29 +194,30 @@ transform.position = new Vector3(target.position.x - (dirSign * teleportOffset),
     void CheckGround() { if (jumpCooldown > 0) { isGrounded = false; return; } Vector2 boxOrigin = (Vector2)transform.position + Vector2.up * 0.3f; RaycastHit2D hit = Physics2D.BoxCast(boxOrigin, boxSize, 0f, Vector2.down, castDistance + 0.3f, groundLayer); isGrounded = hit.collider != null; if (isGrounded) surfaceNormal = hit.normal; else surfaceNormal = Vector2.up; }
     void ProcessInput() 
     { 
-        // 1. 평타 (Z키) - 공중 사용을 위해 isGrounded 조건 삭제
+        // 1. 평타 (Z키)
         if (Input.GetKeyDown(KeyCode.Z) && !isBasicAttacking) 
         {
             StartCoroutine(BasicAttackRoutine());
         }
 
-        // 2. 강공격 (X키) - 공중 사용을 위해 isGrounded 조건 삭제
+        // 2. 강공격 (X키)
         if (Input.GetKeyDown(KeyCode.X) && canStrongAttack) 
         {
+            if (xSkillUI != null) xSkillUI.StartCooldown(strongCooldown); // ★ UI 연동
             StartCoroutine(StrongAttackRoutine());
         }
 
-        // 3. 땅파기 (아래 방향키 누른 상태에서 C키) - 땅파기는 무조건 바닥에서만 써야 하므로 isGrounded 유지
+        // 3. 땅파기 (아래 방향키 누른 상태에서 C키)
         if (Input.GetKeyDown(KeyCode.C) && Input.GetAxisRaw("Vertical") < 0f && canDig && isGrounded) 
         {
+            if (cSkillUI != null) cSkillUI.StartCooldown(digCooldown); // ★ UI 연동
             StartCoroutine(DigRoutine());
         }
 
-        // ==========================================================
-        // ★ [여기에 추가!] 4. 궁극기 (V키)
-        // ==========================================================
-        if (Input.GetKeyDown(KeyCode.V) && !isAntUlt && isGrounded) 
+        // 4. 궁극기 (V키) - ★ isUltUnlocked 조건 추가
+        if (Input.GetKeyDown(KeyCode.V) && !isAntUlt && isGrounded && canUltimate && isUltUnlocked) 
         {
+            if (vSkillUI != null) vSkillUI.StartCooldown(ultCooldown);
             StartCoroutine(AntUltimateRoutine());
         }
 
@@ -262,7 +280,7 @@ transform.position = new Vector3(target.position.x - (dirSign * teleportOffset),
     {
         isAntUlt = true; isInvincible = true;
         canStrongAttack = false; canDig = false;
-
+        canUltimate = false; // ★ [추가] 시전 시 궁극기 잠금
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f; rb.linearVelocity = Vector2.zero;
         Vector3 castPos = transform.position;
@@ -428,6 +446,9 @@ transform.position = new Vector3(target.position.x - (dirSign * teleportOffset),
         rb.gravityScale = originalGravity;
         isAntUlt = false; isInvincible = false;
         canStrongAttack = true; canDig = true;
+
+        // ★ [추가] 코루틴이 끝날 때 쿨타임 회복 예약
+        Invoke("ResetAntUltCooldown", ultCooldown);
     }
     // ==========================================================
     // ★ [수정됨 - User 11 피드백 반영] 단일 타격 페이드 인/아웃 (포즈별 기본 방향성 추가)
@@ -597,5 +618,17 @@ transform.position = new Vector3(target.position.x - (dirSign * teleportOffset),
         if (ghostSR != null && ghostSR.gameObject != null) {
             Destroy(ghostSR.gameObject);
         }
+        }
+        // ★ [새로 추가] 스크립트 맨 아래 (마지막 괄호 } 바로 위)에 이 함수를 통째로 추가하세요!
+    private void ResetAntUltCooldown()
+    {
+        canUltimate = true;
+    }
+    // ★ [새로 추가] 해금 함수
+    void UnlockUltimate()
+    {
+        isUltUnlocked = true;
+        if (vSkillUI != null) vSkillUI.UnlockSkill(); // UI 자물쇠 제거
+        Debug.Log("개미 궁극기 해금 완료!");
     }
     }

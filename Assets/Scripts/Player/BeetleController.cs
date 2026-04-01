@@ -22,6 +22,12 @@ public class BeetleController : MonoBehaviour
     public float attackDelay = 0.2f;
     public float attackCooldown = 0.5f;
     public float basicKnockback = 8f; 
+    [Header("Skill UI")]
+    public SkillSlotUI xSkillUI; // 들어 넘기기
+    public SkillSlotUI cSkillUI; // 공중 다이브
+    public SkillSlotUI vSkillUI; // 궁극기
+    // [기존 코드 아래에 추가]
+    public bool isUltUnlocked = false; // ★ 궁극기 해금 여부 (기본 false)
     
     [Header("3. 스킬 1 (들어 넘기기)")]
     public float liftDamage = 30f;
@@ -65,8 +71,7 @@ public class BeetleController : MonoBehaviour
     public GameObject goldAuraPrefab;    // 금빛 아우라
     public GameObject impactVFXPrefab;   // 땅 찍기 충격
     
-    private GameObject currentAura;      // 생성된 아우라를 끄기 위해 기억해둘 변수
-    public UnityEngine.UI.Image slamFlashPanel; 
+    private GameObject currentAura;      // 생성된 아우라를 끄기 위해 기억해둘 변수 
     public TrailRenderer hornTrail;
     public float shakeDuration = 0.2f;  // 흔들리는 시간 (0.2초면 쾅! 하기에 충분합니다)
     public float shakeMagnitude = 0.5f; // 흔들리는 강도 (숫자가 클수록 격렬하게 흔들립니다)
@@ -123,6 +128,11 @@ public class BeetleController : MonoBehaviour
 
     void Update()
     {
+        // ★ [임시 해금 키] L키를 누르면 궁극기가 해금됩니다.
+        if (Input.GetKeyDown(KeyCode.L) && !isUltUnlocked)
+        {
+            UnlockUltimate();
+        }
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
         
         // ★ [핵심 1] isAttacking(궁극기 시전 중) 조건을 추가했습니다!
@@ -163,14 +173,27 @@ public class BeetleController : MonoBehaviour
 
     void ProcessInput()
     {
-        // ★ isGrounded 조건을 다시 넣어서 땅에서만 공격 가능하게 수정!
+        // ★ ProcessInput() 안의 Z키 조건문 바로 아래에 있는 X, C, V 조건문들 덮어쓰기
         if (Input.GetKeyDown(KeyCode.Z) && !isBasicAttacking && isGrounded) StartCoroutine(BasicAttackRoutine());
-        if (Input.GetKeyDown(KeyCode.X) && canLift && isGrounded) { StartCoroutine(LiftSkillRoutine()); return; }
-        if (Input.GetKeyDown(KeyCode.C) && canDive && !isGrounded) { StartCoroutine(DiveSkillRoutine()); return; }
         
-        // 4. 궁극기 (V키)
-        if (Input.GetKeyDown(KeyCode.V) && canUltimate && isGrounded && !isAttacking) 
+        if (Input.GetKeyDown(KeyCode.X) && canLift && isGrounded) 
+        { 
+            if (xSkillUI != null) xSkillUI.StartCooldown(liftCooldown); // ★ UI 연동
+            StartCoroutine(LiftSkillRoutine()); 
+            return; 
+        }
+        
+        if (Input.GetKeyDown(KeyCode.C) && canDive && !isGrounded) 
+        { 
+            if (cSkillUI != null) cSkillUI.StartCooldown(diveCooldown); // ★ UI 연동
+            StartCoroutine(DiveSkillRoutine()); 
+            return; 
+        }
+        
+        // 5. 궁극기 (V키) - ★ isUltUnlocked 조건 추가
+        if (Input.GetKeyDown(KeyCode.V) && canUltimate && isGrounded && !isAttacking && isUltUnlocked) 
         {
+            if (vSkillUI != null) vSkillUI.StartCooldown(ultCooldown);
             StartCoroutine(UltimateSkillRoutine());
         }
         float moveInput = Input.GetAxisRaw("Horizontal");
@@ -720,7 +743,9 @@ IEnumerator FlashGoldEffect()
 
         anim.Play("Beetle_Idle"); 
         // ★ [여기에 추가] 바닥에 쾅! 찍히는 순간 화면 번쩍임과 동시에 지진을 일으킵니다!
-        if (slamFlashPanel != null) StartCoroutine(SlamFlashEffectRoutine());
+        if (UIManager.instance != null) UIManager.instance.ShowSlamFlash();
+
+        StartCoroutine(CameraShakeRoutine(shakeDuration, shakeMagnitude));
         StartCoroutine(CameraShakeRoutine(shakeDuration, shakeMagnitude)); // <--- 이 줄을 추가!
         // ==================================================
         // ★ [추가할 부분] 실수로 지워졌던 돌덩이 폭발 이펙트 소환 코드를 여기에 다시 넣습니다!
@@ -822,32 +847,7 @@ IEnumerator FlashGoldEffect()
     {
         canUltimate = true;
     }
-    // ==================================================
-    // ★ [추가] 화면을 0.1초 만에 하얗게 번쩍이게 하는 기능
-    // ==================================================
-    IEnumerator SlamFlashEffectRoutine()
-    {
-        if (slamFlashPanel == null) yield break;
-
-        // 1. 순간적으로 하얗게(Alpha 1.0) 꽉 채웁니다.
-        slamFlashPanel.color = new Color(1f, 1f, 1f, 1f); 
-
-        // 2. 0.1초 동안 눈부신 상태를 유지 (타격감 극대화)
-        yield return new WaitForSeconds(0.1f);
-
-        // 3. 아주 빠르게 서서히 투명하게 만듭니다.
-        float flashFadeSpeed = 5f; 
-        while (slamFlashPanel.color.a > 0)
-        {
-            Color color = slamFlashPanel.color;
-            color.a -= Time.deltaTime * flashFadeSpeed;
-            slamFlashPanel.color = color;
-            yield return null;
-        }
-
-        // 4. 확실하게 투명하게 고정합니다.
-        slamFlashPanel.color = new Color(1f, 1f, 1f, 0f);
-    }
+    
     // ==================================================
     // ★ [추가] 화면을 미친 듯이 흔들어주는 지진(카메라 쉐이크) 코루틴
     // ==================================================
@@ -908,6 +908,13 @@ IEnumerator FlashGoldEffect()
                 }
             }
         } 
+    }
+    // ★ [새로 추가] 해금 함수
+    void UnlockUltimate()
+    {
+        isUltUnlocked = true;
+        if (vSkillUI != null) vSkillUI.UnlockSkill(); // UI 자물쇠 제거
+        Debug.Log("풍뎅이 궁극기 해금 완료!");
     }
     void OnDrawGizmos() { if (isGrounded) Gizmos.color = Color.green; else Gizmos.color = Color.red; Vector2 boxOrigin = (Vector2)transform.position + Vector2.up * 0.4f; Gizmos.DrawWireCube(boxOrigin + Vector2.down * (castDistance + 0.3f), boxSize); if (attackPoint != null) { Gizmos.color = Color.blue; Gizmos.DrawWireSphere(attackPoint.position, attackRange); } if (holdPoint != null) { Gizmos.color = Color.yellow; Gizmos.DrawWireSphere(holdPoint.position, 0.3f); } }
 }

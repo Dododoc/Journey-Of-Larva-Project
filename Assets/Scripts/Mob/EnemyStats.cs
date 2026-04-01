@@ -1,16 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections; // 코루틴을 위해 필요
+using System.Collections; 
 
 public class EnemyStats : MonoBehaviour
 {
     [Header("Enemy Stats")]
     public float maxHp = 100f;       
     public float currentHp;   
-    
-    // ★ [복구됨] 이 변수가 없어서 에러가 났었습니다!
     public float attackDamage = 10f; 
-    
     public float expReward = 500f;   
 
     [Header("HP Bar UI")]
@@ -21,7 +18,10 @@ public class EnemyStats : MonoBehaviour
     public Image bossScreenHPBar;    
     public GameObject bossUIFrame;   
 
-    // 두 종류의 보스 스크립트 연결
+    // ★ [새로 추가] 죽었을 때 떨어뜨릴 아이템 프리팹
+    [Header("Drop Item")]
+    public GameObject dropItemPrefab; 
+
     private BossAntlion antlionScript;
     private BossMantis mantisScript; 
     private SpriteRenderer sr;
@@ -30,19 +30,14 @@ public class EnemyStats : MonoBehaviour
     void Start()
     {
         currentHp = maxHp;
-        
         antlionScript = GetComponent<BossAntlion>(); 
         mantisScript = GetComponent<BossMantis>();
 
-        // 보스 UI 프레임 초기화
         if (bossUIFrame != null) bossUIFrame.SetActive(false);
-        
-        // 보스라면 일반 몬스터용 머리 위 체력바는 끄기
         if (antlionScript != null || mantisScript != null)
         {
             if (hpCanvas != null) hpCanvas.SetActive(false); 
         }
-
         UpdateHPBar(); 
     }
 
@@ -51,6 +46,7 @@ public class EnemyStats : MonoBehaviour
         if (bossUIFrame != null) bossUIFrame.SetActive(true);
         else if (bossScreenHPBar != null) bossScreenHPBar.gameObject.SetActive(true);
     }
+    
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -65,7 +61,7 @@ public class EnemyStats : MonoBehaviour
         UpdateHPBar();
         StopCoroutine("HitFlashRoutine");
         StartCoroutine("HitFlashRoutine");
-        // 연결된 보스가 있다면 피격 반응(OnHit) 호출
+        
         if (antlionScript != null) antlionScript.OnHit();
         if (mantisScript != null) mantisScript.OnHit();
 
@@ -74,51 +70,50 @@ public class EnemyStats : MonoBehaviour
             Die();
         }
     }
+    
     IEnumerator HitFlashRoutine()
     {
-        sr.color = Color.red; // 빨간색으로 변경
+        sr.color = Color.red; 
         yield return new WaitForSeconds(0.1f);
-        sr.color = originalColor; // 원래 색상으로 복구
+        sr.color = originalColor; 
     }
 
     void UpdateHPBar()
     {
         float fillAmount = (maxHp > 0) ? currentHp / maxHp : 0;
-
         if (bossScreenHPBar != null) bossScreenHPBar.fillAmount = fillAmount;
         else if (hpBarFill != null) hpBarFill.fillAmount = fillAmount;
     }
 
     void Die()
     {
-        // 플레이어에게 경험치 지급
         PlayerStats player = FindFirstObjectByType<PlayerStats>();
         if (player != null) player.GainExp(expReward);
 
-        // UI 끄기
         if (bossUIFrame != null) bossUIFrame.SetActive(false);
         if (hpCanvas != null) hpCanvas.SetActive(false);
 
-        // ★ [추가] 죽은 몬스터가 누구인지 확인하고 퀘스트 완료!
-        // ===================================================
         if (QuestManager.instance != null)
         {
-            // 1. 무당벌레인지 확인 (0번 퀘스트)
-            if (GetComponent<LadybugAI>() != null) 
-                QuestManager.instance.CompleteQuest(0);
-            
-            // 2. 귀뚜라미인지 확인 (2번 퀘스트)
-            else if (GetComponent<CricketAI>() != null) 
-                QuestManager.instance.CompleteQuest(2);
-            // 3. 전갈 미니보스인지 확인 (4번 퀘스트)
-            // 망토든 투구든 둘 다 ScorpionAI를 달고 있으니 하나만 체크하면 됩니다!
-            else if (GetComponent<ScorpionAI>() != null) 
-                QuestManager.instance.CompleteQuest(4);
+            if (GetComponent<LadybugAI>() != null) QuestManager.instance.CompleteQuest(0);
+            else if (GetComponent<CricketAI>() != null) QuestManager.instance.CompleteQuest(2);
+            else if (GetComponent<ScorpionAI>() != null) QuestManager.instance.CompleteQuest(4);
         }
 
-        // 보스별 사망 연출 호출
         if (antlionScript != null) antlionScript.StartDeathSequence();
         else if (mantisScript != null) mantisScript.StartDeathSequence();
-        else Destroy(gameObject); // 일반 몬스터는 그냥 삭제
+        else 
+        {
+            // ===================================================
+            // ★ [추가된 핵심 로직] 전갈이 죽을 때 아이템을 바닥에 소환합니다!
+            // ===================================================
+            if (dropItemPrefab != null)
+            {
+                // 전갈이 있던 자리에 아이템 생성
+                Instantiate(dropItemPrefab, transform.position, Quaternion.identity);
+            }
+            
+            Destroy(gameObject); // 일반 몬스터는 그냥 삭제
+        }
     }
 }

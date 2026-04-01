@@ -44,6 +44,8 @@ public class QuestManager : MonoBehaviour
 
     void Start()
     {
+        // ★ [추가] 컴퓨터가 기억하는 튜토리얼 완료 기록을 강제로 삭제합니다 (테스트용)
+        PlayerPrefs.DeleteKey("HasTapped");
         // 1. 현재 맵이 '애벌레 맵'인지 확인합니다.
         if (SceneManager.GetActiveScene().name != larvaSceneName)
         {
@@ -140,5 +142,32 @@ public class QuestManager : MonoBehaviour
                 quests[i].questObject.SetActive(false);
             }
         }
+        // ==========================================================
+        // ★ [추가된 코드] UI가 갱신될 때마다, 혹시 이미 달성한 퀘스트가 있는지 검사합니다!
+        // ==========================================================
+        CheckAutoCompletes();
+        
     }
+    void CheckAutoCompletes()
+    {
+        // 애벌레 맵이 아니면 검사하지 않음
+        if (SceneManager.GetActiveScene().name != larvaSceneName) return;
+
+        // 현재 떠 있는 퀘스트 번호(currentQuestIndex)에 따라 이미 달성했는지 검사합니다.
+        PlayerStats player = FindFirstObjectByType<PlayerStats>();
+        if (player == null) return;
+
+        // 예시: 2번 퀘스트가 "레벨 3 달성하기"라고 가정 (숫자는 유저님 기획에 맞게 바꾸세요!)
+        if (currentQuestIndex == 4) 
+        {
+            // 이미 레벨이 3 이상이라면?
+            if (player.currentLevel >= 3) 
+            {
+                Debug.Log("레벨 3 달성 퀘스트 자동 완료!");
+                CompleteQuest(4); // 즉시 퀘스트 완료 처리! (이러면 연쇄적으로 다음 퀘스트로 넘어갑니다)
+            }
+        }
+        
+    }
+    
 }

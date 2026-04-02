@@ -1,31 +1,38 @@
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.UI; // 추가 필요
 public class TooltipManager : MonoBehaviour
 {
-    public static TooltipManager instance;
-    
-    [Header("Tooltip UI")]
-    public GameObject tooltipPanel;    // 만들어둔 툴팁 창 패널 연결
-    public TextMeshProUGUI titleText;  // 툴팁 제목 텍스트 연결
-    public TextMeshProUGUI descText;   // 툴팁 설명 텍스트 연결
+    public static TooltipManager Instance;
 
-    void Awake() 
-    { 
-        if (instance == null) instance = this; 
+    public GameObject tooltipPanel;
+    public TextMeshProUGUI titleText; // 우리가 쓰던 Title_Text와 연결
+    public TextMeshProUGUI descText;  // 우리가 쓰던 Desc_Text와 연결
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
     }
 
-    void Start() 
-    { 
-        tooltipPanel.SetActive(false); // 시작할 땐 숨김
+    void Update()
+    {
+        if (tooltipPanel.activeSelf)
+        {
+            Vector2 mousePos = Input.mousePosition;
+            // 마우스 우측 하단으로 툴팁 위치 약간 이동
+            tooltipPanel.transform.position = new Vector2(mousePos.x + 15f, mousePos.y - 15f);
+        }
     }
 
     public void ShowTooltip(string title, string desc)
-    {
-        titleText.text = title;
-        descText.text = desc;
-        tooltipPanel.SetActive(true);
-    }
+{
+    titleText.text = title;
+    descText.text = desc;
+    tooltipPanel.SetActive(true);
+
+    // ★ 레이아웃을 즉시 다시 계산하라고 명령 (0,0 문제 해결)
+    LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipPanel.GetComponent<RectTransform>());
+}
 
     public void HideTooltip()
     {

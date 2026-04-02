@@ -124,6 +124,15 @@ public class BeetleController : MonoBehaviour
             point.transform.localPosition = new Vector3(1.5f, 0.5f, 0); 
             holdPoint = point.transform;
         }
+        // 주의: "Skill_X_Button" 같은 큰따옴표 안의 이름은 실제 하이어라키에 있는 UI 오브젝트 이름과 똑같아야 합니다!
+        GameObject xObj = GameObject.Find("Skill_X_Button"); 
+        if (xObj != null) xSkillUI = xObj.GetComponent<SkillSlotUI>();
+
+        GameObject cObj = GameObject.Find("Skill_C_Button");
+        if (cObj != null) cSkillUI = cObj.GetComponent<SkillSlotUI>();
+
+        GameObject vObj = GameObject.Find("Skill_V_Button");
+        if (vObj != null) vSkillUI = vObj.GetComponent<SkillSlotUI>();
     }
 
     void Update()

@@ -48,25 +48,33 @@ public class SkillSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     // 마우스 호버 기능 (툴팁 띄우기)
     // ==========================================
 
+    // ==========================================
+    // 마우스 호버 기능 (툴팁 띄우기)
+    // ==========================================
+
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // ★ [핵심 추가] 자물쇠가 연결되어 있고, 그 자물쇠가 켜져(잠겨) 있다면 여기서 함수를 종료합니다!
+        // 자물쇠가 연결되어 있고, 그 자물쇠가 켜져(잠겨) 있다면
         if (lockIcon != null && lockIcon.activeSelf)
         {
-            return; // 아래의 툴팁 띄우는 코드를 실행하지 않고 취소함
+            // 만약 잠겼을 때 "미해금"이라는 툴팁을 띄우고 싶다면 아래 코드를 쓸 수 있습니다.
+            // TooltipManager.Instance.ShowTooltip("잠긴 스킬", "아직 해금되지 않은 스킬입니다.");
+            return; // 아무것도 안 띄우고 싶다면 원래대로 return만 둡니다.
         }
 
-        if (TooltipManager.instance != null)
+        // ★ 소문자 instance를 대문자 Instance로 수정!
+        if (TooltipManager.Instance != null)
         {
-            TooltipManager.instance.ShowTooltip(skillName, skillDescription);
+            TooltipManager.Instance.ShowTooltip(skillName, skillDescription);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (TooltipManager.instance != null)
+        // ★ 소문자 instance를 대문자 Instance로 수정!
+        if (TooltipManager.Instance != null)
         {
-            TooltipManager.instance.HideTooltip();
+            TooltipManager.Instance.HideTooltip();
         }
     }
 }

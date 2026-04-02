@@ -510,6 +510,7 @@ GameObject:
   - component: {fileID: 1983561375385549377}
   - component: {fileID: 5032659619803525437}
   - component: {fileID: 5981516816113385036}
+  - component: {fileID: 8829158587183240241}
   m_Layer: 5
   m_Name: Skill_Slot_3
   m_TagString: Untagged
@@ -579,6 +580,24 @@ MonoBehaviour:
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!114 &5981516816113385036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543455119368033029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bafd62b5f5bd14ebec8ce95f2b7045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+  skillName: "\uAC80\uBB34"
+  skillDescription: "\uAC70\uB300\uD55C \uBAA8\uB798\uD3ED\uD48D\uC744 \uC77C\uC73C\uCF1C
+    \uC801\uC744 \uAD6C\uC18D\uD558\uACE0 \uC5F0\uC18D \uAC80\uBB34\uB97C \uD3BC\uCE5C
+    \uB4A4, \uAC15\uB825\uD55C \uC77C\uC12C\uC73C\uB85C \uBCA0\uC5B4\uBC84\uB9BD\uB2C8\uB2E4."
+  cooldownOverlay: {fileID: 1010256262275466635}
+  lockIcon: {fileID: 7492041299259160953}
+--- !u!114 &8829158587183240241
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -744,6 +763,7 @@ GameObject:
   - component: {fileID: 1592884164068593818}
   - component: {fileID: 4841176186107592513}
   - component: {fileID: 743400867321940726}
+  - component: {fileID: 6567673365172160869}
   m_Layer: 5
   m_Name: Skill_Slot_3
   m_TagString: Untagged
@@ -813,6 +833,25 @@ MonoBehaviour:
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!114 &743400867321940726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146225560838764596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bafd62b5f5bd14ebec8ce95f2b7045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+  skillName: "\uD669\uAE08\uC758 \uC2EC\uD310"
+  skillDescription: "\uC804\uBC29\uC73C\uB85C \uB3CC\uC9C4\uD574 \uC801\uC744 \uB09A\uC544\uCC44
+    \uD558\uB298 \uB192\uC774 \uC19F\uAD6C\uCE69\uB2C8\uB2E4. \uC774\uD6C4 \uB545\uC744
+    \uD5A5\uD574 \uCD08\uACE0\uC18D\uC73C\uB85C \uB0B4\uB9AC\uCC0D\uC5B4 \uAD11\uBC94\uC704\uD55C
+    \uB300\uC9C0\uC9C4\uC744 \uC77C\uC73C\uD0B5\uB2C8\uB2E4."
+  cooldownOverlay: {fileID: 6426081788266450809}
+  lockIcon: {fileID: 3368439942780641479}
+--- !u!114 &6567673365172160869
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1493,6 +1532,7 @@ GameObject:
   - component: {fileID: 6129887679430039116}
   - component: {fileID: 6852803401463405228}
   - component: {fileID: 1169521890682356584}
+  - component: {fileID: 1634429242086463209}
   m_Layer: 5
   m_Name: Skill_Slot
   m_TagString: Untagged
@@ -1561,6 +1601,22 @@ MonoBehaviour:
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!114 &1169521890682356584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2592375996168532434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bafd62b5f5bd14ebec8ce95f2b7045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+  skillName: 
+  skillDescription: 
+  cooldownOverlay: {fileID: 5604015989315349770}
+  lockIcon: {fileID: 0}
+--- !u!114 &1634429242086463209
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2722,6 +2778,7 @@ GameObject:
   - component: {fileID: 4701908175217132529}
   - component: {fileID: 193808982173052155}
   - component: {fileID: 2383483043384138810}
+  - component: {fileID: 347792133105729000}
   m_Layer: 5
   m_Name: Skill_Slot
   m_TagString: Untagged
@@ -2790,6 +2847,24 @@ MonoBehaviour:
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!114 &2383483043384138810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4690386733021523661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bafd62b5f5bd14ebec8ce95f2b7045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+  skillName: "\uC0E4\uC0E5!"
+  skillDescription: "\uC801\uC758 \uB4A4\uB85C \uC21C\uC2DD\uAC04\uC5D0 \uC774\uB3D9\uD55C
+    \uB4A4, \uAC15\uB825\uD55C \uB370\uBBF8\uC9C0\uB97C \uC8FC\uBA70 \uBA40\uB9AC
+    \uD295\uACA8\uB0C5\uB2C8\uB2E4."
+  cooldownOverlay: {fileID: 3568386728396565250}
+  lockIcon: {fileID: 0}
+--- !u!114 &347792133105729000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4324,6 +4399,7 @@ GameObject:
   - component: {fileID: 1614333758442924712}
   - component: {fileID: 5900851536627500651}
   - component: {fileID: 139525331916052562}
+  - component: {fileID: 5005304043045047895}
   m_Layer: 5
   m_Name: Skill_Slot
   m_TagString: Untagged
@@ -4392,6 +4468,23 @@ MonoBehaviour:
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!114 &139525331916052562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6958484049746085964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bafd62b5f5bd14ebec8ce95f2b7045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+  skillName: "\uB4A4\uC9D1\uAE30"
+  skillDescription: "\uC801\uC744 \uB2E8\uB2E8\uD55C \uBFD4\uB85C \uB09A\uC544\uCC44\uC5B4
+    \uB4E4\uC5B4 \uC62C\uB9B0 \uD6C4, \uB4A4\uB85C \uAC15\uD558\uAC8C \uB358\uC838\uBC84\uB9BD\uB2C8\uB2E4."
+  cooldownOverlay: {fileID: 1413146489095217675}
+  lockIcon: {fileID: 0}
+--- !u!114 &5005304043045047895
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4552,6 +4645,7 @@ GameObject:
   - component: {fileID: 5427923808188704941}
   - component: {fileID: 6563967243176276480}
   - component: {fileID: 6192668573589534516}
+  - component: {fileID: 6267503604699247863}
   m_Layer: 5
   m_Name: Skill_Slot_2
   m_TagString: Untagged
@@ -4620,6 +4714,26 @@ MonoBehaviour:
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!114 &6192668573589534516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7260715831585748443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bafd62b5f5bd14ebec8ce95f2b7045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+  skillName: "\uAD6C\uBA4D\uD30C\uAE30"
+  skillDescription: "\uBB34\uC801 \uC0C1\uD0DC\uB85C \uB545\uC18D\uC73C\uB85C \uD30C\uACE0\uB4ED\uB2C8\uB2E4.
+    \uC77C\uC815 \uC2DC\uAC04\uC774 \uC9C0\uB098\uAC70\uB098 \uB2E4\uC2DC C\uB97C
+    \uB204\uB974\uBA74 \uC19F\uAD6C\uCE58\uBA70 \uC8FC\uBCC0 \uC801\uB4E4\uC5D0\uAC8C
+    \uB744\uC6B0\uAE30 \uACF5\uACA9\uC744 \uAC00\uD569\uB2C8\uB2E4. \uBC29\uD5A5\uD0A4\uB85C
+    \uC774\uB3D9\uC774 \uAC00\uB2A5\uD569\uB2C8\uB2E4."
+  cooldownOverlay: {fileID: 7942754422577995287}
+  lockIcon: {fileID: 0}
+--- !u!114 &6267503604699247863
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5760,6 +5874,7 @@ GameObject:
   - component: {fileID: 274240139473665138}
   - component: {fileID: 4333506361664069849}
   - component: {fileID: 1237895087343451058}
+  - component: {fileID: 5154183593897576054}
   m_Layer: 5
   m_Name: Skill_Slot_2
   m_TagString: Untagged
@@ -5828,6 +5943,25 @@ MonoBehaviour:
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!114 &1237895087343451058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9158813486980956430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bafd62b5f5bd14ebec8ce95f2b7045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+  skillName: "\uB2E4\uC774\uBE0C"
+  skillDescription: "(\uACF5\uC911 \uC804\uC6A9) \uB300\uAC01\uC120 \uC544\uB798\uB85C
+    \uB9F9\uB82C\uD558\uAC8C \uB0B4\uB9AC\uAF42\uD788\uBA70, \uBC14\uB2E5\uC5D0 \uB2FF\uB294
+    \uC21C\uAC04 \uAE08\uBE5B \uCDA9\uACA9\uD30C\uB97C \uC77C\uC73C\uCF1C \uC801\uB4E4\uC744
+    \uB0A0\uB824\uBC84\uB9BD\uB2C8\uB2E4."
+  cooldownOverlay: {fileID: 4124432775824248929}
+  lockIcon: {fileID: 0}
+--- !u!114 &5154183593897576054
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

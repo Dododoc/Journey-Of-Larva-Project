@@ -73,6 +73,8 @@ public class UIManager : MonoBehaviour
         isPaused = false;
         // ★ 시작할 때 씬에 있는 시네마신 카메라를 찾아옵니다.
         virtualCamera = FindFirstObjectByType<CinemachineCamera>();
+        // ★ [추가 1] 게임을 처음 시작할 때 0번(애벌레) 스킬 UI를 켜줍니다!
+        UpdateSkillUI(0);
     }
 
     void Update()
@@ -277,7 +279,11 @@ public class UIManager : MonoBehaviour
 
         // 2. 폭발 연출 오브젝트 끄기
         if (animObject != null) animObject.SetActive(false);
-        
+        // =========================================================
+        // ★ [추가 2] 프리팹을 소환하기 직전에, 알맞은 스킬 UI 패널을 먼저 켜줍니다!
+        // pendingEvolutionIndex가 0(망토)이면 1(개미UI), 아니면 2(풍뎅이UI)를 켭니다.
+        // =========================================================
+        UpdateSkillUI((pendingEvolutionIndex == 0) ? 1 : 2);
     
 
         // 3. 소환할 프리팹 결정 (망토=0=개미 / 투구=1=풍뎅이)

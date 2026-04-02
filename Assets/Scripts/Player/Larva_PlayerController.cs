@@ -54,6 +54,10 @@ public class Larva_PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         myStats = GetComponent<PlayerStats>();
         defaultGravity = rb.gravityScale;
+        
+        // 주의: "Skill_X_Button" 같은 큰따옴표 안의 이름은 실제 하이어라키에 있는 UI 오브젝트 이름과 똑같아야 합니다!
+        GameObject xObj = GameObject.Find("Skill_Z_Button"); 
+        if (xObj != null) zSkillUI = xObj.GetComponent<SkillSlotUI>();
     }
 
     void Update()

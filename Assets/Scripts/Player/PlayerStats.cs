@@ -35,7 +35,7 @@ public class PlayerStats : MonoBehaviour
     private int nearbyItemCount = 0;
     // ★ [새로 추가] 낙사 기준선 (이 높이보다 아래로 떨어지면 사망)
     [Header("Death Setting")]
-    public float fallDeathY = -20f;
+    public float fallDeathY = -40f;
     void Start()
     {
         if (playerHUD == null) playerHUD = FindFirstObjectByType<PlayerHUD>();

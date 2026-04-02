@@ -605,22 +605,18 @@ IEnumerator FlashGoldEffect()
         }
 
         // ==================================================
-        // [2] 들어올리기 (★ 바닥 높이 유지 및 에러 방지 반영!)
+        // [2] 들어올리기 (잡힌 시점부터 타이밍 동기화)
         // ==================================================
         caughtAI.SetGrabbed(true); 
-        rb.linearVelocity = Vector2.zero;
         
-        if (caughtAI != null)
-        {
-            // X, Z는 뿔 위치로 오되, Y(높이)는 몹이 있던 바닥을 유지합니다.
-            caughtAI.transform.position = new Vector3(holdPoint.position.x, caughtAI.transform.position.y, holdPoint.position.z);
-            caughtAI.transform.parent = holdPoint; 
-        }
+        caughtAI.transform.position = new Vector3(holdPoint.position.x, caughtAI.transform.position.y, holdPoint.position.z);
+        caughtAI.transform.parent = holdPoint; 
 
+        // ★ 수정: 잡자마자 쳐올리기 애니메이션 트리거
         anim.SetTrigger("Ult_Lift"); 
         
-        // ★ 대기 시간 0.8초 반영 완료
-        yield return new WaitForSeconds(0.6f); 
+        // ★ 수정: 잡힌 시점 기준으로 0.6초 고정 대기
+        yield return new WaitForSeconds(0.6f);
 
         // ==================================================
         // [3] 몹 50 상승

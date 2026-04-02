@@ -197,9 +197,54 @@ public class AntController : MonoBehaviour
 
     // (나머지 이동, 애니메이션, 넉백 등 기존 헬퍼 함수들은 생략 없이 유지)
     IEnumerator BasicAttackRoutine() { isBasicAttacking = true; anim.SetTrigger("DoAttack"); yield return new WaitForSeconds(attackDelay); ApplyDamage(attackPoint.position, attackRange, 1f, basicEnemyKnockback); yield return new WaitForSeconds(attackCooldown); isBasicAttacking = false; }
-    IEnumerator StrongAttackRoutine() { /* 기존 순간이동 및 공격 로직 유지하며 ApplyDamage 호출 */ canStrongAttack = false; isStrongAttacking = true; isInvincible = true; yield return new WaitForSeconds(0.1f); Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, teleportRange, enemyLayers); Transform target = null; float closestDist = Mathf.Infinity; foreach (var hit in hits) { float d = Vector2.Distance(transform.position, hit.transform.position); if (d < closestDist) { closestDist = d; target = hit.transform; } } if (target != null) { float dirToEnemy = target.position.x - transform.position.x; if (dirToEnemy > 0 && !isFacingRight) Flip(); else if (dirToEnemy < 0 && isFacingRight) Flip(); if (Vector2.Distance(transform.position, target.position) > attackRange * 1.2f) { sr.color = new Color(1f, 1f, 1f, 0.5f); float dirSign = Mathf.Sign(target.position.x - transform.position.x);
-// ★ [수정됨] 몹의 높이(Y)는 무시하고 내 높이를 유지! 방향도 몹의 앞쪽(-)으로 변경!
-transform.position = new Vector3(target.position.x - (dirSign * teleportOffset), transform.position.y, transform.position.z); } } anim.SetTrigger("DoStrongAttack"); yield return new WaitForSeconds(strongAttackDelay); ApplyDamage(attackPoint.position, attackRange * 1.5f, strongDamageMultiplier, strongEnemyKnockback); sr.color = Color.white; isStrongAttacking = false; StartCoroutine(SkillInvincibilityRoutine(1.5f)); yield return new WaitForSeconds(strongCooldown); canStrongAttack = true; }
+    IEnumerator StrongAttackRoutine() 
+    { 
+        canStrongAttack = false; 
+        isStrongAttacking = true; 
+        isInvincible = true; 
+        yield return new WaitForSeconds(0.1f); 
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, teleportRange, enemyLayers); 
+        Transform target = null; 
+        float closestDist = Mathf.Infinity; 
+        
+        foreach (var hit in hits) 
+        { 
+            float d = Vector2.Distance(transform.position, hit.transform.position); 
+            if (d < closestDist) 
+            { 
+                closestDist = d; 
+                target = hit.transform; 
+            } 
+        } 
+
+        if (target != null) 
+        { 
+            float dirToEnemy = target.position.x - transform.position.x; 
+            if (dirToEnemy > 0 && !isFacingRight) Flip(); 
+            else if (dirToEnemy < 0 && isFacingRight) Flip(); 
+            
+            if (Vector2.Distance(transform.position, target.position) > attackRange * 1.2f) 
+            { 
+                sr.color = new Color(1f, 1f, 1f, 0.5f); 
+                float dirSign = Mathf.Sign(target.position.x - transform.position.x);
+                
+                // ★ 수정: Y축 위치도 몹의 Y 위치(target.position.y)로 이동하도록 변경
+                transform.position = new Vector3(target.position.x - (dirSign * teleportOffset), target.position.y, transform.position.z); 
+            } 
+        } 
+
+        anim.SetTrigger("DoStrongAttack"); 
+        yield return new WaitForSeconds(strongAttackDelay); 
+        
+        ApplyDamage(attackPoint.position, attackRange * 1.5f, strongDamageMultiplier, strongEnemyKnockback); 
+        sr.color = Color.white; 
+        isStrongAttacking = false; 
+        
+        StartCoroutine(SkillInvincibilityRoutine(1.5f)); 
+        yield return new WaitForSeconds(strongCooldown); 
+        canStrongAttack = true; 
+    }
     IEnumerator DigRoutine() { canDig = false; isDiggingAnim = true; anim.SetTrigger("DoDig"); rb.gravityScale = 0f; rb.linearVelocity = Vector2.zero; myCollider.enabled = false; yield return new WaitForSeconds(0.5f); isDiggingAnim = false; isUnderground = true; float timer = 0f; while (timer < digDuration) { timer += Time.deltaTime; if (Input.GetKeyDown(KeyCode.C)) break; yield return null; } isUnderground = false; isDiggingAnim = true; anim.SetTrigger("DoEmerge"); rb.gravityScale = defaultGravity; myCollider.enabled = true; yield return new WaitForSeconds(emergeDamageDelay); EmergeAttack(); yield return new WaitForSeconds(emergeAnimDuration - emergeDamageDelay); isDiggingAnim = false; StartCoroutine(SkillInvincibilityRoutine(2.0f)); yield return new WaitForSeconds(digCooldown); canDig = true; }
     void CheckGround() { if (jumpCooldown > 0) { isGrounded = false; return; } Vector2 boxOrigin = (Vector2)transform.position + Vector2.up * 0.3f; RaycastHit2D hit = Physics2D.BoxCast(boxOrigin, boxSize, 0f, Vector2.down, castDistance + 0.3f, groundLayer); isGrounded = hit.collider != null; if (isGrounded) surfaceNormal = hit.normal; else surfaceNormal = Vector2.up; }
     void ProcessInput() 

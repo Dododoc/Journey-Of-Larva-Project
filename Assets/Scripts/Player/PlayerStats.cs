@@ -29,13 +29,17 @@ public class PlayerStats : MonoBehaviour
     public float TotalAttack => (baseAttack * currentLevel) + bonusAttack;
     public float TotalDefense => (baseDefense * currentLevel) + bonusDefense;
     public float TotalMaxHp => (maxHp * currentLevel) + bonusMaxHp;
+    
     [Header("Interaction UI")]
-    public GameObject interactPrompt; // ★ 플레이어 머리 위에 뜰 "Press X" 텍스트
-    // ★ [새로 추가] 주변 아이템 개수를 세는 카운터
+    public GameObject interactPrompt; 
     private int nearbyItemCount = 0;
-    // ★ [새로 추가] 낙사 기준선 (이 높이보다 아래로 떨어지면 사망)
+
     [Header("Death Setting")]
     public float fallDeathY = -40f;
+    
+    // ★ [추가] 죽었는지 체크하는 변수
+    private bool isDead = false;
+
     void Start()
     {
         if (playerHUD == null) playerHUD = FindFirstObjectByType<PlayerHUD>();
@@ -43,14 +47,11 @@ public class PlayerStats : MonoBehaviour
 
         startPosition = transform.position;
 
-        // ★ [데이터 로드 및 초기화 로직]
         if (GameManager.instance != null)
         {
-            // 1. 매니저 데이터 로드
             currentLevel = GameManager.instance.globalLevel;
             currentExp = GameManager.instance.globalXP;
 
-            // 2. [방어 코드] 진화 상태인데 1레벨 경험치가 남아있다면 초기화
             if (GameManager.instance.currentCharacter != GameManager.CharacterType.Larva)
             {
                 if (currentLevel == 1 && currentExp > 0)
@@ -61,11 +62,8 @@ public class PlayerStats : MonoBehaviour
                 }
             }
             
-            // 3. 스탯 세팅
             CalculateNextLevelExp();
             currentHp = TotalMaxHp; 
-            
-            Debug.Log($"[PlayerStats] 최종 로드 완료: Lv.{currentLevel}, XP.{currentExp}");
         }
         else
         {
@@ -86,10 +84,7 @@ public class PlayerStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J)) GainExp(50); 
         if (Input.GetKeyDown(KeyCode.K)) TakeDamage(10);
 
-        // ==========================================
-        // ★ [새로 추가] 낙사 체크 로직
-        // ==========================================
-        if (transform.position.y <= fallDeathY && currentHp > 0)
+        if (transform.position.y <= fallDeathY && currentHp > 0 && !isDead)
         {
             Debug.Log("으아악! 떨어졌다!");
             currentHp = 0;
@@ -97,8 +92,10 @@ public class PlayerStats : MonoBehaviour
             Die();
         }
     }
+    
     public void Heal(float amount)
     {
+        if (isDead) return;
         currentHp += amount;
         if (currentHp > TotalMaxHp) currentHp = TotalMaxHp; 
         UpdateUI();
@@ -106,6 +103,7 @@ public class PlayerStats : MonoBehaviour
 
     public void GainExp(float amount)
     {
+        if (isDead) return;
         currentExp += amount;
         if (currentExp >= expToNextLevel) LevelUp();
         
@@ -122,7 +120,6 @@ public class PlayerStats : MonoBehaviour
         
         SaveStatsToManager();
 
-        // ★ [추가] 3번 퀘스트(3레벨 달성) 완료!
         if (currentLevel >= 3 && QuestManager.instance != null)
         {
             QuestManager.instance.CompleteQuest(3);
@@ -176,7 +173,6 @@ public class PlayerStats : MonoBehaviour
         currentHp = TotalMaxHp;
 
         SaveStatsToManager();
-
         UpdateUI();
 
         UIManager uiManager = FindFirstObjectByType<UIManager>();
@@ -187,21 +183,36 @@ public class PlayerStats : MonoBehaviour
         }
     }
     
+    // ==========================================
+    // ★ [수정됨] 무적 판정 및 물리 정지 로직 반영
+    // ==========================================
     public void TakeDamage(float damage)
     {
+        // ★ 이미 죽었다면 데미지 무시!
+        if (isDead) return;
+
         float defenseFactor = 100f / (100f + TotalDefense);
         float finalDamage = damage * defenseFactor;
-        finalDamage = Mathf.Max(1f, finalDamage);
+        finalDamage = Mathf.Max(1f, finalDamage); // 최소 데미지 1 보장
         
         currentHp -= finalDamage;
 
         StartCoroutine(HitFlashRoutine());
         if (hitEffectPrefab != null) Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
 
-        if (currentHp < 0) currentHp = 0;
-        UpdateUI(); 
-
-        if (currentHp <= 0) Die();
+        // =========================================================
+        // ★ [수정됨] 부동소수점 오차 방지: 0.01 이하라면 무조건 0으로 만들고 즉시 사망!
+        // =========================================================
+        if (currentHp <= 0.01f) 
+        {
+            currentHp = 0;
+            UpdateUI(); 
+            Die();
+        }
+        else
+        {
+            UpdateUI(); 
+        }
     }
 
     IEnumerator HitFlashRoutine()
@@ -217,29 +228,89 @@ public class PlayerStats : MonoBehaviour
     void Die()
     {
         Debug.Log("플레이어 사망!");
+        
+        // ★ 1. 죽음 판정 (중복 데미지 방지)
+        isDead = true; 
+
+        // ★ 2. 충돌체 끄기 (적들이 통과하게 만듦)
+        Collider2D[] colliders = GetComponents<Collider2D>();
+        foreach (Collider2D col in colliders)
+        {
+            col.enabled = false; 
+        }
+
+        // ★ 3. 리지드바디 정지 (날아가던 도중이었다면 허공에 정지)
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero; 
+            rb.gravityScale = 0f;       
+            rb.bodyType = RigidbodyType2D.Kinematic; // 외부 넉백 무시
+        }
+
+        // ★ 4. 사망 모션 재생 (컨트롤러의 Animator 활용)
+        Animator anim = GetComponent<Animator>();
+        if (anim != null) anim.SetTrigger("DoDie"); // ※ 애벌레/개미/풍뎅이에 'DoDie' 파라미터가 있어야 합니다.
+
+        // ★ 5. 슬로우 모션 및 게임 오버 UI 연출 코루틴 시작
+        StartCoroutine(DeathRoutine());
+    }
+
+    IEnumerator DeathRoutine()
+    {
+        // [연출 1] 히트 스탑 (0.1초 화면 완전 정지)
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(0.1f); 
+
+        // [연출 2] 슬로우 모션으로 쓰러짐 감상 (1.5초 대기)
+        Time.timeScale = 0.3f; 
+        yield return new WaitForSecondsRealtime(1.5f); 
+
+        // [연출 3] 완전 정지 후 UI 띄우기
+        Time.timeScale = 0f; 
+        
         UIManager uiManager = FindFirstObjectByType<UIManager>();
-        if (uiManager != null) uiManager.ShowGameOver();
+        if (uiManager != null)
+        {
+            uiManager.ShowGameOver();
+        }
     }
 
     public void Respawn()
     {
+        isDead = false; // ★ 부활 시 죽음 판정 초기화
         currentLevel = 1;
         currentExp = 0;
         SaveStatsToManager();
         CalculateNextLevelExp();
         currentHp = TotalMaxHp;
+        
         transform.position = startPosition;
+
+        // ★ 부활 시 리지드바디 및 콜라이더 원상복구
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if(rb != null) rb.linearVelocity = Vector2.zero; // Unity 6+ (구버전은 rb.velocity)
+        if(rb != null) 
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.gravityScale = 1f; // 기본 중력값 (게임에 맞게 수정 필요 시 수정)
+            rb.linearVelocity = Vector2.zero; 
+        }
+
+        Collider2D[] colliders = GetComponents<Collider2D>();
+        foreach (Collider2D col in colliders)
+        {
+            col.enabled = true; 
+        }
+
         if (sr != null) sr.color = Color.white;
         UpdateUI();
     }
 
-    // ★ [통합] 독 데미지 관련 로직 추가 (내 코드 유지)
     private Coroutine currentPoisonCoroutine;
     public void ApplyPoison(float totalDamage, float duration)
     {
-        // 이미 독에 걸려있다면 기존 독 코루틴을 멈추고 새로 갱신
+        if (isDead) return; // ★ 죽었으면 독 안 걸림
+
         if (currentPoisonCoroutine != null)
         {
             StopCoroutine(currentPoisonCoroutine);
@@ -253,36 +324,32 @@ public class PlayerStats : MonoBehaviour
         int ticks = Mathf.FloorToInt(duration / tickInterval);
         float damagePerTick = totalDamage / ticks;
         
-        // ★ 맹독 느낌의 짙은 보라색 설정
         Color poisonColor = new Color(0.6f, 0f, 0.8f);
 
         for (int i = 0; i < ticks; i++)
         {
-            // 1. 보라색으로 변하며 데미지 입음
+            if (isDead) yield break; // ★ 도중에 죽으면 독 데미지 중단
+
             if (sr != null) sr.color = poisonColor; 
             TakeDamage(damagePerTick); 
             
-            // 2. 0.15초 동안 보라색 유지
             yield return new WaitForSeconds(0.15f);
             
-            // 3. 다시 원래 색상(흰색)으로 복구
             if (sr != null) sr.color = Color.white; 
             
-            // 4. 남은 시간(0.35초) 대기 후 반복
             yield return new WaitForSeconds(tickInterval - 0.15f);
         }
 
-        // 독이 모두 끝나면 코루틴 변수 비우기
         currentPoisonCoroutine = null;
     }
-    // 아이템 근처에 가면 숫자를 +1 하고 글자를 켭니다.
+
     public void AddNearbyItem()
     {
+        if (isDead) return;
         nearbyItemCount++;
         if (interactPrompt != null) interactPrompt.SetActive(true);
     }
 
-    // 아이템에서 멀어지거나 먹으면 숫자를 -1 하고, 0개가 되면 글자를 끕니다.
     public void RemoveNearbyItem()
     {
         nearbyItemCount--;

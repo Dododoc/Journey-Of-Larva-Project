@@ -111,12 +111,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   maxHp: 60
   currentHp: 0
-  attackDamage: 12
+  attackDamage: 20
   expReward: 40
   hpBarFill: {fileID: 8927913972870213939}
   hpCanvas: {fileID: 1338799039219208833}
   bossScreenHPBar: {fileID: 0}
   bossUIFrame: {fileID: 0}
+  dropItemPrefab: {fileID: 0}
 --- !u!95 &6133294286094873558
 Animator:
   serializedVersion: 7

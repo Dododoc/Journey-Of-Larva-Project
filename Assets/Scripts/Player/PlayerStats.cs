@@ -250,7 +250,6 @@ public class PlayerStats : MonoBehaviour
 
         // ★ 4. 사망 모션 재생 (컨트롤러의 Animator 활용)
         Animator anim = GetComponent<Animator>();
-        if (anim != null) anim.SetTrigger("DoDie"); // ※ 애벌레/개미/풍뎅이에 'DoDie' 파라미터가 있어야 합니다.
 
         // ★ 5. 슬로우 모션 및 게임 오버 UI 연출 코루틴 시작
         StartCoroutine(DeathRoutine());

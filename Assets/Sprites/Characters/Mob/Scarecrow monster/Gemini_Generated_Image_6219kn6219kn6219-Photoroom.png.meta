@@ -113,9 +113,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 349
-        width: 420
-        height: 333
+        y: 355
+        width: 426
+        height: 327
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,10 +134,10 @@ TextureImporter:
       name: Gemini_Generated_Image_6219kn6219kn6219-Photoroom_1
       rect:
         serializedVersion: 2
-        x: 432
-        y: 348
-        width: 410
-        height: 308
+        x: 421
+        y: 352
+        width: 419
+        height: 330
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,9 +157,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 846
-        y: 347
-        width: 434
-        height: 334
+        y: 352
+        width: 429
+        height: 329
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,7 +179,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 0
+        y: 4
         width: 411
         height: 321
       alignment: 0
@@ -213,7 +213,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 407
-        y: 4
+        y: 8
         width: 469
         height: 317
       alignment: 0

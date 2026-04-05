@@ -153,12 +153,18 @@ public class UIManager : MonoBehaviour
     // 2. 게임오버 관련 기능 (새로운 연출 반영)
     // ==========================================
     // ★ [수정됨] PlayerStats 등에서 체력이 0일 때 이 함수를 부르게 됩니다.
+    // ★ [수정됨] PlayerStats 등에서 체력이 0일 때 이 함수를 부르게 됩니다.
     public void ShowGameOver()
     {
+        // =========================================================
+        // ★ [추가] 패널이 켜지기 전에 이전 텍스트의 흔적을 미리 싹 지워줍니다!
+        // =========================================================
+        if (mainText != null) mainText.text = "";
+        if (statsText != null) statsText.text = "";
+
         // 만약 GameManager 등을 통해 킬수/시간을 받아온다면,
         // 이 시점에서 originalStatsStr의 내용을 완성된 문장으로 바꿔주면 됩니다.
-        // 예: originalStatsStr = "최종 진화: 개미\n처치한 적: 10마리\n생존 시간: 120초";
-
+        
         StartCoroutine(GameOverRoutine());
     }
 

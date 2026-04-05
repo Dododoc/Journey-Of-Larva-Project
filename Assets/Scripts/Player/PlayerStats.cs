@@ -17,6 +17,11 @@ public class PlayerStats : MonoBehaviour
     public float baseDefense = 5f;
     public float maxHp = 100f;
     public float currentHp;
+    [Header("Status Effects (디버프 및 상태이상)")]
+    public float speedMultiplier = 1.0f; // 속도 배율
+    public bool isJumpDisabled = false;  // 점프 불가 상태
+    public bool isGrabbedByBoss = false; // 보스에게 잡힌 상태
+    private float defaultGravity;
 
     [Header("Evolution Bonus Stats")]
     public float bonusAttack = 0f;
@@ -77,6 +82,8 @@ public class PlayerStats : MonoBehaviour
         {
             UIManager.instance.UpdateEvolutionUI((int)GameManager.instance.currentCharacter);
         }
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if(rb != null) defaultGravity = rb.gravityScale;
     }
 
     void Update()
@@ -109,6 +116,41 @@ public class PlayerStats : MonoBehaviour
         
         SaveStatsToManager();
         UpdateUI(); 
+    }
+    public void SetDebuff(bool active, float speedMult)
+    {
+        if (active) 
+        { 
+            isJumpDisabled = true; 
+            speedMultiplier = speedMult; 
+            if (sr != null) sr.color = new Color(0.6f, 1f, 0.6f); 
+        }
+        else 
+        { 
+            isJumpDisabled = false; 
+            speedMultiplier = 1.0f; 
+            if (sr != null) sr.color = Color.white; 
+        }
+    }
+
+    public void SetGrabbed(bool grabbed)
+    {
+        isGrabbedByBoss = grabbed;
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            if (grabbed) 
+            { 
+                rb.linearVelocity = Vector2.zero; 
+                rb.gravityScale = 0f; 
+                rb.bodyType = RigidbodyType2D.Kinematic; // ★ 추가: 충돌/밀려남 완벽 무시
+            } 
+            else 
+            { 
+                rb.gravityScale = defaultGravity; 
+                rb.bodyType = RigidbodyType2D.Dynamic; // ★ 추가: 풀려나면 물리 엔진 다시 복구
+            }
+        }
     }
 
     void LevelUp()

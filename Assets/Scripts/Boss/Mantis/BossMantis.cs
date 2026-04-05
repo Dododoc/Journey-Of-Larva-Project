@@ -34,6 +34,8 @@ public class BossMantis : MonoBehaviour
 
     [Header("Skill 1: X-Slash")]
     public float thrustSpeed = 15.0f;
+    public float xSlashDamage = 30f; // ★ [추가] X-Slash 데미지량
+    public float xSlashRange = 4.0f; // ★ [추가] X-Slash 피격 범위
     public GameObject xSlashEffectPrefab; 
     public Transform thrustFirePoint;     
 
@@ -64,8 +66,8 @@ public class BossMantis : MonoBehaviour
     [Header("Skill 5: Grab Attack")]
     public float grabDashSpeed = 15.0f;
     public Transform holdPoint;   
-    public float grabDotDamage = 2.0f;
-    public int requiredMashCount = 10; 
+    public float grabTotalDamage = 30.0f; // ★ 인스펙터에서 수정 가능 (3초간 들어갈 총 데미지)
+    public float grabDuration = 3.0f;     // ★ 잡고 있는 시간 (3초)
     private bool isHoldingPlayer = false;
 
     private bool isCharging = false;       
@@ -97,7 +99,6 @@ public class BossMantis : MonoBehaviour
             anim.SetBool("IsWalking", false);
             return; 
         }
-        if (isHoldingPlayer) CheckGrabEscape();
     }
 
     IEnumerator WaitPlayerRoutine()
@@ -378,29 +379,100 @@ public class BossMantis : MonoBehaviour
 
     IEnumerator GrabPlayerRoutine(GameObject playerObj)
     {
-        isHoldingPlayer = true; anim.SetBool("Grab_Success", true); 
-        Rigidbody2D prb = playerObj.GetComponent<Rigidbody2D>(); 
-        BeetleController beetle = playerObj.GetComponent<BeetleController>();
-        if(prb) prb.linearVelocity = Vector2.zero; 
-        if(beetle) beetle.SetGrabbed(true);
-        playerObj.transform.SetParent(holdPoint); playerObj.transform.localPosition = Vector3.zero;
+        isHoldingPlayer = true; 
+        anim.SetBool("Grab_Success", true); 
+        
+        // ★ 통합된 PlayerStats 하나만 찾습니다!
+        PlayerStats pStats = playerObj.GetComponent<PlayerStats>();
+        if (pStats != null) pStats.SetGrabbed(true);
 
-        int mash = 0; float timeLimit = 5.0f; float timer = 0f; float damageInterval = 0.2f; float damageTimer = 0f;
-        while (mash < requiredMashCount && timer < timeLimit) 
+        playerObj.transform.SetParent(holdPoint); 
+        playerObj.transform.localPosition = Vector3.zero;
+
+        float timer = 0f; 
+        float damageInterval = 0.3f; 
+        float damageTimer = 0f;
+        int totalTicks = Mathf.FloorToInt(grabDuration / damageInterval);
+        float damagePerTick = grabTotalDamage / totalTicks;
+
+        while (timer < grabDuration) 
         { 
-            float dt = Time.deltaTime; timer += dt; damageTimer += dt;
-            if (damageTimer >= damageInterval) { if(playerObj.GetComponent<PlayerStats>()) playerObj.GetComponent<PlayerStats>().TakeDamage(grabDotDamage); damageTimer = 0f; }
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)) mash++; 
+            // ★ [여기에 1줄 추가!] 3초 동안 매 프레임마다 플레이어를 보스 손 위치에 강제로 묶어둡니다.
+            if (playerObj != null) playerObj.transform.localPosition = Vector3.zero;
+            float dt = Time.deltaTime; 
+            timer += dt; 
+            damageTimer += dt;
+            
+            if (damageTimer >= damageInterval) 
+            { 
+                if (pStats != null) pStats.TakeDamage(damagePerTick); 
+                damageTimer = 0f; 
+            }
             yield return null; 
         }
-        anim.SetTrigger("Grab_Break"); anim.SetBool("Grab_Success", false);
-        playerObj.transform.SetParent(null); if(beetle) beetle.SetGrabbed(false);
-        if(prb) { prb.bodyType = RigidbodyType2D.Dynamic; prb.AddForce((playerObj.transform.position - transform.position).normalized * 5f, ForceMode2D.Impulse); }
-        isHoldingPlayer = false; yield return new WaitForSeconds(1.0f);
+
+        anim.SetTrigger("Grab_Break"); 
+        anim.SetBool("Grab_Success", false);
+        playerObj.transform.SetParent(null); 
+        
+        // ★ 잡기 해제
+        if (pStats != null) pStats.SetGrabbed(false);
+
+        Rigidbody2D prb = playerObj.GetComponent<Rigidbody2D>(); 
+        if (prb != null) 
+        { 
+            prb.bodyType = RigidbodyType2D.Dynamic; 
+            prb.AddForce((playerObj.transform.position - transform.position).normalized * 5f, ForceMode2D.Impulse); 
+        }
+        
+        isHoldingPlayer = false; 
+        yield return new WaitForSeconds(1.0f);
     }
 
-    void CheckGrabEscape() { }
-    public void OnAnimEvent_SpawnXSlash() { if(xSlashEffectPrefab) Instantiate(xSlashEffectPrefab, new Vector3(thrustFirePoint.position.x, thrustFirePoint.position.y, -1f), Quaternion.identity); }
+    public void OnAnimEvent_SpawnXSlash() 
+    { 
+        // 1. 이펙트 생성 (기존 코드)
+        if(xSlashEffectPrefab) 
+        {
+            Instantiate(xSlashEffectPrefab, new Vector3(thrustFirePoint.position.x, thrustFirePoint.position.y, -1f), Quaternion.identity); 
+        }
+
+        // 2. ★ [추가] 데미지 및 넉백 판정
+        if (thrustFirePoint != null)
+        {
+            // thrustFirePoint를 중심으로 xSlashRange 반경 내의 모든 충돌체를 찾음
+            Collider2D[] hits = Physics2D.OverlapCircleAll(thrustFirePoint.position, xSlashRange);
+            
+            foreach (Collider2D hit in hits)
+            {
+                if (hit.CompareTag("Player"))
+                {
+                    // 데미지 입히기
+                    PlayerStats pStats = hit.GetComponent<PlayerStats>();
+                    if (pStats != null) pStats.TakeDamage(xSlashDamage);
+                    
+                    // 플레이어 넉백 (밀어내기) 효과 추가
+                    Rigidbody2D prb = hit.GetComponent<Rigidbody2D>();
+                    if (prb != null)
+                    {
+                        float pushDir = (hit.transform.position.x > transform.position.x) ? 1f : -1f;
+                        prb.linearVelocity = Vector2.zero; // 기존 가속도 무시
+                        prb.AddForce(new Vector2(pushDir, 0.5f).normalized * 15f, ForceMode2D.Impulse);
+                    }
+                }
+            }
+        }
+    }
+
+    // ★ [추가] 유니티 씬(Scene) 창에서 X-Slash의 공격 범위를 빨간색 원으로 보여줍니다.
+    void OnDrawGizmos()
+    {
+        if (thrustFirePoint != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(thrustFirePoint.position, xSlashRange);
+        }
+    }
     public void OnAnimEvent_FireBladeA() { FireBlade(0, bladePoint1); }
     public void OnAnimEvent_FireBladeB() { FireBlade(1, bladePoint2); }
     private void FireBlade(int index, Transform spawnPoint)

@@ -117,6 +117,8 @@ public class AntController : MonoBehaviour
 
     void Update()
     {
+        // ★ [추가] 보스에게 잡혔다면 다른 모든 입력을 무시하고 가만히 있는다!
+        if (myStats != null && myStats.isGrabbedByBoss) { UpdateAnimation(); return; }
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
         if (isKnockedBack) { UpdateAnimation(); return; }
         if (isDiggingAnim) { if (rb.gravityScale == 0) rb.linearVelocity = Vector2.zero; UpdateAnimation(); return; }
@@ -276,18 +278,24 @@ public class AntController : MonoBehaviour
             StartCoroutine(AntUltimateRoutine());
         }
 
-        // 이동 및 점프 로직
+        // ==========================================
+        // ★ [수정된 이동 및 점프 로직]
+        // ==========================================
         float m = Input.GetAxisRaw("Horizontal"); 
-        rb.linearVelocity = new Vector2(m * moveSpeed, rb.linearVelocity.y); 
+
+        // ★ [수정 1] 속도 계산 시 myStats.speedMultiplier 곱하기
+        float currentSpeed = moveSpeed * myStats.speedMultiplier;
+        rb.linearVelocity = new Vector2(m * currentSpeed, rb.linearVelocity.y); 
         
-        if (Input.GetButtonDown("Jump") && isGrounded) 
+        // ★ [수정 2] 점프 조건에 !myStats.isJumpDisabled 추가
+        if (Input.GetButtonDown("Jump") && isGrounded && !myStats.isJumpDisabled) 
         { 
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce); 
             anim.SetTrigger("DoJump"); 
         } 
         
         if (m > 0 && !isFacingRight) Flip(); 
-        else if (m < 0 && isFacingRight) Flip(); 
+        else if (m < 0 && isFacingRight) Flip();
     }
     void Flip() { isFacingRight = !isFacingRight; Vector3 s = transform.localScale; s.x *= -1; transform.localScale = s; }
     void UpdateAnimation() 

@@ -137,6 +137,7 @@ public class BeetleController : MonoBehaviour
 
     void Update()
     {
+        if (myStats.isGrabbedByBoss) { UpdateAnimation(); return; }
         // ★ [임시 해금 키] L키를 누르면 궁극기가 해금됩니다.
         if (Input.GetKeyDown(KeyCode.L) && !isUltUnlocked)
         {
@@ -207,7 +208,8 @@ public class BeetleController : MonoBehaviour
         }
         float moveInput = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetButtonDown("Jump") && !isJumpDisabled)
+        // ★ [수정 1] myStats.isJumpDisabled를 참조하도록 변경 (기존 isJumpDisabled 변수 삭제 대비)
+        if (Input.GetButtonDown("Jump") && !myStats.isJumpDisabled)
         {
             if (isGrounded || jumpCount < maxJumps)
             {
@@ -218,13 +220,16 @@ public class BeetleController : MonoBehaviour
             }
         }
 
-        float currentSpeed = moveSpeed * speedMultiplier;
+        // ★ [수정 2] myStats.speedMultiplier 참조
+        float currentSpeed = moveSpeed * myStats.speedMultiplier;
+        
         if (isGrounded && moveInput != 0)
         {
             rb.gravityScale = defaultGravity;
             Vector2 slopeDir = Vector2.Perpendicular(surfaceNormal).normalized;
             Vector2 moveDir = slopeDir * -moveInput;
             rb.linearVelocity = moveDir * currentSpeed;
+            // 언덕 내려갈 때 뜨는 현상 방지를 위해 -5f 추가
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y - 5f);
         }
         else
@@ -262,19 +267,6 @@ public class BeetleController : MonoBehaviour
         anim.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
         anim.SetBool("IsGrounded", isGrounded);
         anim.SetFloat("VerticalSpeed", rb.linearVelocity.y);
-    }
-
-    public void SetDebuff(bool active, float speedMult)
-    {
-        if (active) { isJumpDisabled = true; speedMultiplier = speedMult; sr.color = new Color(0.6f, 1f, 0.6f); }
-        else { isJumpDisabled = false; speedMultiplier = 1.0f; sr.color = Color.white; }
-    }
-
-    public void SetGrabbed(bool grabbed)
-    {
-        isGrabbedByBoss = grabbed;
-        if(grabbed) { rb.linearVelocity = Vector2.zero; rb.gravityScale = 0f; } 
-        else { rb.gravityScale = defaultGravity; }
     }
 
     void OnCollisionStay2D(Collision2D collision)

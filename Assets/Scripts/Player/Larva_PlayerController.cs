@@ -62,6 +62,8 @@ public class Larva_PlayerController : MonoBehaviour
 
     void Update()
     {
+        // ★ [추가] 보스에게 잡혔다면 다른 모든 입력을 무시하고 가만히 있는다!
+        if (myStats != null && myStats.isGrabbedByBoss) { UpdateAnimation(); return; }
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
         
         // ★ [핵심 2] 매 프레임마다 절대적으로 쿨타임을 줄여나갑니다. 유령 타이머가 낄 틈이 없습니다!
@@ -122,20 +124,33 @@ public class Larva_PlayerController : MonoBehaviour
     void ProcessInput() 
     { 
         if (Input.GetKeyDown(KeyCode.Z) && currentDashTimer <= 0f) 
-    { 
-        currentDashTimer = dashDuration + dashCooldown; 
+        { 
+            currentDashTimer = dashDuration + dashCooldown; 
+            if (zSkillUI != null) zSkillUI.StartCooldown(currentDashTimer); 
 
-        // ★ [여기에 한 줄 추가!] 스킬을 쓰는 순간 UI에 쿨타임 돌라고 명령!
-        if (zSkillUI != null) zSkillUI.StartCooldown(currentDashTimer); 
-
-        if (dashCoroutine != null) StopCoroutine(dashCoroutine);
-        dashCoroutine = StartCoroutine(DashRoutine()); 
-        return; 
-    }
+            if (dashCoroutine != null) StopCoroutine(dashCoroutine);
+            dashCoroutine = StartCoroutine(DashRoutine()); 
+            return; 
+        }
+        
         float moveInput = Input.GetAxisRaw("Horizontal"); 
-        if (Input.GetButtonDown("Jump") && isGrounded) { jumpCooldown = 0.2f; isGrounded = false; rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce); anim.SetTrigger("DoJump"); return; } 
-        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y); 
-        if (moveInput > 0) sr.flipX = false; else if (moveInput < 0) sr.flipX = true; 
+
+        // ★ [수정 1] 점프 조건에 !myStats.isJumpDisabled 추가
+        if (Input.GetButtonDown("Jump") && isGrounded && !myStats.isJumpDisabled) 
+        { 
+            jumpCooldown = 0.2f; 
+            isGrounded = false; 
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce); 
+            anim.SetTrigger("DoJump"); 
+            return; 
+        } 
+        
+        // ★ [수정 2] 속도 계산 시 myStats.speedMultiplier를 곱해줌
+        float currentSpeed = moveSpeed * myStats.speedMultiplier;
+        rb.linearVelocity = new Vector2(moveInput * currentSpeed, rb.linearVelocity.y); 
+
+        if (moveInput > 0) sr.flipX = false; 
+        else if (moveInput < 0) sr.flipX = true; 
     }
 
     void UpdateAnimation() { anim.SetFloat("Speed", rb.linearVelocity.magnitude > 0.1f ? rb.linearVelocity.magnitude : 0f); anim.SetBool("IsGrounded", isGrounded); anim.SetFloat("VerticalSpeed", rb.linearVelocity.y); }

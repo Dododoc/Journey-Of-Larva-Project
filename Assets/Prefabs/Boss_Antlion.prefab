@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 4253688884654872387}
   - component: {fileID: 5188841977601333618}
   - component: {fileID: 936220973726954832}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: Boss_Antlion
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ MonoBehaviour:
   hpBarFill: {fileID: 0}
   hpCanvas: {fileID: 0}
   bossScreenHPBar: {fileID: 5542587744267418745}
-  bossUIFrame: {fileID: 4570770668609555975}
+  bossUIFrame: {fileID: 8610130774390443304}
   dropItemPrefab: {fileID: 0}
 --- !u!212 &215007964956836649
 SpriteRenderer:
@@ -214,8 +214,8 @@ MonoBehaviour:
   digOutDamage: 70
   vortexPullRange: 25
   vortexDamageRange: 10
-  vortexMinDamage: 20
-  vortexMaxDamage: 35
+  vortexMinDamage: 30
+  vortexMaxDamage: 60
   endingPortalPrefab: {fileID: 8389347753140264498, guid: 5511e904fda4f4b52a1d8c4ac57c120e, type: 3}
   portalSpawnOffset: {x: 0, y: 2, z: 0}
 --- !u!50 &5188841977601333618
@@ -330,6 +330,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3884505683093399652}
     m_Modifications:
+    - target: {fileID: 1325438376735420429, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1814106113618711606, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1814106113618711606, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1814106113618711606, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 62.71399
+      objectReference: {fileID: 0}
+    - target: {fileID: 1814106113618711606, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1814106113618711606, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 191.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3655442525386301305, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -380,23 +404,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3655442525386301305, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3655442525386301305, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3655442525386301305, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3655442525386301305, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -686.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3655442525386301305, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3655442525386301305, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -410,23 +434,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4645965432299788749, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b20d26f368bd2d04795cf45860941376, type: 3}
     - target: {fileID: 7440945380517573119, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
       propertyPath: m_Name
       value: BossHUDCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7440945380517573119, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6124214964492934901, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
 --- !u!224 &2487224668413961134 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3655442525386301305, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
-  m_PrefabInstance: {fileID: 1170610672957324503}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4570770668609555975 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3409360710689993424, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
   m_PrefabInstance: {fileID: 1170610672957324503}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &5542587744267418745 stripped
@@ -440,3 +468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!1 &8610130774390443304 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7440945380517573119, guid: 82fe7e11509a32345ad257a23d059b65, type: 3}
+  m_PrefabInstance: {fileID: 1170610672957324503}
+  m_PrefabAsset: {fileID: 0}

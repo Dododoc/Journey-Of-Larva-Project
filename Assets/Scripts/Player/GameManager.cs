@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Info")]
     public float playTime = 0f;
+    public int killCount = 0; // ★ [추가] 처치한 적의 수를 저장할 변수
     private bool isGameRunning = true;
 
     void Awake()

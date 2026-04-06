@@ -90,6 +90,12 @@ public class EnemyStats : MonoBehaviour
         PlayerStats player = FindFirstObjectByType<PlayerStats>();
         if (player != null) player.GainExp(expReward);
 
+        // ★ [추가] 몬스터가 죽을 때 GameManager의 킬 카운트를 1 증가시킵니다.
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.killCount++;
+        }
+
         if (bossUIFrame != null) bossUIFrame.SetActive(false);
         if (hpCanvas != null) hpCanvas.SetActive(false);
 

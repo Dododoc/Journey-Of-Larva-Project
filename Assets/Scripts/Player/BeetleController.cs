@@ -80,7 +80,7 @@ public class BeetleController : MonoBehaviour
     public float hitKnockbackPower = 3f; 
     // ★ [수정] 무적 시간 2초로 증가 (인스펙터에서 확인 필요)
     public float hitInvincibilityDuration = 2.0f; 
-    private bool isInvincible = false;      
+    public bool isInvincible = false;      
     private bool isKnockedBack = false;     
     public bool isGrabbedByBoss = false;
 

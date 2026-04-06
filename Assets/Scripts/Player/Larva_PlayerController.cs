@@ -159,6 +159,7 @@ public class Larva_PlayerController : MonoBehaviour
     IEnumerator DashRoutine() 
     { 
         isDashing = true; 
+        isInvincible = true; // ★ [추가] 대시하는 동안 확실하게 무적 켜기!
         float origGrav = rb.gravityScale; 
         rb.gravityScale = 0f; 
         float dashDir = sr.flipX ? -1f : 1f; 
@@ -169,6 +170,8 @@ public class Larva_PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashDuration); 
         
         isDashing = false; 
+        isInvincible = false;
+
         rb.gravityScale = origGrav; 
         anim.SetBool("IsDashing", false); 
     }
@@ -197,8 +200,8 @@ public class Larva_PlayerController : MonoBehaviour
     { 
         if (dashCoroutine != null) StopCoroutine(dashCoroutine);
         if (stateCoroutine != null) StopCoroutine(stateCoroutine);
-        
-        isInvincible = false;     
+        isInvincible = true;
+      
         if (sr != null) sr.color = Color.white; 
 
         isDashing = false; 

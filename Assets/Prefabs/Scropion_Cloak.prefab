@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   maxHp: 150
   currentHp: 0
-  attackDamage: 10
+  attackDamage: 50
   expReward: 300
   hpBarFill: {fileID: 4890304597102758426}
   hpCanvas: {fileID: 2246804893969694267}

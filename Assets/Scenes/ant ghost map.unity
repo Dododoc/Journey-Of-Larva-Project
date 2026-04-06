@@ -558,7 +558,7 @@ GameObject:
   - component: {fileID: 236813994}
   m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (2)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -785,7 +785,7 @@ GameObject:
   - component: {fileID: 278099925}
   m_Layer: 6
   m_Name: sand platform-Photoroom_0 (7)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1012,7 +1012,7 @@ GameObject:
   - component: {fileID: 345933672}
   m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (4)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1136,6 +1136,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 391157484}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &365595592
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2634137183997400955, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 579.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2634137183997400955, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2634137183997400955, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2634137183997400955, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2634137183997400955, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2634137183997400955, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2634137183997400955, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2634137183997400955, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2634137183997400955, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2634137183997400955, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069903468197304612, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+      propertyPath: m_Name
+      value: Player_Larva
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
 --- !u!1 &391157483
 GameObject:
   m_ObjectHideFlags: 0
@@ -1209,7 +1266,7 @@ GameObject:
   - component: {fileID: 412214419}
   m_Layer: 6
   m_Name: sand platform-Photoroom_0 (3)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1378,7 +1435,7 @@ GameObject:
   - component: {fileID: 433345281}
   m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (6)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1515,7 +1572,7 @@ GameObject:
   - component: {fileID: 437896004}
   m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (8)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1820,6 +1877,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!4 &442017516 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2634137183997400955, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+  m_PrefabInstance: {fileID: 365595592}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &462161936
 GameObject:
   m_ObjectHideFlags: 0
@@ -2244,7 +2306,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 566, y: 20.8, z: -40}
+  m_LocalPosition: {x: 579.2, y: 11, z: -40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2519,7 +2581,7 @@ GameObject:
   - component: {fileID: 602339540}
   m_Layer: 6
   m_Name: sand platform-Photoroom_0 (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2656,7 +2718,7 @@ GameObject:
   - component: {fileID: 646687868}
   m_Layer: 6
   m_Name: sand platform-Photoroom_0 (9)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2793,7 +2855,7 @@ GameObject:
   - component: {fileID: 659362116}
   m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (3)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3248,7 +3310,7 @@ GameObject:
   - component: {fileID: 982941409}
   m_Layer: 6
   m_Name: sand platform-Photoroom_0 (11)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3531,7 +3593,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 0}
+    TrackingTarget: {fileID: 442017516}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -3563,7 +3625,7 @@ Transform:
   m_GameObject: {fileID: 1066356595}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 566, y: 20.8, z: -40}
+  m_LocalPosition: {x: 579.2, y: 11, z: -40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4483,7 +4545,7 @@ GameObject:
   - component: {fileID: 1292081315}
   m_Layer: 6
   m_Name: sand platform-Photoroom_0 (2)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5003,7 +5065,7 @@ GameObject:
   - component: {fileID: 1366958684}
   m_Layer: 6
   m_Name: sand platform-Photoroom_0 (6)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5140,7 +5202,7 @@ GameObject:
   - component: {fileID: 1393888115}
   m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (5)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5277,7 +5339,7 @@ GameObject:
   - component: {fileID: 1400738738}
   m_Layer: 6
   m_Name: sand platform-Photoroom_0 (4)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5627,7 +5689,7 @@ GameObject:
   - component: {fileID: 1477584875}
   m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (9)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5764,7 +5826,7 @@ GameObject:
   - component: {fileID: 1479801464}
   m_Layer: 6
   m_Name: sand platform-Photoroom_0 (10)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5901,7 +5963,7 @@ GameObject:
   - component: {fileID: 1515421555}
   m_Layer: 6
   m_Name: sand platform-Photoroom_0 (5)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6038,7 +6100,7 @@ GameObject:
   - component: {fileID: 1564369462}
   m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (7)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6175,7 +6237,7 @@ GameObject:
   - component: {fileID: 1661105406}
   m_Layer: 6
   m_Name: sand platform2-Photoroom_0 (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6592,7 +6654,7 @@ GameObject:
   - component: {fileID: 1973331961}
   m_Layer: 6
   m_Name: sand platform-Photoroom_0 (8)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7186,3 +7248,4 @@ SceneRoots:
   - {fileID: 1793088788}
   - {fileID: 1101168121}
   - {fileID: 814388644}
+  - {fileID: 365595592}

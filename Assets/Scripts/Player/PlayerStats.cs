@@ -233,6 +233,19 @@ public class PlayerStats : MonoBehaviour
         // ★ 이미 죽었다면 데미지 무시!
         if (isDead) return;
 
+        // ==========================================
+        // ★ [추가] 컨트롤러의 무적 상태 확인
+        // ==========================================
+        Larva_PlayerController larva = GetComponent<Larva_PlayerController>();
+        if (larva != null && larva.isInvincible) return;
+
+        AntController ant = GetComponent<AntController>();
+        if (ant != null && ant.isInvincible) return;
+
+        BeetleController beetle = GetComponent<BeetleController>();
+        if (beetle != null && beetle.isInvincible) return;
+        // ==========================================
+
         float defenseFactor = 100f / (100f + TotalDefense);
         float finalDamage = damage * defenseFactor;
         finalDamage = Mathf.Max(1f, finalDamage); // 최소 데미지 1 보장
@@ -242,9 +255,6 @@ public class PlayerStats : MonoBehaviour
         StartCoroutine(HitFlashRoutine());
         if (hitEffectPrefab != null) Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
 
-        // =========================================================
-        // ★ [수정됨] 부동소수점 오차 방지: 0.01 이하라면 무조건 0으로 만들고 즉시 사망!
-        // =========================================================
         if (currentHp <= 0.01f) 
         {
             currentHp = 0;

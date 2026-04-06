@@ -54,12 +54,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   maxHp: 250
   currentHp: 0
-  attackDamage: 20
+  attackDamage: 50
   expReward: 80
   hpBarFill: {fileID: 4856512479627772446}
   hpCanvas: {fileID: 4989302942133159903}
   bossScreenHPBar: {fileID: 0}
   bossUIFrame: {fileID: 0}
+  dropItemPrefab: {fileID: 0}
 --- !u!114 &7148119726642463991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpiderAI
   detectionRange: 20
   fireRate: 4
-  projectileDamage: 15
+  projectileDamage: 50
   toxicPrefab: {fileID: 2712602170654562102, guid: 97e6edd98640d2e40b9de21aabb49f86, type: 3}
   firePoint: {fileID: 3494279372227722191}
   webLine: {fileID: 5481839875640005440}

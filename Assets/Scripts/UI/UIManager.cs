@@ -63,11 +63,15 @@ public class UIManager : MonoBehaviour
     private string originalMainStr;
     private string originalStatsStr;
     // ==========================================
-
+    // Ending UI 설정
+    // ==========================================
     [Header("Ending UI")]
     public GameObject endingPanel;      
-    public TextMeshProUGUI playTimeText; 
-    public TextMeshProUGUI totalXPText;  
+    public GameObject endingTitleButton; 
+    public TextMeshProUGUI endingMainText;
+    public TextMeshProUGUI endingStatsText; // ★ [수정] 스탯을 한 번에 보여줄 변수
+
+    private string originalEndingMainStr;
 
     [Header("Pause (일시정지) UI")]
     public GameObject pauseMenuPanel; 
@@ -99,7 +103,17 @@ public class UIManager : MonoBehaviour
 
         if (evolutionPanel != null) evolutionPanel.SetActive(false);
         if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
-        if (endingPanel != null) endingPanel.SetActive(false);
+        // 엔딩 패널 초기화 (Awake 내부에 작성)
+        if (endingPanel != null)
+        {
+            if (endingMainText != null) originalEndingMainStr = endingMainText.text;
+            
+            if (endingMainText != null) endingMainText.text = "";
+            if (endingStatsText != null) endingStatsText.text = ""; // ★ 수정
+
+            if (endingTitleButton != null) endingTitleButton.SetActive(false);
+            endingPanel.SetActive(false);
+        }
         if (slamFlashPanel != null) slamFlashPanel.color = new Color(1f, 1f, 1f, 0f);
         if (blurVolume != null) blurVolume.SetActive(false);
     }
@@ -303,18 +317,112 @@ public class UIManager : MonoBehaviour
         if (endingPanel != null && GameManager.instance != null)
         {
             GameManager.instance.StopGameTimer();
-            Time.timeScale = 0f; 
+            // 텍스트 비우기 (중복 방지)
+            if (endingMainText != null) endingMainText.text = "";
+            if (endingStatsText != null) endingStatsText.text = ""; // ★ 수정
 
-            float time = GameManager.instance.playTime;
-            int minutes = Mathf.FloorToInt(time / 60F);
-            int seconds = Mathf.FloorToInt(time % 60F);
-            string formattedTime = string.Format("{0:00}:{1:00}", minutes, seconds);
-
-            if (playTimeText != null) playTimeText.text = $"플레이 타임 : {formattedTime}";
-            if (totalXPText != null) totalXPText.text = $"누적 경험치 : {GameManager.instance.globalXP} XP";
-
-            endingPanel.SetActive(true);
+            StartCoroutine(EndingRoutine());
         }
+    }
+
+    IEnumerator EndingRoutine()
+    {
+        // 1. 패널 켜기 (버튼은 끈 상태 유지)
+        endingPanel.SetActive(true);
+        if (endingTitleButton != null) endingTitleButton.SetActive(false);
+
+        Image panelImg = endingPanel.GetComponent<Image>();
+        float timer = 0f;
+        while (timer < panelFadeDuration)
+        {
+            timer += Time.unscaledDeltaTime; 
+            float alpha = Mathf.Lerp(0f, 1f, timer / panelFadeDuration);
+            if (panelImg != null) panelImg.color = new Color(panelImg.color.r, panelImg.color.g, panelImg.color.b, alpha);
+            yield return null;
+        }
+        if (panelImg != null) panelImg.color = new Color(panelImg.color.r, panelImg.color.g, panelImg.color.b, 1f);
+
+        // ==========================================
+        // ★ [수정됨] 2. 실제 스탯 정보 불러오기
+        // ==========================================
+        string finalEvoName = "알 수 없음";
+        string timeString = "00:00";
+        int kills = 0;
+
+        if (GameManager.instance != null)
+        {
+            // 진화 형태 텍스트 변환
+            switch(GameManager.instance.currentCharacter)
+            {
+                case GameManager.CharacterType.Larva: finalEvoName = "끈질긴 애벌레"; break;
+                case GameManager.CharacterType.Ant: finalEvoName = "붉은 모래의 개미"; break;
+                case GameManager.CharacterType.Beetle: finalEvoName = "황금 뿔의 풍뎅이"; break;
+            }
+            
+            // 생존 시간 변환
+            float time = GameManager.instance.playTime;
+            int m = Mathf.FloorToInt(time / 60F);
+            int s = Mathf.FloorToInt(time % 60F);
+            timeString = string.Format("{0:00}:{1:00}", m, s);
+
+            // ★ 주의: GameManager에 killCount 변수가 추가되어 있다면 주석을 해제하세요!
+            // kills = GameManager.instance.killCount; 
+        }
+
+        // 스탯 텍스트 최종 조립 (경험치도 포함!)
+        string finalStatsStr = $"최종 진화: {finalEvoName}\n처치한 적: {kills}마리\n플레이 타임: {timeString}\n누적 경험치: {GameManager.instance.globalXP} XP";
+
+        // ==========================================
+        // 3. 메인 텍스트 -> 스탯 텍스트 순으로 타이핑
+        // ==========================================
+        if (endingMainText != null)
+        {
+            yield return StartCoroutine(TypeGameOverText(endingMainText, originalEndingMainStr));
+            yield return new WaitForSecondsRealtime(0.3f);
+        }
+
+        if (endingStatsText != null)
+        {
+            yield return StartCoroutine(TypeGameOverText(endingStatsText, finalStatsStr));
+            yield return new WaitForSecondsRealtime(0.5f);
+        }
+
+        // 4. 타이틀 버튼 서서히 등장
+        if (endingTitleButton != null) endingTitleButton.SetActive(true);
+        Image btnImg = endingTitleButton != null ? endingTitleButton.GetComponent<Image>() : null;
+        TextMeshProUGUI btnTextTmp = endingTitleButton != null ? endingTitleButton.GetComponentInChildren<TextMeshProUGUI>() : null;
+
+        float fadeTimer = 0f;
+        while (fadeTimer < buttonsFadeDuration)
+        {
+            fadeTimer += Time.unscaledDeltaTime;
+            float alpha = Mathf.Lerp(0f, 1f, fadeTimer / buttonsFadeDuration);
+            
+            if (btnImg != null) btnImg.color = new Color(btnImg.color.r, btnImg.color.g, btnImg.color.b, alpha);
+            if (btnTextTmp != null) btnTextTmp.color = new Color(btnTextTmp.color.r, btnTextTmp.color.g, btnTextTmp.color.b, alpha);
+            
+            yield return null;
+        }
+
+        if (btnImg != null) btnImg.color = Color.white;
+        if (btnTextTmp != null) btnTextTmp.color = new Color(btnTextTmp.color.r, btnTextTmp.color.g, btnTextTmp.color.b, 1f);
+
+        // 연출 끝. 세계 완전 정지
+        Time.timeScale = 0f; 
+    }
+
+    // ★ [추가] Quit 버튼을 눌렀을 때 실행될 함수
+    public void OnQuitGameClick()
+    {
+        Debug.Log("게임을 종료합니다.");
+        
+        #if UNITY_EDITOR
+            // 유니티 에디터 환경일 때는 플레이 모드를 끕니다.
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            // 실제 빌드된 게임(exe)일 때는 프로그램을 종료합니다.
+            Application.Quit();
+        #endif
     }
 
     public void UpdateEvolutionUI(int evolutionIndex)

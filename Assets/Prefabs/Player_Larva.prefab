@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC90D\uAE30 (X)"
+  m_text: "\uC0C1\uD638\uC791\uC6A9 (F)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aa7e6380c87ac84b9caa3228bb9022e, type: 2}
   m_sharedMaterial: {fileID: 5505994671187783740, guid: 2aa7e6380c87ac84b9caa3228bb9022e, type: 2}
@@ -74,8 +74,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4293651435
+  m_fontColor: {r: 0.9198113, g: 0.9198113, b: 0.9198113, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 336348250436875336}
   - component: {fileID: 3327633954306126531}
   - component: {fileID: 4584568507373282315}
+  - component: {fileID: 8574884007263874543}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -238,6 +239,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8574884007263874543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3930130566235040255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a05481e7c26c6e40bbc034553b4f6a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FixUIFlip
 --- !u!1 &5593676941521949941
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,6 +522,9 @@ MonoBehaviour:
   baseDefense: 5
   maxHp: 100
   currentHp: 0
+  speedMultiplier: 1
+  isJumpDisabled: 0
+  isGrabbedByBoss: 0
   bonusAttack: 0
   bonusDefense: 0
   bonusMaxHp: 0

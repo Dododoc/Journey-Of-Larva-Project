@@ -18,12 +18,12 @@ public class EnemyStats : MonoBehaviour
     public Image bossScreenHPBar;    
     public GameObject bossUIFrame;   
 
-    // ★ [새로 추가] 죽었을 때 떨어뜨릴 아이템 프리팹
     [Header("Drop Item")]
     public GameObject dropItemPrefab; 
 
     private BossAntlion antlionScript;
     private BossMantis mantisScript; 
+    private ScarecrowAI scarecrowScript; // ★ [추가] 허수아비 스크립트 연결용
     private SpriteRenderer sr;
     private Color originalColor;
 
@@ -32,6 +32,7 @@ public class EnemyStats : MonoBehaviour
         currentHp = maxHp;
         antlionScript = GetComponent<BossAntlion>(); 
         mantisScript = GetComponent<BossMantis>();
+        scarecrowScript = GetComponent<ScarecrowAI>(); // ★ [추가] 허수아비 컴포넌트 찾기
 
         if (bossUIFrame != null) bossUIFrame.SetActive(false);
         if (antlionScript != null || mantisScript != null)
@@ -90,7 +91,6 @@ public class EnemyStats : MonoBehaviour
         PlayerStats player = FindFirstObjectByType<PlayerStats>();
         if (player != null) player.GainExp(expReward);
 
-        // ★ [추가] 몬스터가 죽을 때 GameManager의 킬 카운트를 1 증가시킵니다.
         if (GameManager.instance != null)
         {
             GameManager.instance.killCount++;
@@ -108,18 +108,14 @@ public class EnemyStats : MonoBehaviour
 
         if (antlionScript != null) antlionScript.StartDeathSequence();
         else if (mantisScript != null) mantisScript.StartDeathSequence();
+        else if (scarecrowScript != null) scarecrowScript.StartDeathSequence(); // ★ [추가] 허수아비 전용 죽음 연출 실행
         else 
         {
-            // ===================================================
-            // ★ [추가된 핵심 로직] 전갈이 죽을 때 아이템을 바닥에 소환합니다!
-            // ===================================================
             if (dropItemPrefab != null)
             {
-                // 전갈이 있던 자리에 아이템 생성
                 Instantiate(dropItemPrefab, transform.position, Quaternion.identity);
             }
-            
-            Destroy(gameObject); // 일반 몬스터는 그냥 삭제
+            Destroy(gameObject); 
         }
     }
 }

@@ -327,18 +327,6 @@ public class AntController : MonoBehaviour
     // ==========================================================
     // 개미 궁극기 메인 코루틴
     // ==========================================================
-    // ==========================================================
-    // 개미 궁극기 메인 코루틴 (마지막 일격 뒤집힘 수정본)
-    // ==========================================================
-    // ==========================================================
-    // 개미 궁극기 메인 코루틴 (마지막 일격 잔상 & 추진력 수정본)
-    // ==========================================================
-    // ==========================================================
-    // 개미 궁극기 메인 코루틴 (마지막 일격 속도 미친듯 상향본)
-    // ==========================================================
-    // ==========================================================
-    // 개미 궁극기 메인 코루틴 
-    // ==========================================================
     IEnumerator AntUltimateRoutine()
     {
         isAntUlt = true; isInvincible = true;
@@ -357,8 +345,12 @@ public class AntController : MonoBehaviour
         Vector3 stormCenter = castPos + new Vector3(originalFaceDir * sandstormSpawnOffset.x, sandstormSpawnOffset.y, 0f);
         
         GameObject stormInstance = null;
-        if (sandstormVFX != null) stormInstance = Instantiate(sandstormVFX, stormCenter, Quaternion.identity);
-
+        if (sandstormVFX != null) 
+        {
+            stormInstance = Instantiate(sandstormVFX, stormCenter, Quaternion.identity);
+            // ★ [추가] 모래폭풍 생성 직후 깜빡이지 않게 맨 앞으로 땡겨옵니다!
+            SetVFXSortingOrder(stormInstance, 50); 
+        }
         // 적 구속 및 모래폭풍 띄우기 시작 (기존과 동일)
         Collider2D[] hits = Physics2D.OverlapCircleAll(stormCenter, ultRadius, enemyLayers);
         List<BaseEnemyAI> caughtEnemies = new List<BaseEnemyAI>();
@@ -379,13 +371,13 @@ public class AntController : MonoBehaviour
         // ==========================================================
         int[] animSeq = { 2, 7, 5, 4, 3, 6, 2 };
         Vector3[] posSeq = {
-            new Vector3(ultTeleportOffset, ultTeleportOffset, 0),
-            new Vector3(-ultTeleportOffset, -ultTeleportOffset, 0),
-            new Vector3(ultTeleportOffset, -ultTeleportOffset, 0),
+            new Vector3(ultTeleportOffset, ultTeleportOffset+2f, 0),
+            new Vector3(-ultTeleportOffset, -ultTeleportOffset+2f, 0),
+            new Vector3(ultTeleportOffset, -ultTeleportOffset+2f, 0),
+            new Vector3(-ultTeleportOffset, ultTeleportOffset+2f, 0),
+            new Vector3(0, ultTeleportOffset + 3f, 0),
             new Vector3(-ultTeleportOffset, ultTeleportOffset, 0),
-            new Vector3(0, ultTeleportOffset + 1f, 0),
-            new Vector3(-ultTeleportOffset, 0, 0),
-            new Vector3(ultTeleportOffset, 0, 0)
+            new Vector3(ultTeleportOffset, ultTeleportOffset, 0)
         };
 
         for (int i = 0; i < animSeq.Length; i++)
@@ -486,7 +478,8 @@ public class AntController : MonoBehaviour
         if (slashEffectVFX != null) 
         {
             GameObject slashObj = Instantiate(slashEffectVFX, slashPos, Quaternion.identity);
-            
+            // ★ [추가] 마지막 검기 이펙트도 깜빡이지 않게 맨 앞으로 땡겨옵니다!
+            SetVFXSortingOrder(slashObj, 50);
             // 검기 이펙트가 개미가 바라보는 방향에 맞춰 좌우로 뒤집히도록 처리 (필수!)
             Vector3 slashScale = slashObj.transform.localScale;
             slashScale.x = finalFaceDir > 0 ? Mathf.Abs(slashScale.x) : -Mathf.Abs(slashScale.x);
@@ -683,12 +676,20 @@ public class AntController : MonoBehaviour
         }
         }
         // ★ [새로 추가] 스크립트 맨 아래 (마지막 괄호 } 바로 위)에 이 함수를 통째로 추가하세요!
+    private void SetVFXSortingOrder(GameObject vfxObj, int order)
+    {
+        ParticleSystemRenderer[] renderers = vfxObj.GetComponentsInChildren<ParticleSystemRenderer>();
+        foreach (ParticleSystemRenderer renderer in renderers)
+        {
+            renderer.sortingOrder = order;
+        }
+    }
     private void ResetAntUltCooldown()
     {
         canUltimate = true;
     }
     // ★ [새로 추가] 해금 함수
-    void UnlockUltimate()
+    public void UnlockUltimate()
     {
         isUltUnlocked = true;
         if (vSkillUI != null) vSkillUI.UnlockSkill(); // UI 자물쇠 제거

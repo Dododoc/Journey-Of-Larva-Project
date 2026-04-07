@@ -109,130 +109,111 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gemini_Generated_Image_6219kn6219kn6219-Photoroom_0
+      name: Scarecrow_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 355
-        width: 426
-        height: 327
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 019485b0eb5175f10800000000000000
-      internalID: 2258297644127897872
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gemini_Generated_Image_6219kn6219kn6219-Photoroom_1
-      rect:
-        serializedVersion: 2
-        x: 421
-        y: 352
+        y: 350
         width: 419
-        height: 330
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 332
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6490289edb16cbde0800000000000000
-      internalID: -1316069522804700858
+      spriteID: c91ad9fec6685b647a683000c3b9dd20
+      internalID: 1509412679
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gemini_Generated_Image_6219kn6219kn6219-Photoroom_2
+      name: Scarecrow_1
       rect:
         serializedVersion: 2
-        x: 846
-        y: 352
-        width: 429
-        height: 329
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 432
+        y: 349
+        width: 408
+        height: 306
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c94de1c6bb2c955e0800000000000000
-      internalID: -1920289655868173156
+      spriteID: daced1c9c7dba1b4b86c331dde5e6f18
+      internalID: 1463043231
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gemini_Generated_Image_6219kn6219kn6219-Photoroom_3
+      name: Scarecrow_2
       rect:
         serializedVersion: 2
-        x: 1
-        y: 4
-        width: 411
-        height: 321
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 6, z: 0, w: 0}
+        x: 847
+        y: 349
+        width: 433
+        height: 333
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
-      outline:
-      - - {x: -204.5, y: -160.5}
-        - {x: 204.5, y: -160.5}
-        - {x: 204.5, y: -20.5}
-        - {x: 184.5, y: 65.5}
-        - {x: 200.5, y: 119.5}
-        - {x: 205.5, y: 125.5}
-        - {x: 204.5, y: 160.5}
-        - {x: -204.5, y: 160.5}
-      physicsShape:
-      - - {x: 180.5, y: 118.5}
-        - {x: 181.5, y: 118.5}
-        - {x: 181.5, y: 120.5}
-        - {x: 180.5, y: 120.5}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 93a01bf87ce2ba110800000000000000
-      internalID: 1273162754306411065
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gemini_Generated_Image_6219kn6219kn6219-Photoroom_4
-      rect:
-        serializedVersion: 2
-        x: 407
-        y: 8
-        width: 469
-        height: 317
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 2, z: 0, w: 0}
-      customData: 
-      outline:
-      - - {x: -226.5, y: 124.5}
-        - {x: -234.5, y: 115.5}
-        - {x: -222.5, y: -61.5}
-        - {x: -221.5, y: -158.5}
-        - {x: 234.5, y: -158.5}
-        - {x: 234.5, y: 158.5}
-        - {x: -232.5, y: 156.5}
+      outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6c8220a6900940b49a91a0c2a40ce96a
-      internalID: -1740337024
+      spriteID: 69e51b747e871e44986f7cf601103173
+      internalID: -929143252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scarecrow_3
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 7
+        width: 389
+        height: 313
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5426971ffbc7ea34085948d2f33f3799
+      internalID: -1209642031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scarecrow_4
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 5
+        width: 453
+        height: 313
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4996ab1cc8e036149bd37de9e452c1e6
+      internalID: -2081208237
       vertices: []
       indices: 
       edges: []
@@ -249,13 +230,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Gemini_Generated_Image_6219kn6219kn6219-Photoroom_0: 2258297644127897872
-      Gemini_Generated_Image_6219kn6219kn6219-Photoroom_1: -1316069522804700858
-      Gemini_Generated_Image_6219kn6219kn6219-Photoroom_2: -1920289655868173156
-      Gemini_Generated_Image_6219kn6219kn6219-Photoroom_3: 1273162754306411065
-      Gemini_Generated_Image_6219kn6219kn6219-Photoroom_4: -1740337024
+      Scarecrow_0: 1509412679
+      Scarecrow_1: 1463043231
+      Scarecrow_2: -929143252
+      Scarecrow_3: -1209642031
+      Scarecrow_4: -2081208237
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

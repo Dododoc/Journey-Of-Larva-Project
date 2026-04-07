@@ -2,20 +2,21 @@ using UnityEngine;
 
 public class ElevatorPlatform : MonoBehaviour
 {
-    [Header("위치 설정")]
-    public Transform topPosition;    // 원래 있는 위쪽 위치 (WayPoint)
-    public Transform bottomPosition; // 스위치를 밟으면 내려올 아래쪽 위치 (WayPoint)
+    [Header("아래쪽 도착 지점")]
+    public Transform bottomPosition; // ★ 이제 아래쪽 위치(Bottom) 하나만 연결하면 됩니다!
     
-    [Header("이동 설정")]
-    public float speed = 2f;         // 지형이 위아래로 움직이는 속도
+    [Header("이동 속도")]
+    public float speed = 2f;         
 
+    private Vector3 topPos;          // 원래 시작 위치를 자동으로 기억할 변수
     private Vector3 targetPos;
-    private bool isWaitingAtBottom = false; // 바닥에 도착해서 대기 중인지 확인
+    private bool isPlayerOn = false; 
 
     void Start()
     {
-        targetPos = topPosition.position;
-        transform.position = topPosition.position;
+        // ★ [핵심] 따로 Top Position을 만들 필요 없이, 게임 시작 시 엘리베이터가 있는 위치를 옥상으로 고정합니다!
+        topPos = transform.position; 
+        targetPos = topPos;
     }
 
     void Update()
@@ -23,39 +24,45 @@ public class ElevatorPlatform : MonoBehaviour
         // 목표 위치를 향해 부드럽게 이동
         transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
 
-        // 지형이 아래쪽 목표 위치에 거의 다 도달했는지 체크
-        if (targetPos == bottomPosition.position && Vector3.Distance(transform.position, bottomPosition.position) < 0.01f)
+        // 플레이어가 타고 있고 F키를 누르면 위/아래 전환
+        if (isPlayerOn && Input.GetKeyDown(KeyCode.F))
         {
-            isWaitingAtBottom = true; // 바닥에서 대기 모드 ON
+            ToggleElevator();
         }
     }
 
-    // 스위치를 밟았을 때 호출될 함수 (내려오기)
-    public void MoveDown()
+    public void MoveDown() { targetPos = bottomPosition.position; }
+    public void MoveUp() { targetPos = topPos; }
+
+    public void ToggleElevator()
     {
-        targetPos = bottomPosition.position;
+        // 현재 타겟이 아래쪽이면 -> 위로 설정
+        if (targetPos == bottomPosition.position) targetPos = topPos;
+        // 아니면 -> 아래로 설정
+        else targetPos = bottomPosition.position; 
     }
 
-    // 개미(플레이어)가 지형에 올라탔을 때
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // 바닥까지 완전히 내려와서 대기 중일 때, 플레이어가 닿으면 위로 상승
-        if (isWaitingAtBottom && collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            targetPos = topPosition.position;
-            isWaitingAtBottom = false; // 올라갈 거니까 대기 모드 OFF
+            isPlayerOn = true;
+            collision.transform.SetParent(transform); // 미끄럼 방지
 
-            // 플레이어가 이동하는 지형에서 미끄러지지 않게 자식으로 임시 설정
-            collision.transform.SetParent(transform);
+            PlayerStats player = collision.gameObject.GetComponent<PlayerStats>();
+            if (player != null) player.AddNearbyItem();
         }
     }
 
-    // 개미(플레이어)가 지형에서 벗어났을 때
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.transform.SetParent(null); // 자식 설정 해제
+            isPlayerOn = false;
+            collision.transform.SetParent(null); 
+
+            PlayerStats player = collision.gameObject.GetComponent<PlayerStats>();
+            if (player != null) player.RemoveNearbyItem();
         }
     }
 }

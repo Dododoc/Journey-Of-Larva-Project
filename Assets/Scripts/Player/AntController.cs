@@ -212,11 +212,15 @@ public class AntController : MonoBehaviour
         
         foreach (var hit in hits) 
         { 
-            float d = Vector2.Distance(transform.position, hit.transform.position); 
+            // ★ [수정 1] 콜라이더 자체가 아니라, 적의 '본체(부모)' 위치를 찾습니다.
+            EnemyStats enemyStats = hit.GetComponentInParent<EnemyStats>();
+            Transform actualTarget = (enemyStats != null) ? enemyStats.transform : hit.transform;
+
+            float d = Vector2.Distance(transform.position, actualTarget.position); 
             if (d < closestDist) 
             { 
                 closestDist = d; 
-                target = hit.transform; 
+                target = actualTarget; 
             } 
         } 
 
@@ -231,8 +235,13 @@ public class AntController : MonoBehaviour
                 sr.color = new Color(1f, 1f, 1f, 0.5f); 
                 float dirSign = Mathf.Sign(target.position.x - transform.position.x);
                 
-                // ★ 수정: Y축 위치도 몹의 Y 위치(target.position.y)로 이동하도록 변경
+                // ★ [수정 2] 만약 위 코드를 적용해도 Y축(높이)이 이상하게 공중으로 뜨거나 파묻힌다면, 
+                // target.position.y 대신 transform.position.y (개미의 현재 높이 유지)로 바꿔보세요.
+                // (날아다니는 적에게 순간이동 해야 하는 게 아니라면 아래처럼 개미의 y값을 유지하는 것이 안전합니다)
                 transform.position = new Vector3(target.position.x - (dirSign * teleportOffset), target.position.y, transform.position.z); 
+                
+                // [참고] 만약 바닥 위를 걷는 적들만 있다면 이렇게 쓰는 것이 제일 좋습니다:
+                // transform.position = new Vector3(target.position.x - (dirSign * teleportOffset), transform.position.y, transform.position.z); 
             } 
         } 
 
@@ -314,11 +323,28 @@ public class AntController : MonoBehaviour
     void HandleUndergroundMove() 
     { 
         float m = Input.GetAxisRaw("Horizontal"); 
+
+        // ★ [버그 수정] 절벽(땅 끝) 감지 로직 추가
+        if (m != 0)
+        {
+            // 캐릭터의 현재 위치에서 이동하려는 방향으로 살짝 앞(0.5f), 살짝 위(0.5f)의 좌표를 잡습니다.
+            // (숫자는 게임의 타일 크기나 캐릭터 크기에 맞게 조절하세요. 0.5f가 적당할 겁니다.)
+            Vector2 checkPos = transform.position + new Vector3(m * 0.5f, 0.5f, 0f);
+            
+            // 그 위치에서 아래쪽으로 레이저를 쏴서 groundLayer가 있는지 확인합니다.
+            RaycastHit2D groundCheck = Physics2D.Raycast(checkPos, Vector2.down, 2.0f, groundLayer);
+
+            // 레이저가 땅에 닿지 않았다면 (앞에 땅이 없다면)
+            if (groundCheck.collider == null)
+            {
+                m = 0f; // 이동 속도를 0으로 만들어버려서 절벽 밖으로 나가지 못하게 막습니다.
+            }
+
+            // (선택 사항) 디버그용 선 그리기 - 씬(Scene) 창에서 레이저가 잘 쏴지는지 빨간 선으로 볼 수 있습니다.
+            // Debug.DrawRay(checkPos, Vector3.down * 2.0f, Color.red);
+        }
+
         rb.linearVelocity = new Vector2(m * digSpeed, 0f); 
-        
-        // ★ [수정됨] 엉뚱한 곳으로 강제 텔레포트 시키던 Clamp 코드를 삭제했습니다!
-        // float clampedX = Mathf.Clamp(transform.position.x, mapMinX, mapMaxX); 
-        // transform.position = new Vector3(clampedX, transform.position.y, transform.position.z); 
 
         if (m > 0 && !isFacingRight) Flip(); 
         else if (m < 0 && isFacingRight) Flip(); 

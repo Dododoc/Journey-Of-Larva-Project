@@ -129,7 +129,7 @@ BoxCollider2D:
   m_Offset: {x: 0.027634144, y: -0.25301778}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.4992125, y: 0.37548858}
+    pivot: {x: 0.5055121, y: 0.52460384}
     oldSize: {x: 6.3288884, y: 3.3436804}
     newSize: {x: 11.263999, y: 6.0169997}
     adaptiveTilingThreshold: 0.5
@@ -152,3 +152,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ToxicGround
   duration: 4
   damageInterval: 0.5
+  poisonTotalDamage: 50
+  poisonDuration: 3

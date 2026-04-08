@@ -204,9 +204,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f05032f84bfe6499793276e480d8ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  maxHp: 100
+  maxHp: 160
   currentHp: 0
-  attackDamage: 35
+  attackDamage: 60
   expReward: 60
   hpBarFill: {fileID: 8304893988341119523}
   hpCanvas: {fileID: 5649261847126958511}
@@ -237,7 +237,7 @@ MonoBehaviour:
   flyWidth: 4
   flyHeight: 3
   loopSpeed: 2
-  poisonTotalDamage: 50
+  poisonTotalDamage: 60
   poisonDuration: 2
   poisonCooldown: 1.5
 --- !u!1 &3572906419385416081

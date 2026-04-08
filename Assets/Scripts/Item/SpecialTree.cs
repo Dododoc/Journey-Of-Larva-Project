@@ -26,23 +26,23 @@ public class SpecialTree : MonoBehaviour
     private float lastHitTime; // 마지막으로 맞은 시간 기록
 
     void Awake()
-{
-    // 1. 애니메이터 할당
-    if (anim == null) anim = GetComponent<Animator>();
-
-    // 2. SpriteRenderer를 먼저 할당 (순서 중요!)
-    if (sr == null) sr = GetComponent<SpriteRenderer>();
-
-    // 3. sr이 정상적으로 할당되었는지 확인 후 머티리얼 인스턴스화 진행
-    if (sr != null) 
     {
-        sr.material = new Material(sr.material); 
+        // 1. 애니메이터 할당
+        if (anim == null) anim = GetComponent<Animator>();
+
+        // 2. SpriteRenderer를 먼저 할당 (순서 중요!)
+        if (sr == null) sr = GetComponent<SpriteRenderer>();
+
+        // 3. sr이 정상적으로 할당되었는지 확인 후 머티리얼 인스턴스화 진행
+        if (sr != null) 
+        {
+            sr.material = new Material(sr.material); 
+        }
+        else 
+        {
+            Debug.LogError("SpecialTree: SpriteRenderer를 찾을 수 없습니다!");
+        }
     }
-    else 
-    {
-        Debug.LogError("SpecialTree: SpriteRenderer를 찾을 수 없습니다!");
-    }
-}
 
     // 처음 부딪혔을 때
     void OnCollisionEnter2D(Collision2D collision)
@@ -115,6 +115,15 @@ public class SpecialTree : MonoBehaviour
     IEnumerator CollapseRoutine()
     {
         isCollapsed = true;
+
+        // ==========================================
+        // ★ [핵심 추가] 쓰러지기 시작하자마자 충돌체를 끕니다!
+        // ==========================================
+        Collider2D myCollider = GetComponent<Collider2D>();
+        if (myCollider != null) 
+        {
+            myCollider.enabled = false;
+        }
 
         // 플레이어 위치 확인하여 반대 방향으로 쓰러지게 반전
         GameObject player = GameObject.FindWithTag("Player"); 

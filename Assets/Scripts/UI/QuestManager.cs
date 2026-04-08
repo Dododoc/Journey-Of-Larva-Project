@@ -153,21 +153,22 @@ public class QuestManager : MonoBehaviour
         // 애벌레 맵이 아니면 검사하지 않음
         if (SceneManager.GetActiveScene().name != larvaSceneName) return;
 
-        // 현재 떠 있는 퀘스트 번호(currentQuestIndex)에 따라 이미 달성했는지 검사합니다.
         PlayerStats player = FindFirstObjectByType<PlayerStats>();
         if (player == null) return;
 
-        // 예시: 2번 퀘스트가 "레벨 3 달성하기"라고 가정 (숫자는 유저님 기획에 맞게 바꾸세요!)
-        if (currentQuestIndex == 4) 
+        // ==========================================================
+        // ★ [핵심 수정] 4번째 퀘스트 (인덱스 3)가 '레벨 3 달성' 퀘스트입니다!
+        // 이 번호가 4(5번째 퀘스트)로 되어 있어서 전갈 퀘스트가 멋대로 깨지는 버그가 있었습니다.
+        // ==========================================================
+        if (currentQuestIndex == 3) 
         {
             // 이미 레벨이 3 이상이라면?
             if (player.currentLevel >= 3) 
             {
                 Debug.Log("레벨 3 달성 퀘스트 자동 완료!");
-                CompleteQuest(4); // 즉시 퀘스트 완료 처리! (이러면 연쇄적으로 다음 퀘스트로 넘어갑니다)
+                CompleteQuest(3); // 즉시 4번째 퀘스트 완료 처리!
             }
         }
-        
     }
     
 }

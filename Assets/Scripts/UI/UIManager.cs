@@ -307,7 +307,16 @@ public class UIManager : MonoBehaviour
     {
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         Time.timeScale = 1f; 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+
+        // ★ [핵심 1] GameManager의 데이터를 완전히 초기화합니다.
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.ResetGameData(); // 이 함수는 2번에서 만들 겁니다!
+        }
+
+        // ★ [핵심 2] 현재 씬이 아니라, 무조건 처음 시작하는 씬으로 보냅니다.
+        // "StartScene" 부분은 유저님의 실제 첫 맵 이름(예: "Village", "Stage1")으로 꼭 바꿔주세요!
+        SceneManager.LoadScene("StartScene"); 
     }
     // ==========================================
 

@@ -52,9 +52,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f05032f84bfe6499793276e480d8ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  maxHp: 250
+  maxHp: 200
   currentHp: 0
-  attackDamage: 50
+  attackDamage: 80
   expReward: 80
   hpBarFill: {fileID: 4856512479627772446}
   hpCanvas: {fileID: 4989302942133159903}
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpiderAI
   detectionRange: 20
   fireRate: 4
-  projectileDamage: 50
+  projectileDamage: 60
   toxicPrefab: {fileID: 2712602170654562102, guid: 97e6edd98640d2e40b9de21aabb49f86, type: 3}
   firePoint: {fileID: 3494279372227722191}
   webLine: {fileID: 5481839875640005440}

@@ -206,8 +206,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   maxHp: 400
   currentHp: 0
-  attackDamage: 60
-  expReward: 120
+  attackDamage: 80
+  expReward: 140
   hpBarFill: {fileID: 1697040725085315489}
   hpCanvas: {fileID: 2814040320864807266}
   bossScreenHPBar: {fileID: 0}
@@ -234,7 +234,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   ledgeCheckLength: 1
-  mantisAttackDamage: 70
+  mantisAttackDamage: 80
   attackHitDelay: 1
   attackFullDuration: 2
   attackCooldown: 4

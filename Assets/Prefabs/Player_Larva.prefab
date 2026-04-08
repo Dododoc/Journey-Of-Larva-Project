@@ -529,4 +529,4 @@ MonoBehaviour:
   bonusDefense: 0
   bonusMaxHp: 0
   interactPrompt: {fileID: 3249336740792729095}
-  fallDeathY: -20
+  fallDeathY: -40

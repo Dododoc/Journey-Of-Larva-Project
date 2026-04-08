@@ -208,14 +208,14 @@ MonoBehaviour:
   sandRainCount: 3
   chargeStartDelay: 1.5
   diggingChaseTime: 3
-  touchDamage: 40
-  spikeDamage: 50
-  stoneDamage: 35
-  digOutDamage: 70
+  touchDamage: 80
+  spikeDamage: 60
+  stoneDamage: 45
+  digOutDamage: 100
   vortexPullRange: 25
   vortexDamageRange: 10
-  vortexMinDamage: 30
-  vortexMaxDamage: 60
+  vortexMinDamage: 40
+  vortexMaxDamage: 80
   endingPortalPrefab: {fileID: 8389347753140264498, guid: 5511e904fda4f4b52a1d8c4ac57c120e, type: 3}
   portalSpawnOffset: {x: 0, y: 2, z: 0}
 --- !u!50 &5188841977601333618

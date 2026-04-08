@@ -3,52 +3,84 @@ using UnityEngine.SceneManagement;
 
 public class ConditionalPortal : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        // 1. 플레이어가 포탈에 닿았는지 확인
-        if (collision.CompareTag("Player"))
-        {
-            // 2. 현재 정보 가져오기 (내 캐릭터 종류, 지금 씬 이름)
-            GameManager.CharacterType currentType = GameManager.instance.currentCharacter;
-            string currentSceneName = SceneManager.GetActiveScene().name;
+    private bool isPlayerNearby = false;
 
-            // --- [개미(Ant)일 때 이동 로직] ---
-            if (currentType == GameManager.CharacterType.Ant)
+    void Update()
+    {
+        // ★ 플레이어가 근처에 있고 F키를 누르면 이동 로직 실행!
+        if (isPlayerNearby && Input.GetKeyDown(KeyCode.F))
+        {
+            ActivatePortal();
+        }
+    }
+
+    void ActivatePortal()
+    {
+        // ★ 포탈 타기 직전에 플레이어의 현재 체력과 스탯을 GameManager에 싹 저장합니다!
+        PlayerStats player = FindFirstObjectByType<PlayerStats>();
+        if (player != null) player.SaveStatsToManager();
+
+        GameManager.CharacterType currentType = GameManager.instance.currentCharacter;
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        // --- [개미(Ant)일 때 이동 로직] ---
+        if (currentType == GameManager.CharacterType.Ant)
+        {
+            if (currentSceneName == "Ant Stage")
             {
-                // 만약 지금 'Ant Stage'라면 -> 'ant ghost map'으로 이동
-                if (currentSceneName == "Ant Stage")
-                {
-                    Debug.Log("개미 유령 맵으로 이동!");
-                    SceneManager.LoadScene("ant ghost map");
-                }
-                // 만약 다른 곳(예: 첫 시작 마을)이라면 -> 'Ant Stage'로 이동 (기존 로직 유지)
-                else
-                {
-                    Debug.Log("개미 스테이지로 이동!");
-                    SceneManager.LoadScene("Ant Stage");
-                }
+                Debug.Log("개미 유령 맵으로 이동!");
+                SceneManager.LoadScene("ant ghost map");
             }
-            // --- [풍뎅이(Beetle)일 때 이동 로직] ---
-            else if (currentType == GameManager.CharacterType.Beetle)
-            {
-                // 만약 지금 'Beetle Map'이라면 -> 'Ant boss map'으로 이동
-                if (currentSceneName == "Beetle Map")
-                {
-                    Debug.Log("보스 맵으로 이동!");
-                    SceneManager.LoadScene("boss mantis map");
-                }
-                // 다른 곳이라면 -> 'Beetle Map'으로 이동
-                else
-                {
-                    Debug.Log("풍뎅이 맵으로 이동!");
-                    SceneManager.LoadScene("Beetle Map");
-                }
-            }
-            // --- [그 외(라바 등)] ---
             else
             {
-                Debug.Log("아직 이동할 수 없는 상태입니다.");
+                Debug.Log("개미 스테이지로 이동!");
+                SceneManager.LoadScene("Ant Stage");
             }
+        }
+        // --- [풍뎅이(Beetle)일 때 이동 로직] ---
+        else if (currentType == GameManager.CharacterType.Beetle)
+        {
+            if (currentSceneName == "Beetle Map")
+            {
+                Debug.Log("보스 맵으로 이동!");
+                SceneManager.LoadScene("boss mantis map");
+            }
+            else
+            {
+                Debug.Log("풍뎅이 맵으로 이동!");
+                SceneManager.LoadScene("Beetle Map");
+            }
+        }
+        // --- [그 외(라바 등)] ---
+        else
+        {
+            Debug.Log("아직 이동할 수 없는 상태입니다.");
+        }
+    }
+
+    // 포탈 근처에 다가갔을 때 (레이더망)
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            isPlayerNearby = true;
+            
+            // F키 팝업 띄우기
+            PlayerStats player = collision.GetComponent<PlayerStats>();
+            if (player != null) player.AddNearbyItem();
+        }
+    }
+
+    // 포탈에서 멀어졌을 때
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            isPlayerNearby = false;
+            
+            // F키 팝업 끄기
+            PlayerStats player = collision.GetComponent<PlayerStats>();
+            if (player != null) player.RemoveNearbyItem();
         }
     }
 }

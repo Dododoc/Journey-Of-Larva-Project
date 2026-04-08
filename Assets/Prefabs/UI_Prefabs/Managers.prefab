@@ -5829,12 +5829,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   charFaceImage: {fileID: 9213969180966884154}
   evolutionPanel: {fileID: 9136388858627729936}
-  evoPanelBackground: {fileID: 3983315780814147127}
+  evoPanelBackground: {fileID: 6902514868905322535}
   redCloakBG: {fileID: -3036353921114502131, guid: d56a44d20436a924c8cbe3315b5b2f9f, type: 3}
   goldenCasqueBG: {fileID: -8088321999171538274, guid: 3d7cf9e3450e56e459b45df8f4d873d9, type: 3}
   evolutionFaces:
   - {fileID: -896485310630103726, guid: 74bd908e2515303439cbb1ca594f7562, type: 3}
-  - {fileID: -5321607918524147536, guid: 25c68808854354122a7f888bd95b44cf, type: 3}
+  - {fileID: -2287669273402988447, guid: 25c68808854354122a7f888bd95b44cf, type: 3}
   - {fileID: -681296081612547810, guid: 9724df16c19cd432984e2d340766e0d9, type: 3}
   evoTitleText: {fileID: 4357430365503075576}
   evoDescText: {fileID: 2969737680522011397}
@@ -5916,6 +5916,10 @@ MonoBehaviour:
   globalXP: 0
   globalMaxXP: 100
   globalLevel: 1
+  globalCurrentHp: -1
+  globalBonusAttack: 0
+  globalBonusDefense: 0
+  globalBonusMaxHp: 0
   playTime: 0
   killCount: 0
 --- !u!1 &7260715831585748443

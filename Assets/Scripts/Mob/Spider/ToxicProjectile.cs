@@ -5,7 +5,7 @@ public class ToxicProjectile : MonoBehaviour
     public float speed = 12f;
     public GameObject groundEffectPrefab;
     
-    // ★ [추가] 독 지속 시간 (인스펙터에서 조절 가능)
+    // ★ 독 지속 시간 (인스펙터에서 조절 가능)
     public float poisonDuration = 3.0f; 
     
     private Vector2 moveDirection;
@@ -40,8 +40,12 @@ public class ToxicProjectile : MonoBehaviour
             PlayerStats pStats = other.GetComponent<PlayerStats>();
             if (pStats != null) 
             {
-                // ★ [수정] TakeDamage 대신 ApplyPoison을 호출하여 도트 딜 부여!
-                pStats.ApplyPoison(damage, poisonDuration);
+                // ★ [핵심 수정] 1. 일단 뼈아픈 직격 데미지를 한 방 먹입니다!
+                pStats.TakeDamage(damage);
+                
+                // ★ [핵심 수정] 2. 그리고 독 상태이상을 추가로 부여합니다. 
+                // (독 딜은 직격 데미지의 절반인 0.5f를 곱해서 넣었습니다. 원하시면 숫자를 조절하세요!)
+                pStats.ApplyPoison(damage * 0.5f, poisonDuration);
             }
             
             Destroy(gameObject); 

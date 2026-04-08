@@ -168,9 +168,9 @@ MonoBehaviour:
   isStunned: 0
   introHeight: 50
   introFallSpeed: 80
-  bodyContactDamage: 40
+  bodyContactDamage: 80
   thrustSpeed: 80
-  xSlashDamage: 45
+  xSlashDamage: 60
   xSlashRange: 10.03
   xSlashEffectPrefab: {fileID: 349183158413258032, guid: ddc3647f0fce94949b940fe8dce55373, type: 3}
   thrustFirePoint: {fileID: 4051068546136860402}
@@ -188,14 +188,14 @@ MonoBehaviour:
   jumpUpSpeed: 40
   jumpHeight: 50
   dropSpeed: 100
-  landDamage: 60
+  landDamage: 120
   landRadius: 4
   landEffectPrefab: {fileID: 6489759666945512121, guid: 9c577ed0bdd9b4a4b83b9c4ac9fcc127, type: 3}
   spitProjectilePrefab: {fileID: 2712602170654562102, guid: ecc5abcc43a13a94fa6067ddc5210c06, type: 3}
   trapPrefab: {fileID: 2035757496907903113, guid: 2c34625832386734d92db730e7c7d524, type: 3}
   grabDashSpeed: 12
   holdPoint: {fileID: 1861818637047526524}
-  grabTotalDamage: 100
+  grabTotalDamage: 120
   grabDuration: 3
 --- !u!50 &1746885116239551728
 Rigidbody2D:

@@ -663,7 +663,7 @@ MonoBehaviour:
   bonusDefense: 0
   bonusMaxHp: 0
   interactPrompt: {fileID: 895090910548104396}
-  fallDeathY: -20
+  fallDeathY: -40
 --- !u!50 &6464880761573251279
 Rigidbody2D:
   serializedVersion: 5

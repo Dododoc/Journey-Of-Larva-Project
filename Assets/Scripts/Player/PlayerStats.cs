@@ -49,26 +49,57 @@ public class PlayerStats : MonoBehaviour
     {
         if (playerHUD == null) playerHUD = FindFirstObjectByType<PlayerHUD>();
         sr = GetComponent<SpriteRenderer>();
-
         startPosition = transform.position;
 
+        // ★ GameManager에서 정보를 받아오는 부분 (Start)
         if (GameManager.instance != null)
         {
+            // ==========================================
+            // ★ [버그 해결!] 현재 캐릭터가 진화형(개미/풍뎅이)이라면 기본 체력통을 무조건 200으로 고정!
+            // ==========================================
+            if (GameManager.instance.currentCharacter != GameManager.CharacterType.Larva)
+            {
+                maxHp = 200f;
+            }
+            else
+            {
+                maxHp = 100f; // 애벌레는 100
+            }
+
             currentLevel = GameManager.instance.globalLevel;
             currentExp = GameManager.instance.globalXP;
+
+            // ★ 보너스 스탯도 받아오기
+            bonusAttack = GameManager.instance.globalBonusAttack;
+            bonusDefense = GameManager.instance.globalBonusDefense;
+            bonusMaxHp = GameManager.instance.globalBonusMaxHp;
 
             if (GameManager.instance.currentCharacter != GameManager.CharacterType.Larva)
             {
                 if (currentLevel == 1 && currentExp > 0)
                 {
-                    Debug.LogWarning("⚠️ 진화 직후 잔여 경험치 감지! 강제로 0으로 초기화합니다.");
                     currentExp = 0;
                     GameManager.instance.globalXP = 0;
                 }
             }
             
             CalculateNextLevelExp();
-            currentHp = TotalMaxHp; 
+
+            // ★ 이전 맵에서의 체력이 기억되어 있다면 그 체력으로 설정
+            if (GameManager.instance.globalCurrentHp > 0)
+            {
+                currentHp = GameManager.instance.globalCurrentHp;
+                
+                // ★ [추가 안전장치] 혹시라도 현재 체력이 최대 체력을 뚫고 나갔다면 꽉 찬 상태로 눌러줍니다!
+                if (currentHp > TotalMaxHp) 
+                {
+                    currentHp = TotalMaxHp; 
+                }
+            }
+            else
+            {
+                currentHp = TotalMaxHp; 
+            }
         }
         else
         {
@@ -86,6 +117,21 @@ public class PlayerStats : MonoBehaviour
         if(rb != null) defaultGravity = rb.gravityScale;
     }
 
+    // ★ 정보를 GameManager에 맡기는 부분 (Save)
+    public void SaveStatsToManager()
+    {
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.globalLevel = currentLevel;
+            GameManager.instance.globalXP = (int)currentExp; 
+            
+            // ★ 체력과 보너스 스탯도 잊지 않고 저장!
+            GameManager.instance.globalCurrentHp = currentHp;
+            GameManager.instance.globalBonusAttack = bonusAttack;
+            GameManager.instance.globalBonusDefense = bonusDefense;
+            GameManager.instance.globalBonusMaxHp = bonusMaxHp;
+        }
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.J)) GainExp(50); 
@@ -170,15 +216,7 @@ public class PlayerStats : MonoBehaviour
         if(currentExp >= expToNextLevel) LevelUp();
     }
 
-    void SaveStatsToManager()
-    {
-        if (GameManager.instance != null)
-        {
-            GameManager.instance.globalLevel = currentLevel;
-            GameManager.instance.globalXP = (int)currentExp; 
-        }
-    }
-
+    
     void CalculateNextLevelExp()
     {
         expToNextLevel = currentLevel * 100f * (1f + currentLevel * 0.1f);
@@ -212,10 +250,28 @@ public class PlayerStats : MonoBehaviour
         currentExp = 0;
         
         CalculateNextLevelExp();
-        currentHp = TotalMaxHp;
+        
+        // ==========================================
+        // ★ [핵심 수정] 진화 시 기본 최대 체력통을 200으로 진화시킴!
+        // ==========================================
+        maxHp = 200f; 
+        
+        // ★ 현재 체력을 뻥튀기된 총 최대 체력(200 + 그동안 쌓은 보너스)으로 꽉 채워줌!
+        currentHp = TotalMaxHp; 
 
         SaveStatsToManager();
         UpdateUI();
+
+        // 진화 직후 퀘스트 UI 끄기
+        if (QuestManager.instance != null)
+        {
+            QuestManager.instance.gameObject.SetActive(false);
+        }
+        else
+        {
+            GameObject questUI = GameObject.Find("QuestCanvas"); 
+            if (questUI != null) questUI.SetActive(false);
+        }
 
         UIManager uiManager = FindFirstObjectByType<UIManager>();
         if (uiManager != null)

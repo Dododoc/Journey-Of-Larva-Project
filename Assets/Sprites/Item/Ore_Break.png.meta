@@ -1,0 +1,512 @@
+fileFormatVersion: 2
+guid: b5e2eef197920ad4ba3ac2ee3710e11d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -797423699103891829
+    second: Ore_Break_0
+  - first:
+      213: 3835745213548536075
+    second: Ore_Break_1
+  - first:
+      213: -8239395311788587759
+    second: Ore_Break_2
+  - first:
+      213: -1755030667168767734
+    second: Ore_Break_3
+  - first:
+      213: -1951775616691102089
+    second: Ore_Break_4
+  - first:
+      213: -1517501138839076048
+    second: Ore_Break_5
+  - first:
+      213: 7320250828781165163
+    second: Ore_Break_6
+  - first:
+      213: 9059501912990697979
+    second: Ore_Break_7
+  - first:
+      213: -6081927297848331405
+    second: Ore_Break_8
+  - first:
+      213: 8656756318233279369
+    second: Ore_Break_9
+  - first:
+      213: -7364218951676572689
+    second: Ore_Break_10
+  - first:
+      213: 4657562884884306781
+    second: Ore_Break_11
+  - first:
+      213: -6416729043305721930
+    second: Ore_Break_12
+  - first:
+      213: 3662272492722271009
+    second: Ore_Break_13
+  - first:
+      213: 5196360311141769537
+    second: Ore_Break_14
+  - first:
+      213: 465477806599198267
+    second: Ore_Break_15
+  - first:
+      213: -277084616692064135
+    second: Ore_Break_16
+  - first:
+      213: -4505453254458317771
+    second: Ore_Break_17
+  - first:
+      213: -2419289421124469676
+    second: Ore_Break_18
+  - first:
+      213: 1967298852177009076
+    second: Ore_Break_19
+  - first:
+      213: 3843027041384407823
+    second: Ore_Break_20
+  - first:
+      213: -5862479064500431009
+    second: Ore_Break_21
+  - first:
+      213: 5229907144733460612
+    second: Ore_Break_22
+  - first:
+      213: 7000778530835562696
+    second: Ore_Break_23
+  - first:
+      213: -1724894749801093854
+    second: Ore_Break_24
+  - first:
+      213: 1581890014770434474
+    second: Ore_Break_25
+  - first:
+      213: 6263020344931036768
+    second: Ore_Break_26
+  - first:
+      213: 2274123402476823483
+    second: Ore_Break_27
+  - first:
+      213: -4146714617357803632
+    second: Ore_Break_28
+  - first:
+      213: -6430603636981073920
+    second: Ore_Break_29
+  - first:
+      213: -2392682194720921482
+    second: Ore_Break_30
+  - first:
+      213: 4798551272200410370
+    second: Ore_Break_31
+  - first:
+      213: 7276828220843609402
+    second: Ore_Break_32
+  - first:
+      213: 788208920798850902
+    second: Ore_Break_33
+  - first:
+      213: 415729484337242764
+    second: Ore_Break_34
+  - first:
+      213: -1991616495517611043
+    second: Ore_Break_35
+  - first:
+      213: 5669985569475555510
+    second: Ore_Break_36
+  - first:
+      213: -3685290004941007943
+    second: Ore_Break_37
+  - first:
+      213: -8630957381477109982
+    second: Ore_Break_38
+  - first:
+      213: -2320212906305475574
+    second: Ore_Break_39
+  - first:
+      213: -8351741973226761734
+    second: Ore_Break_40
+  - first:
+      213: -2826314373957913522
+    second: Ore_Break_41
+  - first:
+      213: 8398950412034518290
+    second: Ore_Break_42
+  - first:
+      213: -2090641523272861721
+    second: Ore_Break_43
+  - first:
+      213: -7552770998682307434
+    second: Ore_Break_44
+  - first:
+      213: -1250540848350184502
+    second: Ore_Break_45
+  - first:
+      213: 8279977405960802545
+    second: Ore_Break_46
+  - first:
+      213: -8280291771692017767
+    second: Ore_Break_47
+  - first:
+      213: -8068795125535895882
+    second: Ore_Break_48
+  - first:
+      213: -8841078417799359002
+    second: Ore_Break_49
+  - first:
+      213: 6306947489740107118
+    second: Ore_Break_50
+  - first:
+      213: -2070233261432666810
+    second: Ore_Break_51
+  - first:
+      213: -2759132419499833823
+    second: Ore_Break_52
+  - first:
+      213: 4767171754762914609
+    second: Ore_Break_53
+  - first:
+      213: 8195067823259334914
+    second: Ore_Break_54
+  - first:
+      213: -6019632729833298984
+    second: Ore_Break_55
+  - first:
+      213: -6643934326870581841
+    second: Ore_Break_56
+  - first:
+      213: 5527422295361714640
+    second: Ore_Break_57
+  - first:
+      213: 6189123499661028947
+    second: Ore_Break_58
+  - first:
+      213: 8177751267713896645
+    second: Ore_Break_59
+  - first:
+      213: 7180042136877586230
+    second: Ore_Break_60
+  - first:
+      213: 988447093335785152
+    second: Ore_Break_61
+  - first:
+      213: 5531914736825617323
+    second: Ore_Break_62
+  - first:
+      213: -5460012164066021471
+    second: Ore_Break_63
+  - first:
+      213: 1603663976024572881
+    second: Ore_Break_64
+  - first:
+      213: 6091318446619204688
+    second: Ore_Break_65
+  - first:
+      213: 458526079164890288
+    second: Ore_Break_66
+  - first:
+      213: -6669591715520172141
+    second: Ore_Break_67
+  - first:
+      213: 7942013384876674880
+    second: Ore_Break_68
+  - first:
+      213: 4075029507327439452
+    second: Ore_Break_69
+  - first:
+      213: -6013980722175924968
+    second: Ore_Break_70
+  - first:
+      213: 1002642883256980636
+    second: Ore_Break_71
+  - first:
+      213: 1558400084825838482
+    second: Ore_Break_72
+  - first:
+      213: 2786193592760918277
+    second: Ore_Break_73
+  - first:
+      213: 6446440738485967319
+    second: Ore_Break_74
+  - first:
+      213: -595062642513616651
+    second: Ore_Break_75
+  - first:
+      213: 4681441105349346106
+    second: Ore_Break_76
+  - first:
+      213: -640520571319088473
+    second: Ore_Break_77
+  - first:
+      213: 8600233444065913138
+    second: Ore_Break_78
+  - first:
+      213: -1470388427861867712
+    second: Ore_Break_79
+  - first:
+      213: 3757608507186390501
+    second: Ore_Break_80
+  - first:
+      213: 918765953708473233
+    second: Ore_Break_81
+  - first:
+      213: 6535242391282520917
+    second: Ore_Break_82
+  - first:
+      213: 4215737352244402305
+    second: Ore_Break_83
+  - first:
+      213: -3220656078520624649
+    second: Ore_Break_84
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 50
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Ore_Break_0
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 301
+        width: 224
+        height: 210
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8e3f6fde5bfee4f0800000000000000
+      internalID: -797423699103891829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ore_Break_1
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 300
+        width: 234
+        height: 211
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b012776f2fd4b3530800000000000000
+      internalID: 3835745213548536075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ore_Break_2
+      rect:
+        serializedVersion: 2
+        x: 733
+        y: 300
+        width: 236
+        height: 212
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11582dc3e99c7ad80800000000000000
+      internalID: -8239395311788587759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ore_Break_3
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 16
+        width: 253
+        height: 242
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a012d7128e0e4a7e0800000000000000
+      internalID: -1755030667168767734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ore_Break_4
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 15
+        width: 320
+        height: 261
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77e9bd5ea66e9e4e0800000000000000
+      internalID: -1951775616691102089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ore_Break_5
+      rect:
+        serializedVersion: 2
+        x: 697
+        y: 15
+        width: 316
+        height: 259
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0330f3911c0c0fae0800000000000000
+      internalID: -1517501138839076048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 7bedec6b6c10576499345498282e6d9e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":2.0},"gridSpriteSize":{"x":341.0,"y":279.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Ore_Break_0: -797423699103891829
+      Ore_Break_1: 3835745213548536075
+      Ore_Break_2: -8239395311788587759
+      Ore_Break_3: -1755030667168767734
+      Ore_Break_4: -1951775616691102089
+      Ore_Break_5: -1517501138839076048
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

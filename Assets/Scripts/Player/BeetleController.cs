@@ -826,7 +826,12 @@ IEnumerator FlashGoldEffect()
             EnemyStats es = enemy.GetComponentInParent<EnemyStats>(); 
             float finalDmg = (myStats != null) ? myStats.TotalAttack + addDamage : 30f; 
             if (es != null) es.TakeDamage(finalDmg);
-            
+            // ==========================================
+            // ★ [추가] 다이브 공격 시 황금 광석 타격 판정!
+            // ==========================================
+            UltOre ore = enemy.GetComponentInParent<UltOre>();
+            if (ore != null) ore.TakeDamage(finalDmg);
+            // ==========================================
             // 2. 넉백 처리 (부모 Rigidbody 참조)
             SpiderAI spider = enemy.GetComponentInParent<SpiderAI>();
             if (spider != null) spider.ApplyKnockback(new Vector2(knockback, 0)); 
@@ -890,6 +895,12 @@ IEnumerator FlashGoldEffect()
             // 1. 데미지는 무조건 적용
             EnemyStats es = enemy.GetComponentInParent<EnemyStats>();
             if (es != null) es.TakeDamage(finalDmg);
+            // ==========================================
+            // ★ [추가] 일반 공격 시 황금 광석 타격 판정!
+            // ==========================================
+            UltOre ore = enemy.GetComponentInParent<UltOre>();
+            if (ore != null) ore.TakeDamage(finalDmg);
+            // ==========================================
             
             // 2. ★ 넉백 힘(knockbackForce)이 0보다 클 때만 밀어내고 경직(Stun) 상태를 줍니다!
             if (knockbackForce > 0f)

@@ -5920,8 +5920,12 @@ MonoBehaviour:
   globalBonusAttack: 0
   globalBonusDefense: 0
   globalBonusMaxHp: 0
+  targetPortalID: 
   playTime: 0
   killCount: 0
+  larvaPrefab: {fileID: 7069903468197304612, guid: 12ace6ce62ade0646b60799698de4b1a, type: 3}
+  antPrefab: {fileID: 2883033676194067544, guid: e6a0cbf46654e48449974e7dad349663, type: 3}
+  beetlePrefab: {fileID: 3351078800972844937, guid: 3c8e5f0801f734b139638f5a869c0c21, type: 3}
 --- !u!1 &7260715831585748443
 GameObject:
   m_ObjectHideFlags: 0

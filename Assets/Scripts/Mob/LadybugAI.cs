@@ -60,22 +60,23 @@ public class LadybugAI : BaseEnemyAI
         
         float currentDist = transform.position.x - startPos.x;
         
-        // ★ 낭떠러지 센서와 벽 센서 둘 다 작동!
         bool isLedge = IsLedgeAhead(patrolDir); 
         bool isWall = IsWallAhead(patrolDir);
 
-        // 순찰 거리 끝에 도달했거나, '낭떠러지'나 '벽'을 만나면 뒤로 돌기!
         if ((currentDist >= patrolDistance && patrolDir > 0) || (patrolDir > 0 && (isLedge || isWall))) 
         { 
             patrolDir = -1; 
-            LookAt(transform.position.x + patrolDir); 
         }
         else if ((currentDist <= -patrolDistance && patrolDir < 0) || (patrolDir < 0 && (isLedge || isWall))) 
         { 
             patrolDir = 1; 
-            LookAt(transform.position.x + patrolDir); 
         }
         
+        // ==========================================
+        // ★ [핵심 고침] 이동하기 직전에 무조건 내가 이동할 방향(patrolDir)으로 고개를 돌리게 강제 동기화합니다!
+        // ==========================================
+        LookAt(transform.position.x + patrolDir); 
+
         rb.linearVelocity = new Vector2(patrolDir * moveSpeed, rb.linearVelocity.y);
     }
 }

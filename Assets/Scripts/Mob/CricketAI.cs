@@ -96,30 +96,52 @@ public class CricketAI : BaseEnemyAI
         else
             dirX = Random.Range(0, 2) == 0 ? -1f : 1f;
             
-        // ===================================================
-        // ★ [수정] 기존 코앞 센서 대신, 귀뚜라미 전용 장거리 센서 사용!
+        // 장거리 센서 확인
         if (!IsSafeToJump(dirX))
         {
-            dirX *= -1f; // 위험하면 반대로 뜀
-
-            // 만약 반대쪽도 벽이거나 낭떠러지라면? (양쪽 다 막힘)
-            if (!IsSafeToJump(dirX))
-            {
-                dirX = 0f; // 제자리에서 위로만 뜀!
-            }
+            dirX *= -1f; 
+            if (!IsSafeToJump(dirX)) dirX = 0f; 
         }
-        // ===================================================
         
-        // dirX가 0이면 원래 보던 방향을 유지함
         if (dirX != 0f) LookAt(transform.position.x + dirX);
 
+        // ===================================================
+        // ★ 1. 점프 준비 애니메이션 즉시 시작 (다리 펴기)
+        // ===================================================
         if (anim != null) 
         {
             anim.SetTrigger("DoJump"); 
-            anim.SetBool("IsGrounded", false);
         }
 
-        yield return new WaitForSeconds(jumpPreDelay);
+        // ===================================================
+        // ★ 2. 다리를 펴는 시간(0.25초) 동안 꾹 참고 대기!
+        // ===================================================
+        yield return new WaitForSeconds(0.25f);
+
+        // 대기하는 동안 맞거나 잡혔으면 점프 취소
+        if (isKnockedBack || isGrabbed) 
+        {
+            isJumpingSequence = false;
+            yield break;
+        }
+
+        // ===================================================
+        // ★ 3. 땅을 박차고 실제 점프! (1.125초 체공)
+        // ===================================================
+        if (anim != null) anim.SetBool("IsGrounded", false);
+
+        float airTime = 1.5f * 0.75f;     // 1.125초 (공중에 떠 있는 시간)
+        float landingTime = 1.5f * 0.25f; // 0.375초 (착지 후 웅크린 시간)
+
+        // 현재 중력을 바탕으로 정확히 1.125초 동안 체공할 수 있는 Y축 속도 역산
+        float g = Mathf.Abs(Physics2D.gravity.y * rb.gravityScale);
+        float jumpVelocityY = (airTime * g) / 2f;
+        float jumpVelocityX = dirX * moveForce;
+
+        rb.linearVelocity = new Vector2(jumpVelocityX, jumpVelocityY);
+
+        // 정확히 체공 시간(1.125초)만큼만 대기
+        yield return new WaitForSeconds(airTime);
 
         if (isKnockedBack || isGrabbed) 
         {
@@ -127,11 +149,14 @@ public class CricketAI : BaseEnemyAI
             yield break;
         }
 
+        // ===================================================
+        // ★ 4. 1.125초 후 정확히 땅에 닿음 -> 착지 연출(0.375초)
+        // ===================================================
         rb.linearVelocity = Vector2.zero; 
-        Vector2 jumpVec = new Vector2(dirX * moveForce, hopForce);
-        rb.AddForce(jumpVec, ForceMode2D.Impulse);
+        if (anim != null) anim.SetBool("IsGrounded", true);
 
-        yield return new WaitForSeconds(0.1f);
+        // 나머지 착지 애니메이션이 재생될 시간 대기
+        yield return new WaitForSeconds(landingTime);
 
         waitTimer = Random.Range(jumpIntervalMin, jumpIntervalMax);
         isJumpingSequence = false;

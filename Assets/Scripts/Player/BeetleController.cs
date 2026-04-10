@@ -572,28 +572,14 @@ IEnumerator FlashGoldEffect()
             isInvincible = false;
             anim.Play("Beetle_Idle"); 
 
-            if (currentAura != null) 
-            {
-                ParticleSystem auraPS = currentAura.GetComponent<ParticleSystem>();
-                if (auraPS != null) 
-                {
-                    auraPS.Stop(); 
-                    currentAura.transform.parent = null; 
-
-                    // ★ [버그 수정] 왼쪽(-1)을 보다가 끊어져도 파티클이 찢어지지 않게 크기를 강제로 정상화(1) 시킵니다!
-                    currentAura.transform.localScale = Vector3.one; 
-                    currentAura.transform.rotation = Quaternion.Euler(-90f, 0f, 0f); // 하늘 방향 고정
-                    
-                    Destroy(currentAura, 1.5f); 
-                }
-                else 
-                {
-                    Destroy(currentAura);
-                }
-            }
-
+            // 쿨타임은 정상적으로 돌리기 시작
             Invoke("ResetUltCooldown", ultCooldown);
-            yield break;
+
+            // ★ [수정됨] 이펙트를 즉시 끄지 않고 3초 뒤에 끄도록 별도의 코루틴 실행!
+            StartCoroutine(MissedUltimateVFXRoutine(originalTrailPos, currentAura));
+            
+            // 현재 궁극기 코루틴은 여기서 종료 (플레이어는 즉시 움직일 수 있음)
+            yield break; 
         }
 
         // ==================================================
@@ -808,6 +794,42 @@ IEnumerator FlashGoldEffect()
         isInvincible = false;
 
         // (기존에 있던 yield return new WaitForSeconds(ultCooldown); 과 canUltimate = true; 는 지워주세요!)
+    }
+    // ==================================================
+    // ★ [새로 추가] 궁극기가 빗나갔을 때 이펙트를 3초 유지하고 끄는 코루틴
+    // ==================================================
+    IEnumerator MissedUltimateVFXRoutine(Vector3 origTrailPos, GameObject auraInstance)
+    {
+        // 1. 3초 동안 대기합니다 (이펙트가 켜진 채로 풍뎅이를 따라다니며 멋짐을 뽐냅니다!)
+        yield return new WaitForSeconds(3.0f);
+
+        // 2. 3초가 지나면 뿔의 금빛 잔상을 부드럽게 끕니다.
+        if (hornTrail != null) 
+        {
+            hornTrail.emitting = false; 
+            hornTrail.transform.localPosition = origTrailPos; 
+        }
+
+        // 3. 3초가 지나면 몸을 감싸던 금빛 아우라도 자연스럽게 끕니다.
+        if (auraInstance != null) 
+        {
+            ParticleSystem auraPS = auraInstance.GetComponent<ParticleSystem>();
+            if (auraPS != null) 
+            {
+                auraPS.Stop(); // 파티클 생성을 멈춤 (이미 나온 빛무리는 자연스럽게 흩어짐)
+                auraInstance.transform.parent = null; // 풍뎅이에게서 분리
+                
+                // 파티클이 찢어지거나 이상한 방향으로 고정되는 현상 방지
+                auraInstance.transform.localScale = Vector3.one; 
+                auraInstance.transform.rotation = Quaternion.Euler(-90f, 0f, 0f); 
+                
+                Destroy(auraInstance, 1.5f); // 잔해가 사라질 때까지 1.5초 대기 후 완전 삭제
+            }
+            else 
+            {
+                Destroy(auraInstance);
+            }
+        }
     }
     // ★ [수정] 중복 데미지 방지 (HashSet 사용)
     void PerformAreaDamage(float addDamage, float knockback) 

@@ -18,11 +18,10 @@ public class UltOre : MonoBehaviour
     public GameObject hpCanvas;      
     public Image hpFillImage;        
 
-    // ==========================================
-    // ★ [추가됨] 직접 만드신 해금 UI 캔버스를 연결할 변수입니다!
-    // ==========================================
     [Header("Unlock UI")]
     public GameObject unlockCanvas;  
+    public float uiDisplayTime = 2.5f; // UI가 떠 있는 시간
+    public float uiFadeTime = 1.0f;    // UI가 사라지는 데 걸리는 시간
 
     [Header("Effects & Unlock")]
     public GameObject goldAuraPrefab; 
@@ -41,12 +40,9 @@ public class UltOre : MonoBehaviour
     {
         currentHp = maxHp;
         startPos = transform.position;
-        
         anim = GetComponent<Animator>(); 
 
         if (hpCanvas != null) hpCanvas.SetActive(false);
-        
-        // ★ 시작할 때 해금 UI 캔버스도 일단 숨겨둡니다.
         if (unlockCanvas != null) unlockCanvas.SetActive(false); 
     }
 
@@ -62,28 +58,19 @@ public class UltOre : MonoBehaviour
     public void TakeDamage(float damage)
     {
         if (isDead) return;
-
-        if (hpCanvas != null && !hpCanvas.activeSelf)
-        {
-            hpCanvas.SetActive(true);
-        }
+        if (hpCanvas != null && !hpCanvas.activeSelf) hpCanvas.SetActive(true);
 
         currentHp -= damage;
         if (hpFillImage != null) hpFillImage.fillAmount = currentHp / maxHp;
 
         StartCoroutine(ShakeRoutine());
-
-        if (currentHp <= 0)
-        {
-            Die();
-        }
+        if (currentHp <= 0) Die();
     }
 
     IEnumerator ShakeRoutine()
     {
         isShaking = true;
         Vector3 originalPos = transform.position;
-
         float elapsed = 0.0f;
         while (elapsed < 0.2f)
         {
@@ -93,7 +80,6 @@ public class UltOre : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
         transform.position = originalPos;
         isShaking = false;
     }
@@ -101,7 +87,6 @@ public class UltOre : MonoBehaviour
     void Die()
     {
         isDead = true;
-        
         if (hpCanvas != null) hpCanvas.SetActive(false);
 
         allRenderers = GetComponentsInChildren<SpriteRenderer>();
@@ -117,10 +102,7 @@ public class UltOre : MonoBehaviour
 
     IEnumerator UnlockSequence()
     {
-        if (anim != null) 
-        {
-            anim.SetTrigger("DoBreak"); 
-        }
+        if (anim != null) anim.SetTrigger("DoBreak"); 
 
         yield return new WaitForSeconds(2.0f);
 
@@ -143,44 +125,56 @@ public class UltOre : MonoBehaviour
             if (beetle != null)
             {
                 beetle.isUltUnlocked = true; 
-                if (beetle.vSkillUI != null) 
-                {
-                    beetle.vSkillUI.UnlockSkill(); 
-                }
+                if (beetle.vSkillUI != null) beetle.vSkillUI.UnlockSkill(); 
             }
         }
 
         // ==========================================
-        // ★ [허수아비 방식] 캔버스를 짜잔! 하고 켭니다.
+        // ★ [UI 켜기]
         // ==========================================
         if (unlockCanvas != null)
         {
             unlockCanvas.SetActive(true);
+            // CanvasGroup이 없으면 코드로 자동 추가해줍니다.
+            if (unlockCanvas.GetComponent<CanvasGroup>() == null)
+                unlockCanvas.AddComponent<CanvasGroup>();
         }
 
-        // 보석 파편 스프라이트들만 투명하게 페이드 아웃 시킵니다 (UI는 영향받지 않음)
-        float fadeTime = 1.0f;
-        float timer = 0f;
-        while (timer < fadeTime)
+        // 보석 파편 페이드 아웃 (1초)
+        float shardFadeTime = 1.0f;
+        float shardTimer = 0f;
+        while (shardTimer < shardFadeTime)
         {
-            timer += Time.deltaTime;
-            float alpha = Mathf.Lerp(1, 0, timer / fadeTime);
-
+            shardTimer += Time.deltaTime;
+            float alpha = Mathf.Lerp(1, 0, shardTimer / shardFadeTime);
             foreach (SpriteRenderer sr in allRenderers)
             {
-                if (sr != null) 
-                {
-                    sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
-                }
+                if (sr != null) sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
             }
             yield return null;
         }
 
+        // 플레이어가 글자를 읽는 시간 대기
+        yield return new WaitForSeconds(uiDisplayTime); 
+
         // ==========================================
-        // ★ [매우 중요] UI 캔버스가 황금석의 자식이므로, 황금석이 파괴되면 UI도 같이 파괴됩니다.
-        // 플레이어가 UI 글자를 넉넉히 읽을 수 있도록 파괴하기 전에 2.5초 정도 더 기다려줍니다!
+        // ★ [핵심 추가] UI 페이드 아웃 (스르륵 사라짐)
         // ==========================================
-        yield return new WaitForSeconds(2.5f); 
+        if (unlockCanvas != null)
+        {
+            CanvasGroup uiGroup = unlockCanvas.GetComponent<CanvasGroup>();
+            float uiTimer = 0f;
+            while (uiTimer < uiFadeTime)
+            {
+                uiTimer += Time.deltaTime;
+                if (uiGroup != null)
+                {
+                    // 투명도를 1에서 0으로 서서히 줄입니다.
+                    uiGroup.alpha = Mathf.Lerp(1, 0, uiTimer / uiFadeTime);
+                }
+                yield return null;
+            }
+        }
 
         Debug.Log("황금 광석 연출 종료! 오브젝트를 파괴합니다.");
         Destroy(gameObject); 

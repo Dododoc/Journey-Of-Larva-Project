@@ -231,7 +231,7 @@ public class UIManager : MonoBehaviour
             timeString = string.Format("{0:00}:{1:00}", m, s);
 
             // ★ 주의: GameManager에 killCount 변수가 추가되어 있다면 주석을 해제하세요!
-            // kills = GameManager.instance.killCount; 
+            kills = GameManager.instance.killCount; 
         }
 
         // 스탯 텍스트 최종 조립
@@ -308,15 +308,22 @@ public class UIManager : MonoBehaviour
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         Time.timeScale = 1f; 
 
-        // ★ [핵심 1] GameManager의 데이터를 완전히 초기화합니다.
         if (GameManager.instance != null)
         {
-            GameManager.instance.ResetGameData(); // 이 함수는 2번에서 만들 겁니다!
+            // 1. 레벨, 경험치, 캐릭터(애벌레)를 모두 초기화합니다.
+            GameManager.instance.ResetGameData(); 
+            
+            // ==========================================
+            // ★ [추가] 마지막으로 탔던 포탈 티켓을 비워버립니다!
+            // 이렇게 해야 포탈에서 태어나지 않고 맨 처음 지점(InitialSpawnPoint)에서 태어납니다.
+            // ==========================================
+            GameManager.instance.targetPortalID = ""; 
         }
 
-        // ★ [핵심 2] 현재 씬이 아니라, 무조건 처음 시작하는 씬으로 보냅니다.
-        // "StartScene" 부분은 유저님의 실제 첫 맵 이름(예: "Village", "Stage1")으로 꼭 바꿔주세요!
-        SceneManager.LoadScene("StartScene"); 
+        // ==========================================
+        // ★ [수정] 무조건 맨 처음 시작 맵인 'Larva Stage'로 보냅니다!
+        // ==========================================
+        SceneManager.LoadScene("Larva Stage"); 
     }
     // ==========================================
 
@@ -375,7 +382,7 @@ public class UIManager : MonoBehaviour
             timeString = string.Format("{0:00}:{1:00}", m, s);
 
             // ★ 주의: GameManager에 killCount 변수가 추가되어 있다면 주석을 해제하세요!
-            // kills = GameManager.instance.killCount; 
+            kills = GameManager.instance.killCount; 
         }
 
         // 스탯 텍스트 최종 조립 (경험치도 포함!)

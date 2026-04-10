@@ -12,15 +12,21 @@ public class PlayerStats : MonoBehaviour
     public float currentExp = 0;
     public float expToNextLevel;
 
-    [Header("Base Stats (1레벨 기준)")]
+    [Header("Base Stats (기본 스탯)")]
     public float baseAttack = 10f;
     public float baseDefense = 5f;
     public float maxHp = 100f;
     public float currentHp;
+
+    [Header("Growth Per Level (레벨당 성장치)")]
+    public float hpPerLevel = 20f;      // 레벨당 체력 +20
+    public float attackPerLevel = 2f;   // 레벨당 공격력 +2
+    public float defensePerLevel = 1f;  // 레벨당 방어력 +1
+
     [Header("Status Effects (디버프 및 상태이상)")]
-    public float speedMultiplier = 1.0f; // 속도 배율
-    public bool isJumpDisabled = false;  // 점프 불가 상태
-    public bool isGrabbedByBoss = false; // 보스에게 잡힌 상태
+    public float speedMultiplier = 1.0f; 
+    public bool isJumpDisabled = false;  
+    public bool isGrabbedByBoss = false; 
     private float defaultGravity;
 
     [Header("Evolution Bonus Stats")]
@@ -31,9 +37,9 @@ public class PlayerStats : MonoBehaviour
     private Vector3 startPosition;
     private SpriteRenderer sr;
 
-    public float TotalAttack => (baseAttack * currentLevel) + bonusAttack;
-    public float TotalDefense => (baseDefense * currentLevel) + bonusDefense;
-    public float TotalMaxHp => (maxHp * currentLevel) + bonusMaxHp;
+    public float TotalAttack => baseAttack + ((currentLevel - 1) * attackPerLevel) + bonusAttack;
+    public float TotalDefense => baseDefense + ((currentLevel - 1) * defensePerLevel) + bonusDefense;
+    public float TotalMaxHp => maxHp + ((currentLevel - 1) * hpPerLevel) + bonusMaxHp;
     
     [Header("Interaction UI")]
     public GameObject interactPrompt; 
@@ -41,35 +47,33 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Death Setting")]
     public float fallDeathY = -40f;
-    
-    // ★ [추가] 죽었는지 체크하는 변수
     private bool isDead = false;
 
     void Start()
     {
         if (playerHUD == null) playerHUD = FindFirstObjectByType<PlayerHUD>();
         sr = GetComponent<SpriteRenderer>();
+
+        // ==========================================
+        // ★ [수정됨] GameManager가 정확한 포탈 위치에 소환해 주었으므로, 
+        // 이제 엉뚱한 곳으로 순간이동하는 코드를 지우고 그 자리표를 시작 위치로 저장만 합니다.
+        // ==========================================
         startPosition = transform.position;
 
-        // ★ GameManager에서 정보를 받아오는 부분 (Start)
         if (GameManager.instance != null)
         {
-            // ==========================================
-            // ★ [버그 해결!] 현재 캐릭터가 진화형(개미/풍뎅이)이라면 기본 체력통을 무조건 200으로 고정!
-            // ==========================================
             if (GameManager.instance.currentCharacter != GameManager.CharacterType.Larva)
             {
-                maxHp = 200f;
+                maxHp = 200f; // 진화체는 기본 체력이 200부터 시작
             }
             else
             {
-                maxHp = 100f; // 애벌레는 100
+                maxHp = 100f; 
             }
 
             currentLevel = GameManager.instance.globalLevel;
             currentExp = GameManager.instance.globalXP;
 
-            // ★ 보너스 스탯도 받아오기
             bonusAttack = GameManager.instance.globalBonusAttack;
             bonusDefense = GameManager.instance.globalBonusDefense;
             bonusMaxHp = GameManager.instance.globalBonusMaxHp;
@@ -85,16 +89,10 @@ public class PlayerStats : MonoBehaviour
             
             CalculateNextLevelExp();
 
-            // ★ 이전 맵에서의 체력이 기억되어 있다면 그 체력으로 설정
             if (GameManager.instance.globalCurrentHp > 0)
             {
                 currentHp = GameManager.instance.globalCurrentHp;
-                
-                // ★ [추가 안전장치] 혹시라도 현재 체력이 최대 체력을 뚫고 나갔다면 꽉 찬 상태로 눌러줍니다!
-                if (currentHp > TotalMaxHp) 
-                {
-                    currentHp = TotalMaxHp; 
-                }
+                if (currentHp > TotalMaxHp) currentHp = TotalMaxHp; 
             }
             else
             {
@@ -117,7 +115,6 @@ public class PlayerStats : MonoBehaviour
         if(rb != null) defaultGravity = rb.gravityScale;
     }
 
-    // ★ 정보를 GameManager에 맡기는 부분 (Save)
     public void SaveStatsToManager()
     {
         if (GameManager.instance != null)
@@ -125,13 +122,13 @@ public class PlayerStats : MonoBehaviour
             GameManager.instance.globalLevel = currentLevel;
             GameManager.instance.globalXP = (int)currentExp; 
             
-            // ★ 체력과 보너스 스탯도 잊지 않고 저장!
             GameManager.instance.globalCurrentHp = currentHp;
             GameManager.instance.globalBonusAttack = bonusAttack;
             GameManager.instance.globalBonusDefense = bonusDefense;
             GameManager.instance.globalBonusMaxHp = bonusMaxHp;
         }
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.J)) GainExp(50); 
@@ -139,7 +136,6 @@ public class PlayerStats : MonoBehaviour
 
         if (transform.position.y <= fallDeathY && currentHp > 0 && !isDead)
         {
-            Debug.Log("으아악! 떨어졌다!");
             currentHp = 0;
             UpdateUI();
             Die();
@@ -163,6 +159,7 @@ public class PlayerStats : MonoBehaviour
         SaveStatsToManager();
         UpdateUI(); 
     }
+
     public void SetDebuff(bool active, float speedMult)
     {
         if (active) 
@@ -189,12 +186,12 @@ public class PlayerStats : MonoBehaviour
             { 
                 rb.linearVelocity = Vector2.zero; 
                 rb.gravityScale = 0f; 
-                rb.bodyType = RigidbodyType2D.Kinematic; // ★ 추가: 충돌/밀려남 완벽 무시
+                rb.bodyType = RigidbodyType2D.Kinematic; 
             } 
             else 
             { 
                 rb.gravityScale = defaultGravity; 
-                rb.bodyType = RigidbodyType2D.Dynamic; // ★ 추가: 풀려나면 물리 엔진 다시 복구
+                rb.bodyType = RigidbodyType2D.Dynamic; 
             }
         }
     }
@@ -204,6 +201,8 @@ public class PlayerStats : MonoBehaviour
         currentLevel++;
         currentExp -= expToNextLevel; 
         CalculateNextLevelExp(); 
+        
+        // 레벨업 시 최대 체력으로 회복!
         currentHp = TotalMaxHp;  
         
         SaveStatsToManager();
@@ -214,9 +213,11 @@ public class PlayerStats : MonoBehaviour
         }
 
         if(currentExp >= expToNextLevel) LevelUp();
+        
+        // 레벨업 시 HUD에 증가한 최대 체력 반영을 위해 UI 갱신!
+        UpdateUI();
     }
 
-    
     void CalculateNextLevelExp()
     {
         expToNextLevel = currentLevel * 100f * (1f + currentLevel * 0.1f);
@@ -234,35 +235,27 @@ public class PlayerStats : MonoBehaviour
 
     public void Evolve(int selectedPathIndex)
     {
-        float bonusMultiplier = currentLevel * 0.5f; 
-        bonusAttack += 2f * bonusMultiplier;
-        bonusDefense += 1f * bonusMultiplier;
-        bonusMaxHp += 10f * bonusMultiplier;
+        bonusMaxHp += (currentLevel - 1) * hpPerLevel;
+        bonusAttack += (currentLevel - 1) * attackPerLevel;
+        bonusDefense += (currentLevel - 1) * defensePerLevel;
 
         switch (selectedPathIndex)
         {
-            case 0: bonusAttack += 10f; break;
-            case 1: bonusDefense += 10f; break;
-            case 2: bonusMaxHp += 50f; break;
+            case 0: bonusAttack += 10f; break;  
+            case 1: bonusDefense += 10f; break; 
+            case 2: bonusMaxHp += 50f; break;   
         }
 
         currentLevel = 1;
         currentExp = 0;
-        
         CalculateNextLevelExp();
         
-        // ==========================================
-        // ★ [핵심 수정] 진화 시 기본 최대 체력통을 200으로 진화시킴!
-        // ==========================================
         maxHp = 200f; 
-        
-        // ★ 현재 체력을 뻥튀기된 총 최대 체력(200 + 그동안 쌓은 보너스)으로 꽉 채워줌!
         currentHp = TotalMaxHp; 
 
         SaveStatsToManager();
         UpdateUI();
 
-        // 진화 직후 퀘스트 UI 끄기
         if (QuestManager.instance != null)
         {
             QuestManager.instance.gameObject.SetActive(false);
@@ -281,17 +274,10 @@ public class PlayerStats : MonoBehaviour
         }
     }
     
-    // ==========================================
-    // ★ [수정됨] 무적 판정 및 물리 정지 로직 반영
-    // ==========================================
     public void TakeDamage(float damage)
     {
-        // ★ 이미 죽었다면 데미지 무시!
         if (isDead) return;
 
-        // ==========================================
-        // ★ [추가] 컨트롤러의 무적 상태 확인
-        // ==========================================
         Larva_PlayerController larva = GetComponent<Larva_PlayerController>();
         if (larva != null && larva.isInvincible) return;
 
@@ -300,11 +286,10 @@ public class PlayerStats : MonoBehaviour
 
         BeetleController beetle = GetComponent<BeetleController>();
         if (beetle != null && beetle.isInvincible) return;
-        // ==========================================
 
         float defenseFactor = 100f / (100f + TotalDefense);
         float finalDamage = damage * defenseFactor;
-        finalDamage = Mathf.Max(1f, finalDamage); // 최소 데미지 1 보장
+        finalDamage = Mathf.Max(1f, finalDamage); 
         
         currentHp -= finalDamage;
 
@@ -336,44 +321,34 @@ public class PlayerStats : MonoBehaviour
     void Die()
     {
         Debug.Log("플레이어 사망!");
-        
-        // ★ 1. 죽음 판정 (중복 데미지 방지)
         isDead = true; 
 
-        // ★ 2. 충돌체 끄기 (적들이 통과하게 만듦)
         Collider2D[] colliders = GetComponents<Collider2D>();
         foreach (Collider2D col in colliders)
         {
             col.enabled = false; 
         }
 
-        // ★ 3. 리지드바디 정지 (날아가던 도중이었다면 허공에 정지)
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero; 
             rb.gravityScale = 0f;       
-            rb.bodyType = RigidbodyType2D.Kinematic; // 외부 넉백 무시
+            rb.bodyType = RigidbodyType2D.Kinematic; 
         }
 
-        // ★ 4. 사망 모션 재생 (컨트롤러의 Animator 활용)
         Animator anim = GetComponent<Animator>();
-
-        // ★ 5. 슬로우 모션 및 게임 오버 UI 연출 코루틴 시작
         StartCoroutine(DeathRoutine());
     }
 
     IEnumerator DeathRoutine()
     {
-        // [연출 1] 히트 스탑 (0.1초 화면 완전 정지)
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(0.1f); 
 
-        // [연출 2] 슬로우 모션으로 쓰러짐 감상 (1.5초 대기)
         Time.timeScale = 0.3f; 
         yield return new WaitForSecondsRealtime(1.5f); 
 
-        // [연출 3] 완전 정지 후 UI 띄우기
         Time.timeScale = 0f; 
         
         UIManager uiManager = FindFirstObjectByType<UIManager>();
@@ -385,7 +360,7 @@ public class PlayerStats : MonoBehaviour
 
     public void Respawn()
     {
-        isDead = false; // ★ 부활 시 죽음 판정 초기화
+        isDead = false; 
         currentLevel = 1;
         currentExp = 0;
         SaveStatsToManager();
@@ -394,12 +369,11 @@ public class PlayerStats : MonoBehaviour
         
         transform.position = startPosition;
 
-        // ★ 부활 시 리지드바디 및 콜라이더 원상복구
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if(rb != null) 
         {
             rb.bodyType = RigidbodyType2D.Dynamic;
-            rb.gravityScale = 1f; // 기본 중력값 (게임에 맞게 수정 필요 시 수정)
+            rb.gravityScale = 1f; 
             rb.linearVelocity = Vector2.zero; 
         }
 
@@ -416,7 +390,7 @@ public class PlayerStats : MonoBehaviour
     private Coroutine currentPoisonCoroutine;
     public void ApplyPoison(float totalDamage, float duration)
     {
-        if (isDead) return; // ★ 죽었으면 독 안 걸림
+        if (isDead) return; 
 
         if (currentPoisonCoroutine != null)
         {
@@ -435,7 +409,7 @@ public class PlayerStats : MonoBehaviour
 
         for (int i = 0; i < ticks; i++)
         {
-            if (isDead) yield break; // ★ 도중에 죽으면 독 데미지 중단
+            if (isDead) yield break; 
 
             if (sr != null) sr.color = poisonColor; 
             TakeDamage(damagePerTick); 
@@ -446,7 +420,6 @@ public class PlayerStats : MonoBehaviour
             
             yield return new WaitForSeconds(tickInterval - 0.15f);
         }
-
         currentPoisonCoroutine = null;
     }
 

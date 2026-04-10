@@ -656,6 +656,9 @@ MonoBehaviour:
   baseDefense: 5
   maxHp: 100
   currentHp: 0
+  hpPerLevel: 20
+  attackPerLevel: 2
+  defensePerLevel: 1
   speedMultiplier: 1
   isJumpDisabled: 0
   isGrabbedByBoss: 0
@@ -701,7 +704,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 5838fc1d911b1e5428c568bb97915d7a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

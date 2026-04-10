@@ -3,11 +3,28 @@ using UnityEngine.SceneManagement;
 
 public class ConditionalPortal : MonoBehaviour
 {
+    [Header("이 포탈의 정보")]
+    public string myPortalID = "Start"; // 내 이름표 (예: "Start", "End")
+
+    // ==========================================
+    // ★ [핵심 변경] 캐릭터별로 도착지를 따로 설정할 수 있습니다!
+    // ==========================================
+    [Header("애벌레(Larva) 전용 도착지")]
+    public string larvaTargetScene = ""; 
+    public string larvaTargetPortalID = "Start";
+
+    [Header("개미(Ant) 전용 도착지")]
+    public string antTargetScene = "Ant Middle Stage"; 
+    public string antTargetPortalID = "Start";
+
+    [Header("풍뎅이(Beetle) 전용 도착지")]
+    public string beetleTargetScene = "Beetle Middle Stage"; 
+    public string beetleTargetPortalID = "Start";
+
     private bool isPlayerNearby = false;
 
     void Update()
     {
-        // ★ 플레이어가 근처에 있고 F키를 누르면 이동 로직 실행!
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.F))
         {
             ActivatePortal();
@@ -16,69 +33,64 @@ public class ConditionalPortal : MonoBehaviour
 
     void ActivatePortal()
     {
-        // ★ 포탈 타기 직전에 플레이어의 현재 체력과 스탯을 GameManager에 싹 저장합니다!
+        // 1. 현재 내 캐릭터가 무엇인지 파악하고, 목적지를 결정합니다.
+        string finalSceneName = "";
+        string finalPortalID = "";
+
+        if (GameManager.instance != null)
+        {
+            if (GameManager.instance.currentCharacter == GameManager.CharacterType.Larva)
+            {
+                finalSceneName = larvaTargetScene;
+                finalPortalID = larvaTargetPortalID;
+            }
+            else if (GameManager.instance.currentCharacter == GameManager.CharacterType.Ant)
+            {
+                finalSceneName = antTargetScene;
+                finalPortalID = antTargetPortalID;
+            }
+            else if (GameManager.instance.currentCharacter == GameManager.CharacterType.Beetle)
+            {
+                finalSceneName = beetleTargetScene;
+                finalPortalID = beetleTargetPortalID;
+            }
+        }
+
+        // 2. 만약 결정된 목적지 맵 이름이 비어있다면? -> 아직 못 가는 문!
+        if (string.IsNullOrEmpty(finalSceneName)) 
+        {
+            Debug.Log("이 캐릭터로는 아직 들어갈 수 없는 문입니다!");
+            return; 
+        }
+
+        // 3. 이동 로직 실행
         PlayerStats player = FindFirstObjectByType<PlayerStats>();
         if (player != null) player.SaveStatsToManager();
 
-        GameManager.CharacterType currentType = GameManager.instance.currentCharacter;
-        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.targetPortalID = finalPortalID;
+        }
 
-        // --- [개미(Ant)일 때 이동 로직] ---
-        if (currentType == GameManager.CharacterType.Ant)
-        {
-            if (currentSceneName == "Ant Stage")
-            {
-                Debug.Log("개미 유령 맵으로 이동!");
-                SceneManager.LoadScene("ant ghost map");
-            }
-            else
-            {
-                Debug.Log("개미 스테이지로 이동!");
-                SceneManager.LoadScene("Ant Stage");
-            }
-        }
-        // --- [풍뎅이(Beetle)일 때 이동 로직] ---
-        else if (currentType == GameManager.CharacterType.Beetle)
-        {
-            if (currentSceneName == "Beetle Map")
-            {
-                Debug.Log("보스 맵으로 이동!");
-                SceneManager.LoadScene("boss mantis map");
-            }
-            else
-            {
-                Debug.Log("풍뎅이 맵으로 이동!");
-                SceneManager.LoadScene("Beetle Map");
-            }
-        }
-        // --- [그 외(라바 등)] ---
-        else
-        {
-            Debug.Log("아직 이동할 수 없는 상태입니다.");
-        }
+        Debug.Log($"{finalSceneName} 맵의 '{finalPortalID}' 포탈로 이동합니다!");
+        SceneManager.LoadScene(finalSceneName); 
     }
 
-    // 포탈 근처에 다가갔을 때 (레이더망)
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             isPlayerNearby = true;
-            
-            // F키 팝업 띄우기
             PlayerStats player = collision.GetComponent<PlayerStats>();
             if (player != null) player.AddNearbyItem();
         }
     }
 
-    // 포탈에서 멀어졌을 때
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             isPlayerNearby = false;
-            
-            // F키 팝업 끄기
             PlayerStats player = collision.GetComponent<PlayerStats>();
             if (player != null) player.RemoveNearbyItem();
         }

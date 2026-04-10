@@ -508,6 +508,20 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1f; 
         if (blurVolume != null) blurVolume.SetActive(false);
 
+        // ==========================================
+        // ★ [추가됨] 진화를 수락하는 즉시 퀘스트 창을 화면에서 지워줍니다!
+        // ==========================================
+        if (QuestManager.instance != null)
+        {
+            QuestManager.instance.gameObject.SetActive(false);
+        }
+        else
+        {
+            GameObject questUI = GameObject.Find("QuestCanvas"); 
+            if (questUI != null) questUI.SetActive(false);
+        }
+        // ==========================================
+
         if (pendingEvolutionItem != null)
         {
             Destroy(pendingEvolutionItem);

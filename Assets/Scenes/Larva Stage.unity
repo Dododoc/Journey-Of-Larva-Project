@@ -10600,7 +10600,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1055517972986102110, guid: 87e9ea04479980f409bd22fd428b40d7, type: 3}
       propertyPath: maxHp
-      value: 450
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 1055517972986102110, guid: 87e9ea04479980f409bd22fd428b40d7, type: 3}
       propertyPath: dropItemPrefab
@@ -24541,7 +24541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7116964354441663408, guid: ee73b2424ddef544cbb9a62b3db498ef, type: 3}
       propertyPath: maxHp
-      value: 450
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -31119,10 +31119,6 @@ PrefabInstance:
     - target: {fileID: 4289670311379358685, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
       propertyPath: m_Name
       value: Ladybug (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4289670311379358685, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7798674915663724985, guid: 285b67cb451b3f14e85df4f515832e45, type: 3}
       propertyPath: m_LocalPosition.x

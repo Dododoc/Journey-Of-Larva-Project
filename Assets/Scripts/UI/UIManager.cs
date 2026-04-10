@@ -509,16 +509,17 @@ public class UIManager : MonoBehaviour
         if (blurVolume != null) blurVolume.SetActive(false);
 
         // ==========================================
-        // ★ [추가됨] 진화를 수락하는 즉시 퀘스트 창을 화면에서 지워줍니다!
+        // ★ [완벽 수정] Managers 전체를 끄지 않고, QuestManager의 '화면 패널'만 안전하게 끕니다!
         // ==========================================
-        if (QuestManager.instance != null)
+        if (QuestManager.instance != null && QuestManager.instance.questPanel != null)
         {
-            QuestManager.instance.gameObject.SetActive(false);
-        }
-        else
-        {
-            GameObject questUI = GameObject.Find("QuestCanvas"); 
-            if (questUI != null) questUI.SetActive(false);
+            QuestManager.instance.questPanel.gameObject.SetActive(false);
+            
+            // 튜토리얼 텍스트도 켜져 있다면 같이 꺼줍니다.
+            if (QuestManager.instance.tapPromptText != null) 
+            {
+                QuestManager.instance.tapPromptText.gameObject.SetActive(false);
+            }
         }
         // ==========================================
 
@@ -553,6 +554,7 @@ public class UIManager : MonoBehaviour
             UpdateEvolutionUI(2); 
         }
 
+        // 이제 정상적으로 코루틴이 실행됩니다!
         StartCoroutine(EndEvolutionRoutine(activeAnim, currentPlayer));
     }
 

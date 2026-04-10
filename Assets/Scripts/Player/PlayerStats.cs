@@ -19,9 +19,9 @@ public class PlayerStats : MonoBehaviour
     public float currentHp;
 
     [Header("Growth Per Level (레벨당 성장치)")]
-    public float hpPerLevel = 20f;      // 레벨당 체력 +20
-    public float attackPerLevel = 2f;   // 레벨당 공격력 +2
-    public float defensePerLevel = 1f;  // 레벨당 방어력 +1
+    public float hpPerLevel = 20f;      
+    public float attackPerLevel = 2f;   
+    public float defensePerLevel = 1f;  
 
     [Header("Status Effects (디버프 및 상태이상)")]
     public float speedMultiplier = 1.0f; 
@@ -54,23 +54,21 @@ public class PlayerStats : MonoBehaviour
         if (playerHUD == null) playerHUD = FindFirstObjectByType<PlayerHUD>();
         sr = GetComponent<SpriteRenderer>();
 
-        // ==========================================
-        // ★ [수정됨] GameManager가 정확한 포탈 위치에 소환해 주었으므로, 
-        // 이제 엉뚱한 곳으로 순간이동하는 코드를 지우고 그 자리표를 시작 위치로 저장만 합니다.
-        // ==========================================
         startPosition = transform.position;
 
         if (GameManager.instance != null)
         {
+            // 진화 형태라면 기본 체력통이 200부터 시작합니다.
             if (GameManager.instance.currentCharacter != GameManager.CharacterType.Larva)
             {
-                maxHp = 200f; // 진화체는 기본 체력이 200부터 시작
+                maxHp = 200f; 
             }
             else
             {
                 maxHp = 100f; 
             }
 
+            // GameManager에서 경험치와 레벨을 고스란히 가져옵니다 (초기화 없음!)
             currentLevel = GameManager.instance.globalLevel;
             currentExp = GameManager.instance.globalXP;
 
@@ -78,15 +76,6 @@ public class PlayerStats : MonoBehaviour
             bonusDefense = GameManager.instance.globalBonusDefense;
             bonusMaxHp = GameManager.instance.globalBonusMaxHp;
 
-            if (GameManager.instance.currentCharacter != GameManager.CharacterType.Larva)
-            {
-                if (currentLevel == 1 && currentExp > 0)
-                {
-                    currentExp = 0;
-                    GameManager.instance.globalXP = 0;
-                }
-            }
-            
             CalculateNextLevelExp();
 
             if (GameManager.instance.globalCurrentHp > 0)
@@ -202,7 +191,6 @@ public class PlayerStats : MonoBehaviour
         currentExp -= expToNextLevel; 
         CalculateNextLevelExp(); 
         
-        // 레벨업 시 최대 체력으로 회복!
         currentHp = TotalMaxHp;  
         
         SaveStatsToManager();
@@ -214,7 +202,6 @@ public class PlayerStats : MonoBehaviour
 
         if(currentExp >= expToNextLevel) LevelUp();
         
-        // 레벨업 시 HUD에 증가한 최대 체력 반영을 위해 UI 갱신!
         UpdateUI();
     }
 
@@ -223,8 +210,13 @@ public class PlayerStats : MonoBehaviour
         expToNextLevel = currentLevel * 100f * (1f + currentLevel * 0.1f);
     }
 
-    void UpdateUI()
+    // ==========================================
+    // ★ [핵심 3] UpdateUI를 public으로 열고, 연결이 끊기면 스스로 찾도록 강화했습니다.
+    // ==========================================
+    public void UpdateUI()
     {
+        if (playerHUD == null) playerHUD = FindFirstObjectByType<PlayerHUD>();
+
         if (playerHUD != null)
         {
             playerHUD.UpdateHP(currentHp, TotalMaxHp);
@@ -233,12 +225,11 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    // ==========================================
+    // ★ [핵심 4] 레벨이 리셋되지 않도록 Evolve 로직에서 강제 1레벨 변환 코드를 지웠습니다!
+    // ==========================================
     public void Evolve(int selectedPathIndex)
     {
-        bonusMaxHp += (currentLevel - 1) * hpPerLevel;
-        bonusAttack += (currentLevel - 1) * attackPerLevel;
-        bonusDefense += (currentLevel - 1) * defensePerLevel;
-
         switch (selectedPathIndex)
         {
             case 0: bonusAttack += 10f; break;  
@@ -246,10 +237,6 @@ public class PlayerStats : MonoBehaviour
             case 2: bonusMaxHp += 50f; break;   
         }
 
-        currentLevel = 1;
-        currentExp = 0;
-        CalculateNextLevelExp();
-        
         maxHp = 200f; 
         currentHp = TotalMaxHp; 
 

@@ -547,12 +547,22 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(evolutionAnimDuration);
 
         if (animObject != null) animObject.SetActive(false);
+        
+        // ==========================================
+        // ★ [핵심 1] 애벌레를 파괴하기 전에, 현재 레벨과 경험치를 GameManager에 확실히 저장합니다!
+        // ==========================================
+        if (oldPlayer != null)
+        {
+            oldPlayer.SendMessage("SaveStatsToManager", SendMessageOptions.DontRequireReceiver);
+        }
+
         UpdateSkillUI((pendingEvolutionIndex == 0) ? 1 : 2);
     
         GameObject prefabToSpawn = (pendingEvolutionIndex == 0) ? antPlayerPrefab : beetlePlayerPrefab;
 
         if (prefabToSpawn != null && oldPlayer != null)
         {
+            // 새로운 캐릭터 소환
             GameObject newPlayer = Instantiate(prefabToSpawn, oldPlayer.transform.position, oldPlayer.transform.rotation);
             
             if (virtualCamera != null)
@@ -567,7 +577,18 @@ public class UIManager : MonoBehaviour
                 GameManager.instance.ChangeCharacter(newType);
             }
 
+            // 구형 캐릭터(애벌레) 삭제
             Destroy(oldPlayer);
+
+            // ==========================================
+            // ★ [핵심 2] 새로 태어난 플레이어가 HUD를 꽉 잡도록 강제로 갱신 명령을 내립니다!
+            // Start 함수가 실행될 시간을 벌기 위해 1프레임(yield return null) 대기합니다.
+            // ==========================================
+            yield return null; 
+            if (newPlayer != null)
+            {
+                newPlayer.SendMessage("UpdateUI", SendMessageOptions.DontRequireReceiver);
+            }
         }
     }
 

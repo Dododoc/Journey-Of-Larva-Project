@@ -9575,10 +9575,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 55425866}
     m_Modifications:
-    - target: {fileID: 121028750947435247, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
-      propertyPath: maxHp
-      value: 160
-      objectReference: {fileID: 0}
     - target: {fileID: 1133158917890505474, guid: 1141a9f0877114c128a532d1ef778d32, type: 3}
       propertyPath: m_Name
       value: Cricket
@@ -10604,7 +10600,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1055517972986102110, guid: 87e9ea04479980f409bd22fd428b40d7, type: 3}
       propertyPath: maxHp
-      value: 600
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 1055517972986102110, guid: 87e9ea04479980f409bd22fd428b40d7, type: 3}
       propertyPath: dropItemPrefab
@@ -24545,7 +24541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7116964354441663408, guid: ee73b2424ddef544cbb9a62b3db498ef, type: 3}
       propertyPath: maxHp
-      value: 600
+      value: 450
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

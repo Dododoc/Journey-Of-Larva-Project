@@ -565,10 +565,18 @@ public class UIManager : MonoBehaviour
         if (animObject != null) animObject.SetActive(false);
         
         // ==========================================
-        // ★ [핵심 1] 애벌레를 파괴하기 전에, 현재 레벨과 경험치를 GameManager에 확실히 저장합니다!
+        // ★ [핵심 고침] 옛날 캐릭터(애벌레)가 파괴되기 직전에, Evolve 기능을 강제로 실행시킵니다!
+        // 이 코드가 실행되면서 체력이 최대치(200)로 꽉 차오르고 영구 보너스 스탯도 적용됩니다.
         // ==========================================
         if (oldPlayer != null)
         {
+            PlayerStats stats = oldPlayer.GetComponent<PlayerStats>();
+            if (stats != null)
+            {
+                stats.Evolve(pendingEvolutionIndex); // 체력 100% 회복 및 스탯업!
+            }
+            
+            // 꽉 찬 체력과 스탯을 GameManager의 메모장에 확실히 저장!
             oldPlayer.SendMessage("SaveStatsToManager", SendMessageOptions.DontRequireReceiver);
         }
 
@@ -578,14 +586,8 @@ public class UIManager : MonoBehaviour
 
         if (prefabToSpawn != null && oldPlayer != null)
         {
-            // 새로운 캐릭터 소환
+            // 새로운 진화 캐릭터 소환
             GameObject newPlayer = Instantiate(prefabToSpawn, oldPlayer.transform.position, oldPlayer.transform.rotation);
-            
-            if (virtualCamera != null)
-            {
-                virtualCamera.Follow = newPlayer.transform;
-                virtualCamera.LookAt = newPlayer.transform;
-            }
 
             if (GameManager.instance != null)
             {
@@ -596,14 +598,18 @@ public class UIManager : MonoBehaviour
             // 구형 캐릭터(애벌레) 삭제
             Destroy(oldPlayer);
 
-            // ==========================================
-            // ★ [핵심 2] 새로 태어난 플레이어가 HUD를 꽉 잡도록 강제로 갱신 명령을 내립니다!
-            // Start 함수가 실행될 시간을 벌기 위해 1프레임(yield return null) 대기합니다.
-            // ==========================================
             yield return null; 
+            
             if (newPlayer != null)
             {
                 newPlayer.SendMessage("UpdateUI", SendMessageOptions.DontRequireReceiver);
+            }
+
+            // [이전 해결] 카메라가 새 플레이어를 찾도록 강제 재실행
+            CameraAutoFollow autoCam = FindFirstObjectByType<CameraAutoFollow>();
+            if (autoCam != null)
+            {
+                autoCam.SendMessage("Start", SendMessageOptions.DontRequireReceiver);
             }
         }
     }

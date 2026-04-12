@@ -606,11 +606,11 @@ MonoBehaviour:
   impactDamage2: 15
   impactDelay2: 0.1
   impactKnockback2: 15
-  ultDamage: 50
+  ultDamage: 100
   ultDashSpeed: 20
   ultLiftHeight: 70
   ultPlungeSpeed: 80
-  ultAoeRadius: 5
+  ultAoeRadius: 20
   ultCooldown: 1
   ultLiftAnimTime: 1.2
   ultJumpAnimTime: 1.3

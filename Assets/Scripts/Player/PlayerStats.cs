@@ -120,9 +120,52 @@ public class PlayerStats : MonoBehaviour
 
     void Update()
     {
+        // [기존 테스트 키]
         if (Input.GetKeyDown(KeyCode.J)) GainExp(50); 
         if (Input.GetKeyDown(KeyCode.K)) TakeDamage(10);
 
+        // ==========================================
+        // ★ [개발자 전용 치트키 모음] (출시할 때는 이 부분을 지워주세요!)
+        // ==========================================
+        
+        // 1. [알파벳 O] 데스노트: 맵에 있는 모든 적(보스 포함) 즉사!
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemies)
+            {
+                // 적들에게 무려 9999의 데미지를 강제로 먹여서 즉사시킵니다.
+                enemy.SendMessage("TakeDamage", 9999f, SendMessageOptions.DontRequireReceiver);
+            }
+            Debug.Log($"[Cheat] 맵에 있는 {enemies.Length}마리의 적(전갈 포함)을 모두 즉사시켰습니다!");
+        }
+
+        // 2. [알파벳 I] 신 모드: 체력을 9999로 만들고 꽉 채웁니다.
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            maxHp = 9999f;
+            currentHp = maxHp;
+            UpdateUI();
+            Debug.Log("[Cheat] 체력이 9999로 고정되었습니다! (신 모드)");
+        }
+        
+        // 3. [알파벳 P] 축지법: 현재 맵의 '다음 맵으로 가는 포탈(End)' 앞으로 순간이동!
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ConditionalPortal[] portals = FindObjectsByType<ConditionalPortal>(FindObjectsSortMode.None);
+            foreach(var portal in portals)
+            {
+                if (portal.myPortalID == "End") // 끝 포탈 찾기
+                {
+                    transform.position = portal.transform.position;
+                    Debug.Log("[Cheat] 다음 맵으로 가는 포탈 앞으로 순간이동했습니다!");
+                    break;
+                }
+            }
+        }
+        // ==========================================
+
+        // 기존 낙사 로직 유지
         if (transform.position.y <= fallDeathY && currentHp > 0 && !isDead)
         {
             currentHp = 0;
@@ -226,10 +269,12 @@ public class PlayerStats : MonoBehaviour
     }
 
     // ==========================================
-    // ★ [핵심 4] 레벨이 리셋되지 않도록 Evolve 로직에서 강제 1레벨 변환 코드를 지웠습니다!
+    // ★ [핵심 고침] Evolve 함수 통째로 덮어쓰기! 
+    // 불필요한 UI 끄기 로직을 삭제하여 Managers가 꺼지는 버그를 완벽 해결했습니다.
     // ==========================================
     public void Evolve(int selectedPathIndex)
     {
+        // 1. 선택한 진화 특성에 따른 영구 보너스
         switch (selectedPathIndex)
         {
             case 0: bonusAttack += 10f; break;  
@@ -237,28 +282,17 @@ public class PlayerStats : MonoBehaviour
             case 2: bonusMaxHp += 50f; break;   
         }
 
+        // 2. 진화 시 기본 체급 상승 (애벌레 100 -> 진화 200)
         maxHp = 200f; 
+        
+        // 3. 체력 100% 풀피 회복
         currentHp = TotalMaxHp; 
 
+        // 4. GameManager에 안전하게 저장 후 내 체력바 갱신
         SaveStatsToManager();
         UpdateUI();
-
-        if (QuestManager.instance != null)
-        {
-            QuestManager.instance.gameObject.SetActive(false);
-        }
-        else
-        {
-            GameObject questUI = GameObject.Find("QuestCanvas"); 
-            if (questUI != null) questUI.SetActive(false);
-        }
-
-        UIManager uiManager = FindFirstObjectByType<UIManager>();
-        if (uiManager != null)
-        {
-            uiManager.UpdateEvolutionUI(selectedPathIndex + 1);
-            uiManager.CloseEvolutionPopup();
-        }
+        
+        // (기존에 있던 QuestManager나 UIManager를 건드리는 코드는 전부 삭제했습니다!)
     }
     
     public void TakeDamage(float damage)

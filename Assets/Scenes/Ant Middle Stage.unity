@@ -1322,6 +1322,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4203738303513904407, guid: 46ed3709fa0764fcab050350a900e77b, type: 3}
+      propertyPath: myPortalID
+      value: Start
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203738303513904407, guid: 46ed3709fa0764fcab050350a900e77b, type: 3}
       propertyPath: antTargetScene
       value: Larva Stage
       objectReference: {fileID: 0}

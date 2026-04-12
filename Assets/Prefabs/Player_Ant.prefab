@@ -252,9 +252,9 @@ MonoBehaviour:
   vSkillUI: {fileID: 0}
   ultCooldown: 15
   isUltUnlocked: 0
-  ultRadius: 8
+  ultRadius: 10
   ultTeleportOffset: 2
-  ultDamage: 50
+  ultDamage: 100
   sandstormVFX: {fileID: 60170898780336842, guid: b5dc85e4a0682b74b9489960f48cdc60, type: 3}
   slashEffectVFX: {fileID: 426740893864592077, guid: afd204e5330def644a71efb46e084d93, type: 3}
   sandstormSpawnOffset: {x: 5, y: -0.5}

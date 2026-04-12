@@ -832,36 +832,41 @@ IEnumerator FlashGoldEffect()
         }
     }
     // ★ [수정] 중복 데미지 방지 (HashSet 사용)
+    // ★ [수정] 중복 데미지 방지 (HashSet 사용) 및 직관적인 넉백 방향 설정
     void PerformAreaDamage(float addDamage, float knockback) 
     { 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, impactRadius, enemyLayers);
         HashSet<GameObject> hitSet = new HashSet<GameObject>();
 
+        // ★ [핵심 고침] 풍뎅이가 현재 바라보고 있는 방향을 넉백 방향으로 고정합니다!
+        float faceDir = isFacingRight ? 1f : -1f;
+
         foreach (Collider2D enemy in hitEnemies) 
         { 
-            // 부모 오브젝트를 기준으로 중복 체크
             GameObject parentObj = enemy.transform.parent != null ? enemy.transform.parent.gameObject : enemy.gameObject;
             if(hitSet.Contains(parentObj)) continue; 
             hitSet.Add(parentObj);
 
-            // 1. 데미지 전달 (부모 참조)
             EnemyStats es = enemy.GetComponentInParent<EnemyStats>(); 
             float finalDmg = (myStats != null) ? myStats.TotalAttack + addDamage : 30f; 
             if (es != null) es.TakeDamage(finalDmg);
-            // ==========================================
-            // ★ [추가] 다이브 공격 시 황금 광석 타격 판정!
-            // ==========================================
+
             UltOre ore = enemy.GetComponentInParent<UltOre>();
             if (ore != null) ore.TakeDamage(finalDmg);
-            // ==========================================
-            // 2. 넉백 처리 (부모 Rigidbody 참조)
+
             SpiderAI spider = enemy.GetComponentInParent<SpiderAI>();
             if (spider != null) spider.ApplyKnockback(new Vector2(knockback, 0)); 
+            
             BaseEnemyAI enemyAI = enemy.GetComponentInParent<BaseEnemyAI>();
             if (enemyAI != null) {
-                Vector2 dir = (enemy.transform.position - transform.position).normalized;
-                if(knockback > 10f) dir += Vector2.up * 0.1f; // 강한 공격일 때 위로 더 띄움
-                enemyAI.ApplyKnockback(dir.normalized * knockback, 1f); // 0.5초간 AI 정지
+                // ==========================================
+                // ★ [기존] 폭발 중심에서 밀어내기 (Vector2 dir = enemy.pos - my.pos)
+                // ★ [변경] 무조건 풍뎅이가 날아가는 방향(faceDir)으로 밀어내기!
+                // ==========================================
+                Vector2 dir = new Vector2(faceDir, 0f).normalized;
+                
+                if(knockback > 10f) dir += Vector2.up * 0.1f; 
+                enemyAI.ApplyKnockback(dir.normalized * knockback, 1f); 
             }
         } 
     }

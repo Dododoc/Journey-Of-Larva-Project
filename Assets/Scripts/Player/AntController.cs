@@ -117,28 +117,55 @@ public class AntController : MonoBehaviour
 
     void Update()
     {
-        // ★ [추가] 보스에게 잡혔다면 다른 모든 입력을 무시하고 가만히 있는다!
         if (myStats != null && myStats.isGrabbedByBoss) { UpdateAnimation(); return; }
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
         if (isKnockedBack) { UpdateAnimation(); return; }
-        if (isDiggingAnim) { if (rb.gravityScale == 0) rb.linearVelocity = Vector2.zero; UpdateAnimation(); return; }
-        if (isUnderground) { HandleUndergroundMove(); UpdateAnimation(); return; }
+        
+        // ==========================================
+        // ★ [수정됨] 땅을 파고 있거나 파는 애니메이션 중일 때, 강제로 지형 높이에 맞춥니다!
+        // ==========================================
+        if (isDiggingAnim) 
+        { 
+            if (rb.gravityScale == 0) rb.linearVelocity = Vector2.zero; 
+            SnapToGround(); // 지형에 자석처럼 붙기
+            UpdateAnimation(); 
+            return; 
+        }
+        if (isUnderground) 
+        { 
+            HandleUndergroundMove(); 
+            SnapToGround(); // 지형에 자석처럼 붙기
+            UpdateAnimation(); 
+            return; 
+        }
+        // ==========================================
+
         if (isStrongAttacking) { rb.linearVelocity = Vector2.zero; return; }
-        // ★ [임시 해금 키] L키를 누르면 궁극기가 해금됩니다.
         if (Input.GetKeyDown(KeyCode.L) && !isUltUnlocked)
         {
             UnlockUltimate();
         }
-        // ==========================================================
-        // ★ [여기에 딱 한 줄 추가!] 궁극기 시전 중에는 멈춰있게 만듭니다.
-        // ==========================================================
         if (isAntUlt) { rb.linearVelocity = Vector2.zero; return; }
 
         CheckGround();
         ProcessInput();
         UpdateAnimation();
     }
-
+    // ==========================================
+    // ★ [새로 추가] 움직이는 지형을 따라가도록 발밑을 감지하는 함수
+    // ==========================================
+    void SnapToGround()
+    {
+        // 위에서 아래로 레이저를 쏴서 현재 지형의 정확한 높이를 찾습니다.
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.up * 1.0f, Vector2.down, 3.0f, groundLayer);
+        
+        if (hit.collider != null)
+        {
+            // 콜라이더의 맨 아래쪽(발끝) 오프셋을 계산해서 지형에 완벽하게 맞춥니다.
+            float offset = transform.position.y - myCollider.bounds.min.y;
+            transform.position = new Vector3(transform.position.x, hit.point.y + offset, transform.position.z);
+        }
+    }
     void OnTriggerStay2D(Collider2D other)
     {
         if (isUnderground || isDiggingAnim || isInvincible) return;
